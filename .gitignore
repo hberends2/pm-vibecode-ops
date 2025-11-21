@@ -9,3 +9,6 @@ CLAUDE.md
 .DS_Store
 # Obsidian (personal note-taking config)
 .obsidian/
+
+# Internal research and context (not for public)
+context/
