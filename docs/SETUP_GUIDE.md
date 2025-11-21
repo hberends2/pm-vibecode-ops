@@ -312,30 +312,35 @@ If Claude responds, you're ready!
 
 ## Installing the Workflow
 
-This workflow consists of **commands** (slash commands you run) and **agents** (specialized AI configurations). You can install them globally (for all projects) or locally (for specific projects).
+This workflow provides commands and agents for both Claude Code and OpenAI Codex. The installation process differs based on your chosen platform.
+
+### Platform and Mode Selection
+
+**For Claude Code users:**
+| Mode | Location | Best For |
+|------|----------|----------|
+| **Simple Mode** (Recommended) | `claude/commands/` | Most users, one ticket at a time |
+| **Worktree Mode** (Advanced) | `claude/commands-worktrees/` | Concurrent development with git worktrees |
+
+**For OpenAI Codex users:**
+| Type | Location | Notes |
+|------|----------|-------|
+| **Platform-Agnostic Prompts** | `codex/prompts/` | No agent references, works with any AI |
 
 ### Understanding Global vs. Local Installation
 
 | Installation | Location | Best For |
 |--------------|----------|----------|
-| **Global** | `~/.claude/` | Using workflow across multiple projects |
+| **Global** | `~/.claude/` or `~/.codex/` | Using workflow across multiple projects |
 | **Local** | `your-project/.claude/` | Keeping workflow specific to one project |
 
-**Recommendation**: Start with **global installation**. You can always move to local later.
+**Recommendation**: Start with **global installation** for easier management.
 
-### Global Installation
+## Claude Code Installation
 
-#### Step 1: Create the Claude Config Directory
+### Global Installation (Recommended)
 
-```bash
-# Create the directory if it doesn't exist
-mkdir -p ~/.claude/commands
-mkdir -p ~/.claude/agents
-```
-
-#### Step 2: Download the Workflow Files
-
-**Option A: Clone the Repository (Recommended)**
+#### Step 1: Clone the Repository
 
 ```bash
 # Go to a folder where you want to keep the source
@@ -343,40 +348,43 @@ cd ~/Documents  # or wherever you prefer
 
 # Clone the repository
 git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
-
-# Copy commands to your global Claude directory
-cp pm-vibecode-ops/claude/commands/*.md ~/.claude/commands/
-cp pm-vibecode-ops/claude/agents/*.md ~/.claude/agents/
+cd pm-vibecode-ops
 ```
 
-**Option B: Manual Download**
+#### Step 2: Create Claude Config Directories
 
-1. Go to the GitHub repository
-2. Click "Code" > "Download ZIP"
-3. Extract the ZIP file
-4. Open terminal and run:
 ```bash
-cp /path/to/extracted/pm-vibecode-ops/claude/commands/*.md ~/.claude/commands/
-cp /path/to/extracted/pm-vibecode-ops/claude/agents/*.md ~/.claude/agents/
+# Create the directories if they don't exist
+mkdir -p ~/.claude/commands
+mkdir -p ~/.claude/agents
 ```
 
-#### Step 3: Verify Installation
+#### Step 3: Copy Files Based on Your Mode Choice
+
+**For Simple Mode (Recommended for beginners):**
+```bash
+# Copy Simple Mode commands and agents
+cp claude/commands/*.md ~/.claude/commands/
+cp claude/agents/*.md ~/.claude/agents/
+```
+
+**For Worktree Mode (Advanced users only):**
+```bash
+# Copy Worktree Mode commands and agents
+cp claude/commands-worktrees/*.md ~/.claude/commands/
+cp claude/agents/*.md ~/.claude/agents/  # Same agents for both modes
+```
+
+#### Step 4: Verify Installation
 
 ```bash
 # List installed commands
 ls ~/.claude/commands/
+# You should see: adaptation.md, codereview.md, discovery.md, etc.
 
-# You should see files like:
-# adaptation.md
-# codereview.md
-# discovery.md
-# documentation.md
-# epic-planning.md
-# generate_service_inventory.md
-# implementation.md
-# planning.md
-# security_review.md
-# testing.md
+# List installed agents
+ls ~/.claude/agents/
+# You should see: architect_agent.md, backend_engineer_agent.md, etc.
 ```
 
 ### Local Installation (Project-Specific)
@@ -387,16 +395,62 @@ If you prefer to keep the workflow within a specific project:
 # Navigate to your project
 cd /path/to/your/project
 
-# Create local Claude directory
+# Create local Claude directories
 mkdir -p .claude/commands
 mkdir -p .claude/agents
 
-# Copy from source
+# Copy files based on your mode choice
+# For Simple Mode:
 cp /path/to/pm-vibecode-ops/claude/commands/*.md .claude/commands/
+cp /path/to/pm-vibecode-ops/claude/agents/*.md .claude/agents/
+
+# OR for Worktree Mode:
+cp /path/to/pm-vibecode-ops/claude/commands-worktrees/*.md .claude/commands/
 cp /path/to/pm-vibecode-ops/claude/agents/*.md .claude/agents/
 ```
 
 **Note**: Local installation takes precedence over global installation for that project.
+
+## OpenAI Codex Installation
+
+### Option 1: Reference Prompts Directly
+
+```bash
+# Clone the repository
+cd ~/Documents
+git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
+
+# Reference prompts directly from the cloned repository
+# When using Codex, navigate to:
+cd pm-vibecode-ops/codex/prompts/
+
+# View available prompts
+ls *.md
+```
+
+### Option 2: Copy to Codex Directory
+
+```bash
+# Create Codex prompt directory (if your setup uses one)
+mkdir -p ~/.codex/prompts
+
+# Copy prompts
+cp pm-vibecode-ops/codex/prompts/*.md ~/.codex/prompts/
+
+# Verify installation
+ls ~/.codex/prompts/
+```
+
+### Using Codex Prompts
+
+Unlike Claude Code's slash commands, Codex prompts are used by copying their content:
+
+```bash
+# View a prompt
+cat ~/.codex/prompts/discovery.md
+
+# Copy the content and paste into your Codex session
+```
 
 ---
 

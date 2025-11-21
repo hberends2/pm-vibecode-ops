@@ -73,25 +73,37 @@ Welcome! This guide will help you navigate the documentation and get up and runn
 
 ---
 
-## Choose Your Mode
+## Choose Your Platform and Mode
 
-Before starting, choose which workflow mode to use:
+Before starting, choose your AI platform and workflow mode:
+
+### For Claude Code Users
 
 | Mode | Best For | Commands Location |
 |------|----------|-------------------|
 | **Simple Mode** | Most users, beginners, one ticket at a time | `claude/commands/` |
 | **Worktree Mode** | Advanced users, concurrent development | `claude/commands-worktrees/` |
 
-### Simple Mode (Recommended)
+#### Simple Mode (Recommended)
 Use standard git branches. Work on one ticket at a time. This is the recommended starting point.
 
-### Worktree Mode
+#### Worktree Mode
 Use git worktrees for complete isolation. Work on multiple tickets simultaneously. Choose this if:
 - You need multiple AI agents working in parallel
 - You're comfortable with git worktrees
 - See [Worktree Guide](docs/WORKTREE_GUIDE.md) for details
 
-**Our recommendation**: Start with Simple Mode. You can switch to Worktree Mode later if needed.
+### For OpenAI Codex Users
+
+| Type | Location | Notes |
+|------|----------|-------|
+| **Platform-Agnostic Prompts** | `codex/prompts/` | Compatible with Codex and other AI platforms |
+
+Use the prompts from `codex/prompts/` which are platform-agnostic versions without Claude-specific agent references.
+
+**Our recommendation**:
+- New users should start with Claude Code Simple Mode for the best experience
+- Codex users can adapt the prompts from `codex/prompts/` to their workflow
 
 ---
 

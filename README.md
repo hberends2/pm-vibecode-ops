@@ -30,31 +30,183 @@ Write a PRD → Run 10 commands → Get production-ready code with tests, docs, 
 
 ---
 
-## Choose Your Workflow Mode
+## Choose Your Platform and Mode
 
-This repository offers two workflow modes. **Start with Simple Mode** unless you have specific needs for concurrent development.
+This repository supports both Claude Code and OpenAI Codex:
+
+### For Claude Code Users
 
 | Mode | Location | Best For |
 |------|----------|----------|
-| **Simple Mode** | `claude/commands/` | Most users, one ticket at a time |
-| **Worktree Mode** | `claude/commands-worktrees/` | Advanced users, concurrent development |
+| **Simple Mode** (Recommended) | `claude/commands/` | Most users, one ticket at a time, standard git branches |
+| **Worktree Mode** (Advanced) | `claude/commands-worktrees/` | Advanced users, concurrent development, git worktrees |
 
-### Simple Mode (Recommended)
+Both modes use the same agents from `claude/agents/`.
+
+#### Simple Mode (Recommended)
 Standard git branches. Work on one ticket at a time. Straightforward and reliable.
 - Use commands from `claude/commands/`
 - [Simple Mode README](claude/commands/README.md)
 
-### Worktree Mode
+#### Worktree Mode
 Git worktrees for complete isolation. Work on multiple tickets simultaneously.
 - Use commands from `claude/commands-worktrees/`
 - [Worktree Mode README](claude/commands-worktrees/README.md)
 - [Worktree Guide](docs/WORKTREE_GUIDE.md)
 
-**Not sure?** Use Simple Mode. You can always switch later.
+### For OpenAI Codex Users
+
+| Type | Location | Notes |
+|------|----------|-------|
+| **Platform-Agnostic Prompts** | `codex/prompts/` | Compatible with Codex and other AI platforms, no agent references |
+
+**Not sure which to use?**
+- Use Claude Code Simple Mode for the best beginner experience
+- See [Platform Comparison](#platform-comparison) below
 
 ### New to This?
 
 If you've never used a terminal or command line, start with our [Complete Setup Guide](docs/SETUP_GUIDE.md) which walks you through everything from scratch.
+
+---
+
+## Installation
+
+### Prerequisites
+
+- **Node.js** (v18 or higher) and npm
+- **Git** for version control
+- **Claude Code CLI** or **OpenAI Codex CLI** (depending on your platform choice)
+- **API keys** for your chosen platform (Anthropic or OpenAI)
+
+### For Claude Code
+
+#### Global Installation (Recommended)
+
+Global installation makes the workflow available for all your projects.
+
+```bash
+# 1. Clone this repository
+git clone https://github.com/your-org/pm-vibecode-ops.git
+cd pm-vibecode-ops
+
+# 2. Create Claude configuration directories
+mkdir -p ~/.claude/commands
+mkdir -p ~/.claude/agents
+
+# 3. Copy commands and agents to global location
+# For Simple Mode (recommended):
+cp claude/commands/*.md ~/.claude/commands/
+cp claude/agents/*.md ~/.claude/agents/
+
+# OR for Worktree Mode (advanced):
+cp claude/commands-worktrees/*.md ~/.claude/commands/
+cp claude/agents/*.md ~/.claude/agents/
+
+# 4. Verify installation
+ls ~/.claude/commands/
+# Should show: adaptation.md, codereview.md, discovery.md, etc.
+
+ls ~/.claude/agents/
+# Should show: architect_agent.md, backend_engineer_agent.md, etc.
+```
+
+#### Project-Specific Installation
+
+If you prefer to keep the workflow specific to one project:
+
+```bash
+# 1. Navigate to your project
+cd /path/to/your/project
+
+# 2. Create local Claude directories
+mkdir -p .claude/commands
+mkdir -p .claude/agents
+
+# 3. Copy from the cloned repository
+# For Simple Mode:
+cp /path/to/pm-vibecode-ops/claude/commands/*.md .claude/commands/
+cp /path/to/pm-vibecode-ops/claude/agents/*.md .claude/agents/
+
+# OR for Worktree Mode:
+cp /path/to/pm-vibecode-ops/claude/commands-worktrees/*.md .claude/commands/
+cp /path/to/pm-vibecode-ops/claude/agents/*.md .claude/agents/
+
+# 4. Verify installation
+ls .claude/commands/
+ls .claude/agents/
+```
+
+**Note**: Project-specific installation takes precedence over global installation for that project.
+
+### For OpenAI Codex
+
+Codex uses prompts instead of slash commands. The prompts are platform-agnostic and don't reference Claude-specific agents.
+
+```bash
+# 1. Clone this repository
+git clone https://github.com/your-org/pm-vibecode-ops.git
+cd pm-vibecode-ops
+
+# 2. Set up Codex configuration (if using custom prompt directory)
+mkdir -p ~/.codex/prompts
+
+# 3. Copy prompts or reference them directly
+# Option A: Copy to Codex directory
+cp codex/prompts/*.md ~/.codex/prompts/
+
+# Option B: Use directly from cloned repo
+# Reference prompts from: /path/to/pm-vibecode-ops/codex/prompts/
+
+# 4. Verify prompts are available
+ls codex/prompts/
+# Should show: adaptation.md, codereview.md, discovery.md, etc.
+```
+
+#### Using Codex Prompts
+
+Unlike Claude Code's slash commands, Codex prompts are used by copying their content:
+
+```bash
+# View a prompt
+cat codex/prompts/discovery.md
+
+# Copy the content and paste into your Codex session
+# Or reference the file path in your Codex configuration
+```
+
+### Verification
+
+#### For Claude Code
+
+```bash
+# Start Claude Code in any project
+claude
+
+# Type /help to see available commands
+/help
+
+# You should see your installed commands listed
+```
+
+#### For Codex
+
+```bash
+# Verify prompts are accessible
+ls ~/.codex/prompts/   # If you copied them
+# OR
+ls /path/to/pm-vibecode-ops/codex/prompts/   # If referencing directly
+```
+
+### Platform Comparison
+
+| Feature | Claude Code | OpenAI Codex |
+|---------|------------|--------------|
+| **Command Style** | Slash commands (`/discovery`) | Copy-paste prompts |
+| **Agents** | Specialized agents via Task tool | Platform-agnostic prompts |
+| **Installation** | Copy to `~/.claude/` or `.claude/` | Reference or copy prompts |
+| **Workflow Modes** | Simple and Worktree modes | Simple mode only |
+| **Best For** | Full automation, complex workflows | Flexibility, custom integration |
 
 ---
 
@@ -775,7 +927,7 @@ npm install -D @playwright/test
 
 #### Integration with Testing Phase
 
-When browser MCP tools are available, the `/testing` command automatically:
+When Playwright MCP tools are available, the `/testing` command automatically:
 
 1. **Builds traditional test suite** (unit, integration tests)
 2. **Adds visual/E2E tests** using browser automation
@@ -805,7 +957,7 @@ test('user can upload and preview profile photo', async ({ page }) => {
 });
 ```
 
-#### When to Use Browser MCP
+#### When to Use Playwright MCP
 
 **Highly Recommended For**:
 - Consumer-facing web applications
@@ -818,7 +970,7 @@ test('user can upload and preview profile photo', async ({ page }) => {
 - Internal tools with simple interfaces
 - Mobile-first applications (use mobile-specific testing tools)
 
-**Note**: Browser MCP is optional but dramatically improves test quality for UI-heavy applications. The QA agent adapts its testing strategy based on available tools.
+**Note**: Playwright MCP is optional but dramatically improves test quality for UI-heavy applications. The QA agent adapts its testing strategy based on available tools.
 
 ---
 

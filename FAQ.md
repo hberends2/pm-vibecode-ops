@@ -77,22 +77,47 @@ See [Setup Guide](docs/SETUP_GUIDE.md) which covers:
 
 ### How do I install the workflow commands?
 
-The workflow consists of **commands** (like `/epic-planning`) and **agents** (specialized AI configurations).
+The workflow supports both **Claude Code** (slash commands + agents) and **OpenAI Codex** (platform-agnostic prompts).
 
-**Quick install (global)**:
+**For Claude Code (global installation)**:
 ```bash
+# Clone repository
+git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
+cd pm-vibecode-ops
+
 # Create directories
 mkdir -p ~/.claude/commands ~/.claude/agents
 
-# Copy from repository
-cp pm-vibecode-ops/claude/commands/*.md ~/.claude/commands/
-cp pm-vibecode-ops/claude/agents/*.md ~/.claude/agents/
+# For Simple Mode (recommended):
+cp claude/commands/*.md ~/.claude/commands/
+cp claude/agents/*.md ~/.claude/agents/
+
+# OR for Worktree Mode (advanced):
+cp claude/commands-worktrees/*.md ~/.claude/commands/
+cp claude/agents/*.md ~/.claude/agents/
+```
+
+**For OpenAI Codex**:
+```bash
+# Clone repository
+git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
+
+# Use prompts directly from:
+ls pm-vibecode-ops/codex/prompts/
+
+# Or copy to Codex directory:
+mkdir -p ~/.codex/prompts
+cp pm-vibecode-ops/codex/prompts/*.md ~/.codex/prompts/
 ```
 
 **Verify installation**:
 ```bash
+# For Claude Code
 ls ~/.claude/commands/
 # Should show: adaptation.md, codereview.md, discovery.md, etc.
+
+# For Codex
+ls ~/.codex/prompts/  # or pm-vibecode-ops/codex/prompts/
 ```
 
 See [Setup Guide](docs/SETUP_GUIDE.md) for detailed instructions.
@@ -119,7 +144,7 @@ See [MCP Setup Guide](docs/MCP_SETUP.md) for installation instructions.
 
 | Installation | Location | Best For |
 |--------------|----------|----------|
-| **Global** | `~/.claude/` | Using across multiple projects |
+| **Global** | `~/.claude/` or `~/.codex/` | Using across multiple projects |
 | **Local** | `project/.claude/` | Project-specific customization |
 
 **Our recommendation**: Start with global installation. It's simpler and works for most use cases.
@@ -128,6 +153,9 @@ See [MCP Setup Guide](docs/MCP_SETUP.md) for installation instructions.
 - You want different command versions per project
 - Your team has project-specific customizations
 - You're committing the workflow to the project repo
+- You need both Simple and Worktree modes in different projects
+
+**Note for Codex users**: Codex prompts can be referenced directly from the cloned repository without copying, making them effectively "global" by default.
 
 ---
 
