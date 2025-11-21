@@ -1,0 +1,21 @@
+# Git Worktree Workflow - .gitignore Template
+#
+# Add these lines to your target repository's .gitignore file
+# to exclude worktree directories and related files.
+#
+# NOTE: The /adaptation command automatically adds these entries
+# to your .gitignore if they're missing, so manual addition is
+# typically not necessary.
+
+# Git worktrees for concurrent development
+.worktrees/
+
+# Worktree registry file (if used)
+.worktree-registry.json
+
+# Optional: Worktree-specific temporary files
+.worktrees/**/node_modules/
+.worktrees/**/.env.local
+.worktrees/**/.DS_Store
+
+# End of worktree-related ignores

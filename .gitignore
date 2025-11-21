@@ -1,0 +1,11 @@
+# Claude Code configuration
+CLAUDE.md
+.claude/
+
+# Git worktrees (created per-ticket)
+.worktrees/
+
+# macOS
+.DS_Store
+# Obsidian (personal note-taking config)
+.obsidian/
