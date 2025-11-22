@@ -39,11 +39,11 @@ Welcome! This guide will help you navigate the documentation and get up and runn
 
 ### For Technical Reference
 
-**Detailed commands** → [README.md](README.md)
-- Complete workflow documentation
-- All command syntax and options
-- Technical architecture details
-- Integration instructions
+**Detailed commands** → [TECHNICAL_REFERENCE.md](TECHNICAL_REFERENCE.md)
+- Complete command documentation
+- Agent specifications
+- Git worktree architecture
+- Integration details
 
 **For AI agents** → `/claude/agents/` directory
 - Specialized agent configurations
@@ -55,9 +55,14 @@ Welcome! This guide will help you navigate the documentation and get up and runn
 
 ### Setup & Configuration
 
-**Installation** → [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md)
-- Complete installation walkthrough
-- Terminal basics for beginners
+**Installation** → [docs/INSTALLATION.md](docs/INSTALLATION.md)
+- Complete installation guide
+- All platforms and modes
+- Verification and troubleshooting
+
+**Terminal Basics** → [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md)
+- For first-time terminal users
+- Step-by-step from scratch
 
 **Integrations** → [docs/MCP_SETUP.md](docs/MCP_SETUP.md)
 - MCP server configuration
@@ -409,7 +414,8 @@ You'll know you're successful when:
 | See real examples | [EXAMPLES.md](EXAMPLES.md) |
 | Find answers to questions | [FAQ.md](FAQ.md) |
 | Look up technical terms | [GLOSSARY.md](GLOSSARY.md) |
-| Learn command syntax | [README.md](README.md) |
+| Learn command syntax | [TECHNICAL_REFERENCE.md](TECHNICAL_REFERENCE.md) |
+| Install the workflow | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | Ship my first feature | [PM_GUIDE.md - Quick Start](PM_GUIDE.md#quick-start) |
 | Write better PRDs | [PM_GUIDE.md - AI-Friendly PRDs](PM_GUIDE.md#writing-ai-friendly-prds) |
 | Fix failing tests | [FAQ.md - Tests Failing](FAQ.md#tests-are-failing-what-do-i-do) |
