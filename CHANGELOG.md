@@ -5,6 +5,76 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-11-22
+
+### Changed
+
+**Major Documentation Restructure (Minto Pyramid Principle)**
+- Refactored all documentation to follow Minto Pyramid Principle: answer first, supporting points, details via links
+- Clear separation of concerns across documentation files
+- Improved navigation for different user personas (non-technical PMs vs. technical users)
+
+**README.md: Transformed to Value-Oriented Overview**
+- Reduced from 1,091 lines to 207 lines (-81% reduction)
+- Now focuses on value proposition and orientation rather than technical details
+- Follows Minto Pyramid structure: what/why → who/benefits → how (high-level) → links
+- Clear "Realistic Expectations" section for appropriate use cases
+- Removed redundant installation and command details (moved to dedicated files)
+
+### Added
+
+**TECHNICAL_REFERENCE.md: New Complete Technical Documentation**
+- 800+ lines of comprehensive technical reference
+- Complete command documentation for all 10 workflow commands
+- Detailed agent specifications for all 8 specialized agents
+- Git worktree architecture and lifecycle documentation
+- Platform comparison table (Claude Code Simple/Worktree/Codex)
+- Repository structure and best practices
+- Extracted from old README for users needing detailed technical information
+
+**docs/INSTALLATION.md: New Comprehensive Installation Guide**
+- 400+ lines covering all platforms and modes
+- Prerequisites checklist with links
+- Step-by-step Claude Code installation (Simple and Worktree modes)
+- OpenAI Codex installation instructions
+- Global vs. local installation guidance
+- Verification procedures
+- MCP configuration overview with links
+- Platform-specific notes (macOS, Linux, Windows/WSL)
+- Troubleshooting common installation issues
+- Advanced configuration (multiple projects, mode switching)
+
+### Improved
+
+**GET_STARTED.md: Updated Navigation**
+- Updated documentation map to reference new TECHNICAL_REFERENCE.md
+- Added INSTALLATION.md to setup & configuration section
+- Updated quick reference table with new file locations
+- All links verified and updated to new structure
+
+**Documentation Organization**
+- Clear audience segmentation: non-technical PMs → README/PM_GUIDE, technical users → TECHNICAL_REFERENCE
+- Eliminated redundancy across files (no duplicate content)
+- Better navigation paths based on user goals
+- Consistent cross-referencing between related documents
+
+### Technical Details
+
+**Statistics:**
+- README.md: -884 net lines (1,091 → 207)
+- TECHNICAL_REFERENCE.md: +800 lines (new)
+- docs/INSTALLATION.md: +400 lines (new)
+- GET_STARTED.md: +24 insertions, -24 deletions (link updates)
+- Total: +1,365 insertions, -1,009 deletions (+356 net across better-organized files)
+
+**Benefits:**
+- 81% reduction in README length improves first-time user experience
+- Clear separation of concerns reduces cognitive load
+- Minto Pyramid structure delivers value proposition immediately
+- Technical users find detailed reference without PM-focused narrative
+- Installation completely separated from conceptual understanding
+- Better SEO and discoverability through focused document purposes
+
 ## [1.0.1] - 2025-11-21
 
 ### Added
