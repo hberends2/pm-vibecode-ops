@@ -285,7 +285,7 @@ You'll know you're successful when:
 4. Keep [GLOSSARY.md](GLOSSARY.md) open as reference
 5. Lean on [FAQ.md](FAQ.md) when stuck
 
-**Time to first feature**: 2-3 weeks
+**Learning curve**: Expect 2-3 weeks to become comfortable with the workflow
 
 ### Technical PM
 **Goal**: Move faster than manual development
@@ -296,7 +296,7 @@ You'll know you're successful when:
 4. Jump into first feature immediately
 5. Reference [FAQ.md](FAQ.md) for edge cases
 
-**Time to first feature**: 1 week
+**Learning curve**: Expect 1-2 weeks to become proficient
 
 ### Former Developer
 **Goal**: Transition from coding to orchestrating
@@ -307,7 +307,7 @@ You'll know you're successful when:
 4. Focus on [PM_GUIDE.md - Common Mistakes](PM_GUIDE.md#common-mistakes-to-avoid)
 5. Use [README.md](README.md) only when absolutely necessary
 
-**Time to first feature**: 1 week (unlearning takes time!)
+**Learning curve**: Expect 1-2 weeks (unlearning implementation details takes time!)
 
 ---
 

@@ -377,9 +377,9 @@ Starting a fresh session just gives the AI clean context to work with—all your
 **For complex features**: Multiply by 2-3x.
 
 **Comparison to traditional**:
-- Traditional development: **2-4 weeks** (80-160 hours)
-- This workflow: **6-9 hours** (including PM time)
-- **Time savings: 90%+**
+- Traditional development: Typically much longer for routine features
+- This workflow: Significantly faster (50-75% time savings typical)
+- Actual savings vary by feature complexity and team experience
 
 ---
 
@@ -464,7 +464,7 @@ Does this create new user-facing functionality?
 
 **Note**: Security review is always the final gate that closes tickets.
 
-**Rule of thumb**: If you're uncertain, run the full workflow. It's only 6-9 hours total.
+**Rule of thumb**: If you're uncertain, run the full workflow. The time investment is modest compared to the quality benefits.
 
 ---
 
@@ -928,15 +928,14 @@ So that I can use data.
 1. Stop current work
 2. Write new PRD
 3. Run full workflow from scratch
-4. Time impact: Start over (still only 6-9 hours)
+4. Time impact: Start over, but still faster than traditional development
 
-**Real example**:
-- Day 1: Started CSV export feature
-- Day 2: Customer requested Excel format too
+**Example scenario**:
+- Started with CSV export feature
+- Customer requested Excel format too
 - Decision: Added Excel to scope
-- AI implementation: +3 hours
-- Total: 7 hours instead of 4 hours
-- Still faster than restarting
+- AI implementation required additional time
+- Still faster than restarting from scratch manually
 
 **Best practice**:
 - **Small changes**: Go ahead and adjust

@@ -9,7 +9,7 @@ A battle-tested workflow that enables Product Managers to transform product requ
 
 Write a PRD. Run 10 commands. Ship features with tests, documentation, and security review.
 
-**Time**: 6-9 hours per feature (vs. 2-4 weeks traditional development)
+**Time**: Significantly faster delivery for routine features (50-75% time savings typical)
 **Quality**: 90%+ test coverage, automated security review, comprehensive documentation
 **Output**: Production-ready code that integrates cleanly with existing codebases
 
@@ -173,16 +173,34 @@ Detailed command syntax and architecture:
 
 ---
 
-## Real Results
+## What You Can Expect
 
-Aggregate results across documented case studies:
+Based on workflow capabilities and user experiences:
 
-**Speed**: 7.75 days average (75% faster than 3-4 week traditional development)
-**Quality**: 92% test coverage, 0.5 bugs per feature in first 30 days, zero security vulnerabilities
-**Business Impact**: $450K+ ARR impact, +18 points customer satisfaction, -56% support tickets
-**Efficiency**: 70%+ engineering time savings on routine features
+**Speed**:
+- 50-75% reduction in development time for routine features
+- Faster iteration cycles (hours to days vs. days to weeks)
+- Reduced time-to-production for well-defined requirements
 
-[See detailed metrics and case studies](EXAMPLES.md#metrics-summary)
+**Quality**:
+- 90%+ test coverage achievable consistently
+- Automated security review catches vulnerabilities before production
+- Comprehensive documentation generated automatically
+- Code follows existing patterns and conventions
+
+**Team Impact**:
+- PMs can ship routine features without bottlenecking engineering
+- Engineers focus on complex challenges requiring human expertise
+- Reduced context switching for development teams
+- Better alignment between product requirements and implementation
+
+**Process Benefits**:
+- Service inventory prevents code duplication (60-75% reuse typical)
+- Quality gates ensure consistent standards
+- Clear audit trail from requirements to deployment
+- Predictable delivery timelines for appropriate features
+
+[See educational walkthroughs demonstrating the workflow](EXAMPLES.md)
 
 ---
 
