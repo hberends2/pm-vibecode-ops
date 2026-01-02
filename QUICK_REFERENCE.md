@@ -8,8 +8,8 @@
 
 | Mode | Location | Use When |
 |------|----------|----------|
-| **Simple (Default)** | `claude/commands/` | One ticket at a time |
-| **Worktree (Advanced)** | `claude/commands-worktrees/` | Multiple tickets in parallel |
+| **Simple (Default)** | `commands/` | One ticket at a time |
+| **Worktree (Advanced)** | `commands-worktrees/` | Multiple tickets in parallel |
 
 **Recommendation**: Start with Simple Mode.
 

@@ -45,11 +45,11 @@ Welcome! This guide will help you navigate the documentation and get up and runn
 - Git worktree architecture
 - Integration details
 
-**For AI agents** → `/claude/agents/` directory
+**For AI agents** → `/agents/` directory
 - Specialized agent configurations
 - Technical implementation details
 
-**For commands** → `/claude/commands/` directory
+**For commands** → `/commands/` directory
 - Detailed command workflows
 - Implementation guidelines
 
@@ -88,8 +88,8 @@ Before starting, choose your AI platform and workflow mode:
 
 | Mode | Best For | Commands Location |
 |------|----------|-------------------|
-| **Simple Mode** | Most users, beginners, one ticket at a time | `claude/commands/` |
-| **Worktree Mode** | Advanced users, concurrent development | `claude/commands-worktrees/` |
+| **Simple Mode** | Most users, beginners, one ticket at a time | `commands/` |
+| **Worktree Mode** | Advanced users, concurrent development | `commands-worktrees/` |
 
 #### Simple Mode (Recommended)
 Use standard git branches. Work on one ticket at a time. This is the recommended starting point.

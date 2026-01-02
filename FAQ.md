@@ -90,12 +90,12 @@ cd pm-vibecode-ops
 mkdir -p ~/.claude/commands ~/.claude/agents
 
 # For Simple Mode (recommended):
-cp claude/commands/*.md ~/.claude/commands/
-cp claude/agents/*.md ~/.claude/agents/
+cp commands/*.md ~/.claude/commands/
+cp agents/*.md ~/.claude/agents/
 
 # OR for Worktree Mode (advanced):
-cp claude/commands-worktrees/*.md ~/.claude/commands/
-cp claude/agents/*.md ~/.claude/agents/
+cp commands-worktrees/*.md ~/.claude/commands/
+cp agents/*.md ~/.claude/agents/
 ```
 
 **For OpenAI Codex**:
@@ -269,7 +269,7 @@ You do **NOT** need to:
 | **Complexity** | Lower, easier to learn | Higher, more concepts to understand |
 | **Git knowledge** | Basic branches | Worktrees (advanced) |
 | **Isolation** | Shared branch space | Complete file system isolation |
-| **Commands** | `claude/commands/` | `claude/commands-worktrees/` |
+| **Commands** | `commands/` | `commands-worktrees/` |
 | **Status** | Stable, recommended | Advanced |
 
 **How they differ technically**:
@@ -298,13 +298,13 @@ repo/
 
 **Switching from Simple to Worktree**:
 1. Finish any in-progress tickets first
-2. Start using commands from `claude/commands-worktrees/`
+2. Start using commands from `commands-worktrees/`
 3. Read the [Worktree Guide](docs/WORKTREE_GUIDE.md) first
 
 **Switching from Worktree to Simple**:
 1. Complete and merge all active worktrees
 2. Run `git worktree prune` to clean up
-3. Switch to commands from `claude/commands/`
+3. Switch to commands from `commands/`
 
 **Important**: Don't mix commands from both modes on the same ticket. Pick one mode and stick with it for that ticket's entire lifecycle.
 

@@ -175,9 +175,9 @@ cd pm-vibecode-ops
 
 # Global installation (commands, agents, and skills)
 mkdir -p ~/.claude/commands ~/.claude/agents ~/.claude/skills
-cp claude/commands/*.md ~/.claude/commands/
-cp claude/agents/*.md ~/.claude/agents/
-cp -r claude/skills/* ~/.claude/skills/
+cp commands/*.md ~/.claude/commands/
+cp agents/*.md ~/.claude/agents/
+cp -r skills/* ~/.claude/skills/
 ```
 
 **What gets installed:**

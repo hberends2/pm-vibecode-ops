@@ -511,7 +511,7 @@ These commands run for each individual ticket through the development lifecycle.
 
 ## Git Worktree Architecture
 
-> **Note**: This section describes **Worktree Mode** in `claude/commands-worktrees/`. If you're using Simple Mode in `claude/commands/`, you can skip this section.
+> **Note**: This section describes **Worktree Mode** in `commands-worktrees/`. If you're using Simple Mode in `commands/`, you can skip this section.
 
 ### Overview
 
@@ -645,39 +645,55 @@ Each phase adds quality labels to PRs:
 
 ```
 pm-vibecode-ops/
-├── claude/
-│   ├── agents/                  # Specialized AI agent configurations (shared)
-│   │   ├── architect_agent.md
-│   │   ├── backend_engineer_agent.md
-│   │   ├── code_reviewer_agent.md
-│   │   ├── design_reviewer_agent.md
-│   │   ├── frontend_engineer_agent.md
-│   │   ├── qa_engineer_agent.md
-│   │   ├── security_engineer_agent.md
-│   │   └── technical_writer_agent.md
-│   │
-│   ├── commands/                # DEFAULT: Simple mode commands
-│   │   ├── README.md            # Simple mode documentation
-│   │   ├── adaptation.md
-│   │   ├── codereview.md
-│   │   ├── discovery.md
-│   │   ├── documentation.md
-│   │   ├── epic-planning.md
-│   │   ├── generate_service_inventory.md
-│   │   ├── implementation.md
-│   │   ├── planning.md
-│   │   ├── security_review.md
-│   │   └── testing.md
-│   │
-│   └── commands-worktrees/      # EXPERIMENTAL: Worktree mode commands
-│       ├── README.md            # Worktree mode documentation
-│       ├── _worktree_helpers.md # Reusable git worktree utilities
-│       ├── adaptation.md        # (with worktree logic)
-│       └── ... (same commands with worktree integration)
+├── .claude-plugin/
+│   └── plugin.json              # Plugin manifest configuration
+│
+├── agents/                      # Specialized AI agent configurations (shared)
+│   ├── architect-agent.md
+│   ├── backend-engineer-agent.md
+│   ├── code-reviewer-agent.md
+│   ├── design-reviewer-agent.md
+│   ├── frontend-engineer-agent.md
+│   ├── qa-engineer-agent.md
+│   ├── security-engineer-agent.md
+│   └── technical-writer-agent.md
+│
+├── commands/                    # DEFAULT: Simple mode commands
+│   ├── README.md                # Simple mode documentation
+│   ├── adaptation.md
+│   ├── codereview.md
+│   ├── discovery.md
+│   ├── documentation.md
+│   ├── epic-planning.md
+│   ├── generate_service_inventory.md
+│   ├── implementation.md
+│   ├── planning.md
+│   ├── security_review.md
+│   └── testing.md
+│
+├── commands-worktrees/          # EXPERIMENTAL: Worktree mode commands
+│   ├── README.md                # Worktree mode documentation
+│   ├── _worktree_helpers.md     # Reusable git worktree utilities
+│   ├── adaptation.md            # (with worktree logic)
+│   └── ... (same commands with worktree integration)
+│
+├── skills/                      # Auto-activated quality enforcement
+│   ├── production-code-standards/
+│   ├── service-reuse/
+│   ├── testing-philosophy/
+│   ├── mvd-documentation/
+│   ├── security-patterns/
+│   └── model-aware-behavior/
+│
+├── hooks/
+│   └── hooks.json               # Event-triggered automation
+│
+├── scripts/
+│   └── session-start.sh         # Session initialization
 │
 ├── codex/
 │   └── prompts/                 # Platform-agnostic prompts (OpenAI Codex compatible)
-│       └── [mirrors claude/commands/ - simple mode only]
+│       └── [mirrors commands/ - simple mode only]
 │
 ├── docs/                        # Advanced documentation
 │   ├── INSTALLATION.md          # Comprehensive installation guide

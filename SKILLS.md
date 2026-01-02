@@ -145,7 +145,7 @@ Skills must be installed to your Claude Code skills directory to be active.
 ```bash
 # From the pm-vibecode-ops directory
 mkdir -p ~/.claude/skills
-cp -r claude/skills/* ~/.claude/skills/
+cp -r skills/* ~/.claude/skills/
 ```
 
 ### Project-Specific Installation
@@ -153,7 +153,7 @@ cp -r claude/skills/* ~/.claude/skills/
 ```bash
 # From your target project directory
 mkdir -p .claude/skills
-cp -r /path/to/pm-vibecode-ops/claude/skills/* .claude/skills/
+cp -r /path/to/pm-vibecode-ops/skills/* .claude/skills/
 ```
 
 ### Verify Installation
@@ -166,7 +166,7 @@ After installation, skills should be in:
 
 In this repository, skill definitions are stored in:
 ```
-claude/skills/
+skills/
 ├── production-code-standards/
 │   └── SKILL.md
 ├── service-reuse/
