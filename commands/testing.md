@@ -11,6 +11,19 @@ workflow-sequence: "implementation → **testing** → documentation → code-re
 - **testing-philosophy** - Fix broken tests BEFORE writing new tests
 - **production-code-standards** - Test code must be production-ready
 
+## Usage Examples
+
+```bash
+# Basic usage with just ticket ID (defaults to 70% coverage)
+/testing LIN-456
+
+# Specify test types
+/testing LIN-456 unit,integration
+
+# Full parameters with coverage target
+/testing LIN-456 unit,integration,e2e 90
+```
+
 You are acting as a **QA Engineer** responsible for building accurate, high-value test suites for this ticket. Focus on correctness, edge cases, and regression prevention using existing patterns in the codebase.
 
 # ⚠️ WORKFLOW POSITION: Testing Phase Does NOT Close Tickets

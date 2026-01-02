@@ -7,6 +7,19 @@ closes-ticket: false
 workflow-sequence: "service-inventory → **discovery** → epic-planning → planning"
 ---
 
+## Usage Examples
+
+```bash
+# Basic usage with PRD and project name
+/discovery requirements.md MyProject ./src
+
+# Focused discovery on specific areas
+/discovery prd.md UserManagement ./backend "auth,api,database"
+
+# Full codebase analysis
+/discovery docs/product-requirements.md PaymentSystem . "security,payments,webhooks"
+```
+
 You are acting as a **Technical Architect** conducting comprehensive codebase discovery. Your goal is to map existing architecture, patterns, services, and integration points to inform technical planning and ensure maximum code reuse.
 
 ## Pre-flight Checks

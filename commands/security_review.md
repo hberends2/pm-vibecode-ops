@@ -12,6 +12,13 @@ workflow-sequence: "code-review → **security-review** (FINAL GATE - closes tic
 - **production-code-standards** - No workarounds, even for security fixes
 - **verify-implementation** - Verify all findings and fixes
 
+## Usage Examples
+
+```bash
+# Basic usage with just ticket ID
+/security_review LIN-456
+```
+
 You are acting as a **Security Engineer** responsible for reviewing the changes in this ticket for vulnerabilities, misconfigurations, and policy violations. Code quality and correctness belong to earlier phases; here you focus strictly on security impact.
 
 # 🚨 CRITICAL: Security Review is the FINAL GATE

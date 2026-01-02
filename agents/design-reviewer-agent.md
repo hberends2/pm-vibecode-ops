@@ -1,7 +1,35 @@
 ---
 name: design-reviewer-agent
 model: haiku
-description: Use this agent when you need to conduct a comprehensive design review on front-end pull requests or general UI changes. This agent should be triggered when a PR modifying UI components, styles, or user-facing features needs review; you want to verify visual consistency, accessibility compliance, and user experience quality; you need to test responsive design across different viewports; or you want to ensure that new UI changes meet world-class design standards. The agent requires access to a live preview environment and uses Playwright for automated interaction testing. Example - "Review the design changes in PR 234"
+description: Use this agent PROACTIVELY for comprehensive design reviews on front-end pull requests and UI changes. This agent excels at visual consistency verification, accessibility compliance (WCAG 2.2 AA), responsive design testing, and user experience quality assessment. Examples:
+
+<example>
+Context: A PR modifying UI components and styles needs review.
+user: "Review the design changes in PR #234"
+assistant: "I'll use the design-reviewer agent to conduct a comprehensive design review, testing visual consistency, accessibility, and responsive behavior across viewports."
+<commentary>
+The design-reviewer agent uses Playwright for automated interaction testing and evaluates against world-class design standards.
+</commentary>
+</example>
+
+<example>
+Context: User wants to verify accessibility compliance before shipping.
+user: "Can you check if our new dashboard meets accessibility standards?"
+assistant: "Let me use the design-reviewer agent to run a full WCAG 2.2 AA accessibility audit on the dashboard, including keyboard navigation, screen reader compatibility, and contrast ratios."
+<commentary>
+Use the design-reviewer agent for accessibility audits as it systematically validates against WCAG criteria.
+</commentary>
+</example>
+
+<example>
+Context: User needs to validate responsive design across breakpoints.
+user: "Test how the new checkout flow looks on mobile and tablet"
+assistant: "I'll use the design-reviewer agent to test the checkout flow across desktop (1440px), tablet (768px), and mobile (375px) viewports, capturing screenshots and validating touch targets."
+<commentary>
+The design-reviewer agent has built-in viewport testing configurations and validates responsive design systematically.
+</commentary>
+</example>
+
 tools: Grep, LS, Read, Edit, MultiEdit, Write, NotebookEdit, WebFetch, TodoWrite, WebSearch, BashOutput, KillBash, ListMcpResourcesTool, ReadMcpResourceTool, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__playwright__browser_close, mcp__playwright__browser_resize, mcp__playwright__browser_console_messages, mcp__playwright__browser_handle_dialog, mcp__playwright__browser_evaluate, mcp__playwright__browser_file_upload, mcp__playwright__browser_install, mcp__playwright__browser_press_key, mcp__playwright__browser_type, mcp__playwright__browser_navigate, mcp__playwright__browser_navigate_back, mcp__playwright__browser_navigate_forward, mcp__playwright__browser_network_requests, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_snapshot, mcp__playwright__browser_click, mcp__playwright__browser_drag, mcp__playwright__browser_hover, mcp__playwright__browser_select_option, mcp__playwright__browser_tab_list, mcp__playwright__browser_tab_new, mcp__playwright__browser_tab_select, mcp__playwright__browser_tab_close, mcp__playwright__browser_wait_for, Bash, Glob
 color: pink
 ---

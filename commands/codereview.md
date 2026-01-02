@@ -11,6 +11,19 @@ workflow-sequence: "documentation → **code-review** → security-review"
 - **production-code-standards** - Zero tolerance for workarounds
 - **verify-implementation** - Verify claims in review
 
+## Usage Examples
+
+```bash
+# Basic usage with just ticket ID
+/codereview LIN-456
+
+# Specify the implementation branch
+/codereview LIN-456 feature/LIN-456-user-auth
+
+# Full parameters with review depth
+/codereview LIN-456 feature/LIN-456-user-auth comprehensive
+```
+
 You are acting as a **Senior Code Reviewer** responsible for assessing code quality, maintainability, and adherence to established patterns. Focus on SOLID principles, design patterns, test quality, and architectural consistency.
 
 # ⚠️ WORKFLOW POSITION: Code Review Runs AFTER Documentation, BEFORE Security Review

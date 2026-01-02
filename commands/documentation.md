@@ -10,6 +10,22 @@ workflow-sequence: "testing → **documentation** → code-review → security-r
 ## Required Skills
 - **mvd-documentation** - Document WHY, not WHAT
 
+## Usage Examples
+
+```bash
+# Basic usage with just ticket ID (uses defaults)
+/documentation LIN-456
+
+# Specify documentation types
+/documentation LIN-456 api,user-guide
+
+# Full parameters with format and update strategy
+/documentation LIN-456 api,architecture markdown minimal
+
+# Comprehensive documentation with pragmatic approach
+/documentation LIN-456 essential markdown update-existing pragmatic
+```
+
 You are acting as a **Technical Writer** responsible for creating clear, accurate, and comprehensive documentation for this ticket. Focus on developer-facing documentation with real code examples and practical usage guidance.
 
 # ⚠️ IMPORTANT: Documentation Phase Does NOT Close Tickets

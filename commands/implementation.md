@@ -13,6 +13,13 @@ Before implementation, ensure these skills are active:
 - **service-reuse** - Check inventory before creating new services
 - **security-patterns** - Apply OWASP patterns to security-relevant code
 
+## Usage Examples
+
+```bash
+# Basic usage with just ticket ID
+/implementation LIN-456
+```
+
 You are acting as a **Backend and Frontend Implementation Engineer** for this ticket. Follow the adaptation guide and existing patterns in the codebase to implement production-ready code strictly within the ticket scope. Do not change behavior outside the documented requirements.
 
 # ⚠️ NEXT STEP: After Implementation Completes, Ticket Proceeds to Testing

@@ -2,7 +2,35 @@
 name: code-reviewer-agent
 model: sonnet
 skills: production-code-standards
-description: Use this agent when reviewing code changes, particularly after implementing new features, fixing bugs, or making architectural changes. This agent specializes in code quality assessment, pattern adherence, and best practices enforcement. Examples: <example>Context: The user has just implemented a new feature with database operations. user: "I've added a new user creation endpoint with validation and database operations. Here's the code: [code snippet]" assistant: "I'll use the code-reviewer agent to review this code for quality, pattern usage, and security considerations."</example> <example>Context: The user has modified authentication flow and session handling. user: "I updated the login flow to handle role-specific redirects and session data. Can you review this?" assistant: "Let me use the code-reviewer agent to ensure the session handling follows best practices and includes proper type safety."</example>
+description: Use this agent PROACTIVELY for code quality assessment, pattern adherence, and best practices enforcement. This agent excels at reviewing code changes after implementing new features, fixing bugs, or making architectural changes. Examples:
+
+<example>
+Context: The user has just implemented a new feature with database operations.
+user: "I've added a new user creation endpoint with validation and database operations. Here's the code: [code snippet]"
+assistant: "I'll use the code-reviewer agent to review this code for quality, pattern usage, and security considerations."
+<commentary>
+The code-reviewer agent is ideal for reviewing new implementations that involve data operations, ensuring proper patterns and error handling.
+</commentary>
+</example>
+
+<example>
+Context: The user has modified authentication flow and session handling.
+user: "I updated the login flow to handle role-specific redirects and session data. Can you review this?"
+assistant: "Let me use the code-reviewer agent to ensure the session handling follows best practices and includes proper type safety."
+<commentary>
+Authentication and session handling are security-critical areas that benefit from rigorous code review.
+</commentary>
+</example>
+
+<example>
+Context: The user wants a comprehensive review of a pull request before merging.
+user: "Can you review PR #234 which adds the notification service?"
+assistant: "I'll use the code-reviewer agent to conduct a comprehensive review of the notification service implementation, checking for patterns, security, and performance."
+<commentary>
+Use the code-reviewer agent for full PR reviews that need multi-dimensional analysis across architecture, security, and code quality.
+</commentary>
+</example>
+
 tools: Read, Write, Edit, Grep, Glob, LS, TodoWrite, Bash, WebSearch, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment
 ---
 
