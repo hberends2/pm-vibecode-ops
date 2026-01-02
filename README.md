@@ -108,46 +108,6 @@ Each phase includes quality gates. Security review is the final gate that marks 
 
 ---
 
-## Model Recommendations
-
-**Primary Recommendation: Claude Opus 4.5**
-
-This workflow is designed for deep reasoning and comprehensive analysis. Opus 4.5 is the recommended model for most phases due to its superior reasoning capabilities.
-
-| Phase | Recommended Model | Rationale |
-|-------|------------------|-----------|
-| Discovery | Opus 4.5 | Deep architectural analysis |
-| Epic Planning | Opus 4.5 | Strategic reasoning |
-| Planning | Opus 4.5 | Complex ticket breakdown |
-| Adaptation | Opus 4.5 | Thorough implementation planning |
-| Implementation | Opus 4.5 or Sonnet 4.5 | Strong coding with reasoning |
-| Testing | Opus 4.5 or Sonnet 4.5 | Multi-file test creation |
-| Documentation | Sonnet 4.5 | Straightforward generation |
-| Code Review | Opus 4.5 | Deep analysis |
-| Security Review | Opus 4.5 | Critical security reasoning |
-
-### Model Behavioral Notes
-
-**Opus 4.5 (Recommended)**:
-- Excellent for deep reasoning and architecture decisions
-- Best choice for complex, multi-step operations
-- The `production-code-standards` skill prevents over-engineering
-- The `model-aware-behavior` skill ensures thorough code exploration
-
-**Sonnet 4.5 (Alternative)**:
-- Good for agentic coding tasks when cost/speed is a concern
-- Responds well to emphatic instructions
-- Excellent parallel tool execution
-- Use when Opus throughput is insufficient
-
-**Haiku 4.5 (Not Recommended)**:
-- DO NOT USE for this workflow
-- Cannot maintain context across complex multi-phase operations
-- May produce incomplete or inaccurate analysis
-- If you must use Haiku, limit to isolated single-file documentation tasks only
-
----
-
 ## Quick Start
 
 ### Choose Your Platform
@@ -167,9 +127,13 @@ This workflow is designed for deep reasoning and comprehensive analysis. Opus 4.
 
 ### Installation
 
-**One-command install for Claude Code**:
+**Install from Claude Code Marketplace**:
 ```bash
-/plugin install github:bdouble/pm-vibecode-ops
+# Add the marketplace first
+/plugin marketplace add bdouble/pm-vibecode-ops
+
+# Then install from marketplace
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
 ```
 
 That's it! The plugin system automatically installs all commands, agents, skills, and hooks.
@@ -179,15 +143,6 @@ That's it! The plugin system automatically installs all commands, agents, skills
 - **Agents** - Specialized AI roles (architect, QA engineer, security engineer)
 - **Skills** - Auto-activated quality enforcement during development
 - **Hooks** - Session automation for workflow context
-
-**Alternative: Marketplace installation**:
-```bash
-# Add the marketplace first
-/plugin marketplace add bdouble/pm-vibecode-ops
-
-# Then install from marketplace
-/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
-```
 
 **For OpenAI Codex users**: See [Codex Guide](codex/README.md) for platform-agnostic prompts.
 

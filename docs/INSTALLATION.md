@@ -106,18 +106,7 @@ Follow the prompts to authenticate via Claude Console, Claude App, or Enterprise
 
 ### Step 2: Install the PM Workflow Plugin
 
-**One-command installation**:
-```bash
-/plugin install github:bdouble/pm-vibecode-ops
-```
-
-That's it! The plugin system automatically installs:
-- **Commands** (`/adaptation`, `/implementation`, etc.) - Workflow phases you invoke
-- **Agents** - Specialized AI roles (architect, QA engineer, security engineer)
-- **Skills** - Auto-activated quality enforcement during development
-- **Hooks** - Session automation for workflow context
-
-**Alternative: Marketplace installation**:
+**Install from Claude Code Marketplace**:
 ```bash
 # Add the marketplace first
 /plugin marketplace add bdouble/pm-vibecode-ops
@@ -125,6 +114,12 @@ That's it! The plugin system automatically installs:
 # Then install from marketplace
 /plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
 ```
+
+That's it! The plugin system automatically installs:
+- **Commands** (`/adaptation`, `/implementation`, etc.) - Workflow phases you invoke
+- **Agents** - Specialized AI roles (architect, QA engineer, security engineer)
+- **Skills** - Auto-activated quality enforcement during development
+- **Hooks** - Session automation for workflow context
 
 ### Step 3: Verify Installation
 
@@ -153,7 +148,8 @@ claude
 **Reinstall if needed**:
 ```bash
 /plugin uninstall pm-vibecode-ops
-/plugin install github:bdouble/pm-vibecode-ops
+/plugin marketplace add bdouble/pm-vibecode-ops
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
 ```
 
 **List installed plugins**:
@@ -291,7 +287,7 @@ exit
 **Troubleshooting**:
 - If commands don't appear, try `/plugin list` to verify installation
 - Try restarting Claude Code
-- Reinstall plugin: `/plugin install github:bdouble/pm-vibecode-ops`
+- Reinstall plugin via marketplace (see Plugin Management section above)
 
 ### Codex Verification
 
@@ -317,17 +313,14 @@ ls /path/to/pm-vibecode-ops/codex/prompts/   # If referencing directly
 # 1. Check Claude Code version (must support plugins)
 claude --version
 
-# 2. Try marketplace approach instead
-/plugin marketplace add bdouble/pm-vibecode-ops
-/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
-
-# 3. Check network connectivity
+# 2. Check network connectivity
 curl https://github.com/bdouble/pm-vibecode-ops
 
-# 4. Restart Claude Code and try again
+# 3. Restart Claude Code and try again
 exit
 claude
-/plugin install github:bdouble/pm-vibecode-ops
+/plugin marketplace add bdouble/pm-vibecode-ops
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
 ```
 
 ### Commands Not Showing Up
@@ -346,7 +339,8 @@ claude
 
 # 3. Reinstall plugin
 /plugin uninstall pm-vibecode-ops
-/plugin install github:bdouble/pm-vibecode-ops
+/plugin marketplace add bdouble/pm-vibecode-ops
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
 ```
 
 ### Skills Not Activating
