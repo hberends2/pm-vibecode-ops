@@ -1,6 +1,9 @@
 ---
 name: model-aware-behavior
-description: This skill should be used when making any code changes or modifications, exploring unfamiliar codebases, proposing architectural decisions or solutions, or using tools to modify files. Ensures exploration before implementation, prevents scope creep and over-engineering, and maintains tool efficiency by parallelizing independent operations.
+description: |
+  This skill enforces disciplined exploration and scope control during development. Activate when
+  "modifying code", "exploring a codebase", "proposing changes", "making edits", "using Edit tool",
+  or "reading files before changes". Prevents over-engineering and ensures tool efficiency.
 ---
 
 # Model-Aware Behavior

@@ -1,6 +1,9 @@
 ---
 name: verify-implementation
-description: MUST use before claiming ANY work is complete, fixed, or passing. Use BEFORE committing, creating PRs, marking tickets done. Prevents false assertions like "tests should pass" when tests were never run. Critical for non-engineers who cannot independently verify claims. Every completion claim requires evidence.
+description: |
+  This skill requires evidence before claiming work is complete. Activate when "marking done",
+  "creating a PR", "committing changes", "tests pass", "bug is fixed", "feature complete", or
+  "ready for review". Prevents unverified assertions - every completion claim requires proof.
 ---
 
 # Verify Implementation

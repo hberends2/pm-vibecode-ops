@@ -1,6 +1,9 @@
 ---
 name: using-pm-workflow
-description: Use when starting any PM workflow session. Establishes skill-checking behavior before ANY action including clarifying questions. Activates at session start, before responding to requests, when switching contexts, or when unsure which command to use. Lists all skills, commands, and trigger conditions for Product Managers building production code.
+description: |
+  This skill bootstraps PM workflow sessions with skill-checking behavior. Activate when "starting a
+  new session", "which command should I use", "what's the workflow", "help me plan this project",
+  "switching to a different task", or when navigating between workflow phases.
 ---
 
 # PM Workflow Bootstrap

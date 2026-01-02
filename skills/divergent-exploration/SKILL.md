@@ -1,21 +1,14 @@
 ---
 name: divergent-exploration
-description: MUST use before any creative work - creating features, designing architecture, planning epics, solving complex problems. Explore 3-5 DISTINCT approaches before converging on one. Never jump to "the obvious solution" without generating genuine alternatives first.
+description: |
+  This skill enforces exploring multiple approaches before committing to one. Activate when "designing
+  a feature", "planning an epic", "architecting a solution", "solving a complex problem", "what are
+  my options", or "how should we approach this". Generates 3-5 distinct alternatives before converging.
 ---
 
 # Divergent Exploration
 
 Creative work demands divergent thinking before convergent decisions. This skill enforces structured exploration to prevent premature commitment to the first idea that seems reasonable.
-
-## When This Skill Activates
-
-Apply divergent exploration before:
-
-- **Epic creation**: Explore different ways to solve the user problem
-- **Architecture decisions**: Explore genuinely different approaches
-- **Feature design**: Explore alternative solutions
-- **Technical decomposition**: Explore different implementation strategies
-- **Problem solving**: Explore root cause hypotheses
 
 ## The Three Phases
 

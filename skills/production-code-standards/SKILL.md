@@ -1,6 +1,10 @@
 ---
 name: production-code-standards
-description: You MUST apply these standards when writing ANY code in src/, lib/, or app/ directories. REQUIRED for: implementing features, fixing bugs, creating services/controllers/repositories, reviewing PRs. BLOCKS: workarounds, fallbacks hiding errors, TODO/FIXME/HACK, mocked services, empty catch blocks. STOP and create ticket if blocked—never workaround. EXCLUDES: test files (*.test.*, *.spec.*, __tests__/).
+description: |
+  This skill enforces production-grade code quality standards. Activate when "implementing a feature",
+  "fixing a bug", "creating a service", "writing production code", "reviewing a PR", or for code in
+  src/, lib/, or app/ directories. Blocks workarounds, fallbacks, TODO/FIXME/HACK comments, and empty
+  catch blocks.
 ---
 
 # Production Code Standards

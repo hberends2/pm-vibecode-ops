@@ -1,6 +1,10 @@
 ---
 name: security-patterns
-description: MUST activate when writing: authentication/authorization code, login/session management, API endpoints handling user data, database queries, input validation, file uploads, external API calls, password handling, token generation, error responses. Enforces OWASP Top 10 prevention: broken access control, cryptographic failures, injection, insecure design, security misconfiguration, vulnerable components, authentication failures, data integrity failures, logging failures, SSRF.
+description: |
+  This skill enforces OWASP Top 10 security patterns during code writing. Activate when "implementing
+  authentication", "handling passwords", "writing API endpoints", "validating input", "handling user
+  data", "creating database queries", or "managing sessions". Prevents injection, access control, and
+  cryptographic vulnerabilities.
 ---
 
 # Security Patterns
@@ -42,5 +46,3 @@ When writing security-relevant code:
 - **Secure defaults**: Safe configuration out of the box
 
 See `references/owasp-patterns.md` for detailed code examples for each OWASP Top 10 vulnerability.
-
-**This skill applies to: passwords, tokens, user data, external APIs, database queries, file uploads.**

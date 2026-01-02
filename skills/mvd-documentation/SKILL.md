@@ -1,6 +1,9 @@
 ---
 name: mvd-documentation
-description: Use when writing JSDoc comments, README files, API docs, or architecture documentation. Core principle: Document WHY, not WHAT—TypeScript already shows WHAT. Activates for code comments, README creation, API documentation, and "document X" requests. Quality over quantity—best docs explain decisions, not describe code.
+description: |
+  This skill enforces minimal, decision-focused documentation. Activate when "writing JSDoc",
+  "creating a README", "documenting an API", "adding code comments", "document this function",
+  or "explain this code". Documents WHY not WHAT - TypeScript already shows WHAT.
 ---
 
 # Minimal Viable Documentation

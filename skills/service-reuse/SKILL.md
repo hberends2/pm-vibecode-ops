@@ -1,6 +1,9 @@
 ---
 name: service-reuse
-description: This skill MUST be used when: (1) creating ANY new service, utility, helper, or class, (2) adding middleware, guards, decorators, or interceptors, (3) implementing repositories or base abstractions, (4) building event handlers or infrastructure, (5) any "create new" or "add new" pattern appears. REQUIRES checking service-inventory.yaml and existing codebase BEFORE writing new code. BLOCK creation until search is documented.
+description: |
+  This skill enforces checking existing code before creating new services. Activate when "creating a
+  new service", "adding a utility", "building a helper", "implementing middleware", "adding a new
+  class", or "create new". Requires searching service-inventory.yaml and codebase before writing.
 ---
 
 # Service Reuse Enforcement

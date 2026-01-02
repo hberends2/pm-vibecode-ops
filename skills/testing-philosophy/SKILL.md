@@ -1,6 +1,9 @@
 ---
 name: testing-philosophy
-description: MUST be used when writing tests, debugging test failures, improving coverage, or modifying code with existing tests. CRITICAL RULE: Fix broken tests FIRST before writing new tests. This skill MUST block new test creation until all existing tests pass. Accurate running tests > high coverage with broken tests.
+description: |
+  This skill enforces fixing broken tests before writing new ones. Activate when "writing tests",
+  "debugging test failures", "improving coverage", "tests are failing", "add tests for this", or
+  "run the test suite". Prioritizes accurate running tests over high coverage with broken tests.
 ---
 
 # Testing Philosophy

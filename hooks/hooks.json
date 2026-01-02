@@ -1,5 +1,27 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before writing code, remember: NO workarounds, temporary fixes, or fallback behaviors. Code must be production-ready. Check the production-code-standards skill if unsure. Proceed with the tool use."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "If this session involved implementing a Linear ticket (adaptation, implementation, testing phases), remind the user to update the ticket status. If no Linear ticket was involved, approve stopping without comment."
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "startup|resume|clear|compact",
