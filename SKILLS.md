@@ -178,27 +178,39 @@ All skills in this repo use **strict enforcement**:
 
 ## Installation
 
-Skills must be installed to your Claude Code skills directory to be active.
+### Plugin Installation (Recommended)
 
-### Global Installation (All Projects)
+Skills are automatically installed when you install the PM workflow plugin:
 
 ```bash
-# From the pm-vibecode-ops directory
-mkdir -p ~/.claude/skills
-cp -r skills/* ~/.claude/skills/
+/plugin install github:bdouble/pm-vibecode-ops
 ```
 
-### Project-Specific Installation
+This installs all 9 skills automatically along with commands, agents, and hooks.
+
+### Manual Installation (Alternative)
+
+If you prefer to install skills manually:
 
 ```bash
-# From your target project directory
+# Global installation (all projects)
+mkdir -p ~/.claude/skills
+cp -r skills/* ~/.claude/skills/
+
+# Project-specific installation
 mkdir -p .claude/skills
 cp -r /path/to/pm-vibecode-ops/skills/* .claude/skills/
 ```
 
 ### Verify Installation
 
-After installation, skills should be in:
+For plugin installation:
+```bash
+/plugin list
+# Should show: pm-vibecode-ops
+```
+
+For manual installation, skills should be in:
 - **Global**: `~/.claude/skills/[skill-name]/SKILL.md`
 - **Project**: `.claude/skills/[skill-name]/SKILL.md`
 

@@ -5,6 +5,58 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-01-02
+
+### Added
+
+**Plugin-Based Installation**
+
+This release introduces simplified plugin-based installation for Claude Code users:
+
+- **One-command installation**: `/plugin install github:bdouble/pm-vibecode-ops`
+- Automatically installs all commands, agents, skills, and hooks
+- No manual file copying or directory setup required
+- Supports marketplace installation as alternative
+
+### Changed
+
+**Documentation Overhaul**
+
+Updated all documentation to reflect the new plugin installation method:
+
+- README.md: New installation section with plugin commands
+- docs/INSTALLATION.md: Completely rewritten for plugin-first approach
+- docs/SETUP_GUIDE.md: Simplified setup instructions
+- GET_STARTED.md: Updated prerequisites and checklists
+- PM_GUIDE.md: Updated prerequisites section
+- FAQ.md: Updated installation Q&A
+- TECHNICAL_REFERENCE.md: Updated platform comparison table
+- docs/TROUBLESHOOTING.md: Updated troubleshooting for plugin-based installation
+- QUICK_REFERENCE.md: Version bump to 2.1.0
+
+### Removed
+
+**Legacy Installation Instructions**
+
+- Removed manual `mkdir ~/.claude/commands` instructions
+- Removed `cp commands/*.md ~/.claude/commands/` steps
+- Removed manual agent and skill copying instructions
+- Removed global vs. local installation complexity for Claude Code users
+
+### Migration Guide
+
+If upgrading from 2.0.0:
+
+1. **No action required for existing installations** - Your current setup continues to work
+2. **For new installations**: Use `/plugin install github:bdouble/pm-vibecode-ops` instead of manual copying
+3. **To switch to plugin**: You can optionally remove manual installations and use the plugin instead:
+   ```bash
+   rm -rf ~/.claude/commands/*.md ~/.claude/agents/*.md ~/.claude/skills/*
+   /plugin install github:bdouble/pm-vibecode-ops
+   ```
+
+---
+
 ## [2.0.0] - 2026-01-02
 
 ### Breaking Changes
@@ -521,6 +573,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.1.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.1.0
 [2.0.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.0.0
 [1.1.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v1.1.1
 [1.1.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v1.1.0

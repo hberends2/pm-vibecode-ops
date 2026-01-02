@@ -1,6 +1,6 @@
 # Installation Guide
 
-Complete installation instructions for PM Vibe Code Operations on all platforms and modes.
+Complete installation instructions for PM Vibe Code Operations.
 
 **New to terminals?** See [SETUP_GUIDE.md](SETUP_GUIDE.md) for beginners starting from scratch.
 
@@ -9,13 +9,11 @@ Complete installation instructions for PM Vibe Code Operations on all platforms 
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
-2. [Choose Your Mode](#choose-your-mode)
-3. [Claude Code Installation](#claude-code-installation)
-4. [Skills Installation](#skills-installation)
-5. [OpenAI Codex Installation](#openai-codex-installation)
-6. [Verification](#verification)
-7. [MCP Configuration](#mcp-configuration)
-8. [Troubleshooting](#troubleshooting)
+2. [Claude Code Installation](#claude-code-installation)
+3. [OpenAI Codex Installation](#openai-codex-installation)
+4. [MCP Configuration](#mcp-configuration)
+5. [Verification](#verification)
+6. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -63,29 +61,13 @@ Complete installation instructions for PM Vibe Code Operations on all platforms 
 
 ---
 
-## Choose Your Platform
+## Claude Code Installation
 
-Before installing, choose your platform:
-
-### For Claude Code Users
-
-Commands and agents are installed from the `commands/` and `agents/` directories. Skills provide auto-activated quality enforcement.
-
-### For OpenAI Codex Users
-
-| Type | Location | Notes |
-|------|----------|-------|
-| **Platform-Agnostic Prompts** | `codex/prompts/` | Simple mode only, no agent references |
-
-Codex users use platform-agnostic prompts from `codex/prompts/` directory.
-
----
-
-## Install Claude Code First
+### Step 1: Install Claude Code
 
 Before installing this workflow, make sure you have Claude Code installed.
 
-**👉 For complete installation instructions, visit the official guide:**
+**For complete installation instructions, visit the official guide:**
 **[https://code.claude.com/docs/en/setup](https://code.claude.com/docs/en/setup)**
 
 **Quick install**:
@@ -122,135 +104,72 @@ claude
 
 Follow the prompts to authenticate via Claude Console, Claude App, or Enterprise platform. No manual API key setup required.
 
----
+### Step 2: Install the PM Workflow Plugin
 
-## Workflow Installation
-
-Now that Claude Code is installed, you can install this workflow's commands and agents.
-
-### Step 1: Clone Repository
-
+**One-command installation**:
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/pm-vibecode-ops.git
-cd pm-vibecode-ops
+/plugin install github:bdouble/pm-vibecode-ops
 ```
 
-### Step 2: Choose Installation Type
+That's it! The plugin system automatically installs:
+- **Commands** (`/adaptation`, `/implementation`, etc.) - Workflow phases you invoke
+- **Agents** - Specialized AI roles (architect, QA engineer, security engineer)
+- **Skills** - Auto-activated quality enforcement during development
+- **Hooks** - Session automation for workflow context
 
-You can install globally (available for all projects) or locally (specific to one project).
-
-#### Global Installation (Recommended)
-
-Global installation makes the workflow available across all your projects.
-
+**Alternative: Marketplace installation**:
 ```bash
-# Create Claude directories
-mkdir -p ~/.claude/commands
-mkdir -p ~/.claude/agents
+# Add the marketplace first
+/plugin marketplace add bdouble/pm-vibecode-ops
 
-# Copy commands and agents
-cp commands/*.md ~/.claude/commands/
-cp agents/*.md ~/.claude/agents/
+# Then install from marketplace
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
 ```
 
-#### Local Installation (Project-Specific)
-
-For project-specific workflow customization:
+### Step 3: Verify Installation
 
 ```bash
-# Navigate to your project
-cd /path/to/your/project
+# Start Claude Code in any project
+claude
 
-# Create local Claude directories
-mkdir -p .claude/commands
-mkdir -p .claude/agents
+# Type /help to see available commands
+/help
 
-# Copy commands and agents
-cp /path/to/pm-vibecode-ops/commands/*.md .claude/commands/
-cp /path/to/pm-vibecode-ops/agents/*.md .claude/agents/
+# You should see workflow commands listed:
+# /adaptation, /codereview, /discovery, /documentation,
+# /epic-planning, /generate_service_inventory, /implementation,
+# /planning, /security_review, /testing
 ```
 
-**Note**: Project-specific installation takes precedence over global installation for that project.
+**Note**: Skills don't appear in `/help`. They activate automatically based on what you're doing (e.g., security patterns apply when writing auth code).
 
-### Step 3: Install Skills
+### Plugin Management
 
-Skills are auto-activated quality enforcement that Claude applies contextually during development. Unlike commands (which you explicitly invoke), skills activate automatically based on what you're doing.
-
-**For more details**: See [SKILLS.md](../SKILLS.md) or [Claude Code Skills Documentation](https://code.claude.com/docs/en/skills).
-
-#### Global Skills Installation (Recommended)
-
+**Update the plugin**:
 ```bash
-# Create skills directory
-mkdir -p ~/.claude/skills
-
-# Copy all skills (each skill is a directory with SKILL.md inside)
-cp -r skills/* ~/.claude/skills/
+/plugin marketplace update
 ```
 
-#### Project-Specific Skills Installation
-
+**Reinstall if needed**:
 ```bash
-# Navigate to your project
-cd /path/to/your/project
-
-# Create local skills directory
-mkdir -p .claude/skills
-
-# Copy skills
-cp -r /path/to/pm-vibecode-ops/skills/* .claude/skills/
+/plugin uninstall pm-vibecode-ops
+/plugin install github:bdouble/pm-vibecode-ops
 ```
 
-**Available Skills** (9 total):
-| Skill | Purpose |
-|-------|---------|
-| `production-code-standards` | Blocks workarounds, temporary code, fallbacks |
-| `service-reuse` | Requires checking inventory before creating services |
-| `testing-philosophy` | Requires fixing broken tests before writing new ones |
-| `mvd-documentation` | Enforces "document why, not what" standards |
-| `security-patterns` | Applies OWASP patterns during code writing |
-| `model-aware-behavior` | Read all files before proposing changes |
-| `using-pm-workflow` | Guide through workflow phases correctly |
-| `verify-implementation` | Verify work before marking complete |
-| `divergent-exploration` | Explore alternatives before converging |
-
-### Step 4: Verify Installation
-
+**List installed plugins**:
 ```bash
-# Check commands installed
-ls ~/.claude/commands/
-# Should show: adaptation.md, codereview.md, discovery.md, documentation.md, epic-planning.md, etc.
-
-# Check agents installed
-ls ~/.claude/agents/
-# Should show: architect-agent.md, backend-engineer-agent.md, etc.
-
-# Check skills installed
-ls ~/.claude/skills/
-# Should show: production-code-standards/, service-reuse/, testing-philosophy/, etc.
-
-# Verify skill structure (each should contain SKILL.md)
-ls ~/.claude/skills/production-code-standards/
-# Should show: SKILL.md
-
-# For local installation
-ls .claude/commands/
-ls .claude/agents/
-ls .claude/skills/
+/plugin list
 ```
 
 ---
 
 ## OpenAI Codex Installation
 
-Codex uses prompts instead of slash commands. The prompts in `codex/prompts/` are platform-agnostic (no Claude-specific agents) but assume similar workflow.
+Codex uses prompts instead of slash commands. The prompts in `codex/prompts/` are platform-agnostic.
 
-### Step 0: Install Codex CLI First
+### Step 1: Install Codex CLI
 
-Before installing this workflow, make sure you have OpenAI Codex installed.
-
-**👉 For complete installation instructions, visit the official guides:**
+**For complete installation instructions, visit the official guides:**
 - **[OpenAI Codex CLI Documentation](https://developers.openai.com/codex/cli)**
 - **[OpenAI Help Center - Getting Started](https://help.openai.com/en/articles/11096431-openai-codex-cli-getting-started)**
 
@@ -269,19 +188,17 @@ codex --version
 codex
 ```
 
-Follow the prompts to authenticate with your ChatGPT account. **Requires**: ChatGPT Plus, Pro, Business, Edu, or Enterprise account. No manual API key setup needed for standard usage.
+Follow the prompts to authenticate with your ChatGPT account. **Requires**: ChatGPT Plus, Pro, Business, Edu, or Enterprise account.
 
----
-
-### Step 1: Clone Repository
+### Step 2: Clone Repository for Prompts
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/pm-vibecode-ops.git
+git clone https://github.com/bdouble/pm-vibecode-ops.git
 cd pm-vibecode-ops
 ```
 
-### Step 2: Access Prompts
+### Step 3: Access Prompts
 
 **Option A: Reference Directly** (Recommended)
 ```bash
@@ -304,7 +221,7 @@ cp codex/prompts/*.md ~/.codex/prompts/
 ls ~/.codex/prompts/
 ```
 
-### Step 3: Using Codex Prompts
+### Step 4: Using Codex Prompts
 
 Unlike Claude Code's slash commands, Codex prompts are used by copying their content:
 
@@ -313,48 +230,9 @@ Unlike Claude Code's slash commands, Codex prompts are used by copying their con
 cat codex/prompts/discovery.md
 
 # Copy the content and paste into your Codex session
-# Or reference the file path in your own Codex configuration
 ```
 
 **See** [codex/README.md](../codex/README.md) for Codex-specific guidance and workflow details.
-
----
-
-## Verification
-
-### Claude Code Verification
-
-```bash
-# Start Claude Code in any project
-claude
-
-# Type /help to see available commands
-/help
-
-# You should see your installed commands listed:
-# /adaptation, /codereview, /discovery, /documentation,
-# /epic-planning, /generate_service_inventory, /implementation,
-# /planning, /security_review, /testing
-
-# Exit Claude Code
-exit
-```
-
-**Troubleshooting**:
-- If commands don't appear, check installation paths match: `ls ~/.claude/commands/`
-- Try restarting Claude Code
-- Check for file permissions: `chmod +r ~/.claude/commands/*.md`
-
-### Codex Verification
-
-```bash
-# Verify prompts are accessible
-ls ~/.codex/prompts/   # If you copied them
-# OR
-ls /path/to/pm-vibecode-ops/codex/prompts/   # If referencing directly
-
-# Should show all prompt files
-```
 
 ---
 
@@ -387,7 +265,70 @@ claude mcp add --transport http linear-server https://mcp.linear.app/mcp
 
 ---
 
+## Verification
+
+### Claude Code Verification
+
+```bash
+# Start Claude Code in any project
+claude
+
+# Type /help to see available commands
+/help
+
+# You should see your installed commands listed:
+# /adaptation, /codereview, /discovery, /documentation,
+# /epic-planning, /generate_service_inventory, /implementation,
+# /planning, /security_review, /testing
+
+# Test a command
+/discovery --help
+
+# Exit Claude Code
+exit
+```
+
+**Troubleshooting**:
+- If commands don't appear, try `/plugin list` to verify installation
+- Try restarting Claude Code
+- Reinstall plugin: `/plugin install github:bdouble/pm-vibecode-ops`
+
+### Codex Verification
+
+```bash
+# Verify prompts are accessible
+ls ~/.codex/prompts/   # If you copied them
+# OR
+ls /path/to/pm-vibecode-ops/codex/prompts/   # If referencing directly
+
+# Should show all prompt files
+```
+
+---
+
 ## Troubleshooting
+
+### Plugin Installation Failed
+
+**Problem**: Plugin install command fails
+
+**Solutions**:
+```bash
+# 1. Check Claude Code version (must support plugins)
+claude --version
+
+# 2. Try marketplace approach instead
+/plugin marketplace add bdouble/pm-vibecode-ops
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
+
+# 3. Check network connectivity
+curl https://github.com/bdouble/pm-vibecode-ops
+
+# 4. Restart Claude Code and try again
+exit
+claude
+/plugin install github:bdouble/pm-vibecode-ops
+```
 
 ### Commands Not Showing Up
 
@@ -395,80 +336,24 @@ claude mcp add --transport http linear-server https://mcp.linear.app/mcp
 
 **Solutions**:
 ```bash
-# 1. Verify files are in correct location
-ls ~/.claude/commands/
-# Should show .md files
+# 1. Verify plugin is installed
+/plugin list
+# Should show pm-vibecode-ops
 
-# 2. Check file permissions
-chmod +r ~/.claude/commands/*.md
-
-# 3. Restart Claude Code
+# 2. Restart Claude Code
+exit
 claude
-/help  # Commands should now appear
 
-# 4. Check for typos in filenames
-# Filenames must match command names exactly
-```
-
-### Commands Need Updating
-
-**Problem**: Commands are outdated or need to be reinstalled
-
-**Solution**:
-```bash
-# Remove current installation
-rm -rf ~/.claude/commands/*.md
-
-# Re-install
-cp /path/to/pm-vibecode-ops/commands/*.md ~/.claude/commands/
-```
-
-### Permission Denied Errors
-
-**Problem**: "Permission denied" when copying files
-
-**Solution**:
-```bash
-# Create directories with proper permissions
-mkdir -p ~/.claude/commands
-mkdir -p ~/.claude/agents
-mkdir -p ~/.claude/skills
-chmod 755 ~/.claude/commands ~/.claude/agents ~/.claude/skills
-
-# Copy files
-cp commands/*.md ~/.claude/commands/
-cp agents/*.md ~/.claude/agents/
-cp -r skills/* ~/.claude/skills/
-
-# Set read permissions
-chmod +r ~/.claude/commands/*.md
-chmod +r ~/.claude/agents/*.md
-chmod -R +r ~/.claude/skills/
+# 3. Reinstall plugin
+/plugin uninstall pm-vibecode-ops
+/plugin install github:bdouble/pm-vibecode-ops
 ```
 
 ### Skills Not Activating
 
 **Problem**: Skills don't seem to be enforcing standards during development
 
-**Solutions**:
-```bash
-# 1. Verify skills are installed correctly
-ls ~/.claude/skills/
-# Should show directories: production-code-standards/, service-reuse/, etc.
-
-# 2. Verify SKILL.md exists in each skill directory
-ls ~/.claude/skills/production-code-standards/
-# Should show: SKILL.md
-
-# 3. Check YAML frontmatter syntax
-head -10 ~/.claude/skills/production-code-standards/SKILL.md
-# Should show valid YAML with --- markers
-
-# 4. For project-specific skills, verify path
-ls .claude/skills/
-```
-
-**Note**: Skills activate based on context (what you're doing). They don't show in `/help` like commands do. To test, try asking Claude to write code—skills should enforce standards automatically.
+**Note**: Skills activate based on context (what you're doing). They don't show in `/help` like commands do. To test, try asking Claude to write code with TODOs or workarounds - skills should block these patterns automatically.
 
 ### MCP Integration Not Working
 

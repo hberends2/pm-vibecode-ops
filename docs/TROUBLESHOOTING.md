@@ -129,18 +129,19 @@ Linear uses OAuth 2.1, not API keys. If you see authentication errors:
 **Symptoms**: `/epic-planning` or other commands don't show in help
 
 **Fixes**:
-1. Check commands are installed:
+1. Verify plugin is installed:
    ```bash
-   ls ~/.claude/commands/
+   /plugin list
    ```
-   Should show `.md` files
+   Should show `pm-vibecode-ops`
 
-2. If empty, reinstall commands from the repository
-
-3. Check file permissions:
+2. Reinstall the plugin:
    ```bash
-   chmod 644 ~/.claude/commands/*.md
+   /plugin uninstall pm-vibecode-ops
+   /plugin install github:bdouble/pm-vibecode-ops
    ```
+
+3. Restart Claude Code (exit and start a new session)
 
 ### "Not a git repository" Error
 
@@ -236,10 +237,12 @@ rm ~/Library/Application\ Support/Claude/claude_desktop_config.json  # Mac
 # or
 rm ~/.config/claude/claude_desktop_config.json  # Linux
 
-# Reinstall everything
+# Reinstall Claude Code
 npm install -g @anthropic-ai/claude-code
-mkdir -p ~/.claude/commands ~/.claude/agents
-# Then copy commands/agents from repository
+
+# Start Claude Code and reinstall the plugin
+claude
+/plugin install github:bdouble/pm-vibecode-ops
 ```
 
 ### Getting Help
@@ -275,11 +278,8 @@ echo $PERPLEXITY_API_KEY | head -c 10  # Shows first 10 chars
 # MCP status
 claude mcp list
 
-# Commands installed
-ls ~/.claude/commands/
-
-# Agents installed
-ls ~/.claude/agents/
+# Plugin status (in Claude Code session)
+/plugin list
 ```
 
 Copy-paste this output when asking for help.

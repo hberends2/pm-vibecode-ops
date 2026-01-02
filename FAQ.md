@@ -73,20 +73,31 @@ See [Setup Guide](docs/SETUP_GUIDE.md) which covers:
 
 ### How do I install the workflow commands?
 
-The workflow supports both **Claude Code** (slash commands + agents) and **OpenAI Codex** (platform-agnostic prompts).
+The workflow supports both **Claude Code** (plugin-based installation) and **OpenAI Codex** (platform-agnostic prompts).
 
-**For Claude Code (global installation)**:
+**For Claude Code (one-command installation)**:
 ```bash
-# Clone repository
-git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
-cd pm-vibecode-ops
+/plugin install github:bdouble/pm-vibecode-ops
+```
 
-# Create directories
-mkdir -p ~/.claude/commands ~/.claude/agents
+That's it! The plugin system automatically installs all commands, agents, skills, and hooks.
 
-# Copy commands and agents:
-cp commands/*.md ~/.claude/commands/
-cp agents/*.md ~/.claude/agents/
+**Alternative: Marketplace installation**:
+```bash
+# Add the marketplace first
+/plugin marketplace add bdouble/pm-vibecode-ops
+
+# Then install from marketplace
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
+```
+
+**Verify Claude Code installation**:
+```bash
+/plugin list
+# Should show: pm-vibecode-ops
+
+/help
+# Should show: /adaptation, /codereview, /discovery, etc.
 ```
 
 **For OpenAI Codex**:
@@ -106,7 +117,7 @@ codex
 Then clone and access prompts:
 ```bash
 # Clone repository
-git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
+git clone https://github.com/bdouble/pm-vibecode-ops.git
 
 # Use prompts directly from:
 ls pm-vibecode-ops/codex/prompts/
@@ -114,16 +125,6 @@ ls pm-vibecode-ops/codex/prompts/
 # Or copy to Codex directory:
 mkdir -p ~/.codex/prompts
 cp pm-vibecode-ops/codex/prompts/*.md ~/.codex/prompts/
-```
-
-**Verify installation**:
-```bash
-# For Claude Code
-ls ~/.claude/commands/
-# Should show: adaptation.md, codereview.md, discovery.md, etc.
-
-# For Codex
-ls ~/.codex/prompts/  # or pm-vibecode-ops/codex/prompts/
 ```
 
 See [Setup Guide](docs/SETUP_GUIDE.md) for detailed instructions.
@@ -148,19 +149,15 @@ See [MCP Setup Guide](docs/MCP_SETUP.md) for installation instructions.
 
 ### Global vs local installation - which should I use?
 
-| Installation | Location | Best For |
-|--------------|----------|----------|
-| **Global** | `~/.claude/` or `~/.codex/` | Using across multiple projects |
-| **Local** | `project/.claude/` | Project-specific customization |
+**For Claude Code users**: The plugin system handles installation automatically. Plugins are installed globally and work across all projects.
 
-**Our recommendation**: Start with global installation. It's simpler and works for most use cases.
+```bash
+/plugin install github:bdouble/pm-vibecode-ops
+```
 
-**When to use local**:
-- You want different command versions per project
-- Your team has project-specific customizations
-- You're committing the workflow to the project repo
+**For OpenAI Codex users**: Prompts can be referenced directly from the cloned repository, making them effectively "global" by default.
 
-**Note for Codex users**: Codex prompts can be referenced directly from the cloned repository without copying, making them effectively "global" by default.
+**Note**: If you need project-specific customizations, you can still use local installation by copying files to `project/.claude/`, but this is rarely needed.
 
 ---
 

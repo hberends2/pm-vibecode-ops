@@ -303,88 +303,73 @@ If Claude responds, you're ready!
 
 ## Installing the Workflow
 
-This workflow provides commands and agents for both Claude Code and OpenAI Codex. The installation process differs based on your chosen platform.
+This workflow is available as a Claude Code plugin for easy installation, plus platform-agnostic prompts for OpenAI Codex users.
 
 ### Platform Selection
 
 **For Claude Code users:**
-Commands and agents are installed from the `commands/` and `agents/` directories. Skills provide auto-activated quality enforcement from the `skills/` directory.
+Use the plugin system for one-command installation of all commands, agents, skills, and hooks.
 
 **For OpenAI Codex users:**
 | Type | Location | Notes |
 |------|----------|-------|
 | **Platform-Agnostic Prompts** | `codex/prompts/` | No agent references, works with any AI |
 
-### Understanding Global vs. Local Installation
-
-| Installation | Location | Best For |
-|--------------|----------|----------|
-| **Global** | `~/.claude/` or `~/.codex/` | Using workflow across multiple projects |
-| **Local** | `your-project/.claude/` | Keeping workflow specific to one project |
-
-**Recommendation**: Start with **global installation** for easier management.
-
 ## Claude Code Installation
 
-### Global Installation (Recommended)
+### One-Command Plugin Installation (Recommended)
 
-#### Step 1: Clone the Repository
-
-```bash
-# Go to a folder where you want to keep the source
-cd ~/Documents  # or wherever you prefer
-
-# Clone the repository
-git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
-cd pm-vibecode-ops
-```
-
-#### Step 2: Create Claude Config Directories
+Once Claude Code is installed and you've started a session, run:
 
 ```bash
-# Create the directories if they don't exist
-mkdir -p ~/.claude/commands
-mkdir -p ~/.claude/agents
+/plugin install github:bdouble/pm-vibecode-ops
 ```
 
-#### Step 3: Copy Commands and Agents
+That's it! The plugin system automatically installs:
+- **Commands** (`/adaptation`, `/implementation`, etc.) - Workflow phases you invoke
+- **Agents** - Specialized AI roles (architect, QA engineer, security engineer)
+- **Skills** - Auto-activated quality enforcement during development
+- **Hooks** - Session automation for workflow context
+
+### Alternative: Marketplace Installation
+
+If direct GitHub installation doesn't work, use the marketplace approach:
 
 ```bash
-# Copy commands and agents
-cp commands/*.md ~/.claude/commands/
-cp agents/*.md ~/.claude/agents/
+# Add the marketplace first
+/plugin marketplace add bdouble/pm-vibecode-ops
+
+# Then install from marketplace
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
 ```
 
-#### Step 4: Verify Installation
+### Verify Installation
 
 ```bash
-# List installed commands
-ls ~/.claude/commands/
-# You should see: adaptation.md, codereview.md, discovery.md, etc.
+# Type /help to see available commands
+/help
 
-# List installed agents
-ls ~/.claude/agents/
-# You should see: architect-agent.md, backend-engineer-agent.md, etc.
+# You should see workflow commands listed:
+# /adaptation, /codereview, /discovery, /documentation,
+# /epic-planning, /generate_service_inventory, /implementation,
+# /planning, /security_review, /testing
 ```
 
-### Local Installation (Project-Specific)
+**Note**: Skills don't appear in `/help`. They activate automatically based on what you're doing.
 
-If you prefer to keep the workflow within a specific project:
+### Plugin Management
 
 ```bash
-# Navigate to your project
-cd /path/to/your/project
+# Update the plugin
+/plugin marketplace update
 
-# Create local Claude directories
-mkdir -p .claude/commands
-mkdir -p .claude/agents
+# Reinstall if needed
+/plugin uninstall pm-vibecode-ops
+/plugin install github:bdouble/pm-vibecode-ops
 
-# Copy commands and agents
-cp /path/to/pm-vibecode-ops/commands/*.md .claude/commands/
-cp /path/to/pm-vibecode-ops/agents/*.md .claude/agents/
+# List installed plugins
+/plugin list
 ```
-
-**Note**: Local installation takes precedence over global installation for that project.
 
 ## OpenAI Codex Installation
 
@@ -393,7 +378,7 @@ cp /path/to/pm-vibecode-ops/agents/*.md .claude/agents/
 ```bash
 # Clone the repository
 cd ~/Documents
-git clone https://github.com/YOUR_ORG/pm-vibecode-ops.git
+git clone https://github.com/bdouble/pm-vibecode-ops.git
 
 # Reference prompts directly from the cloned repository
 # When using Codex, navigate to:
@@ -455,17 +440,9 @@ git --version
 # 4. Claude Code installed?
 claude --version
 # Expected: Version number
-
-# 5. Commands installed?
-ls ~/.claude/commands/ | head -5
-# Expected: List of .md files
-
-# 6. Agents installed?
-ls ~/.claude/agents/ | head -5
-# Expected: List of .md files
 ```
 
-### Test Claude Code
+### Test Claude Code and Plugin
 
 ```bash
 # Start Claude Code in a test directory
@@ -480,12 +457,19 @@ git init
 claude
 ```
 
-If you see the Claude Code prompt, type:
-```
-/help
-```
+If you see the Claude Code prompt:
 
-You should see available commands, including the ones you just installed.
+1. **Verify plugin is installed**:
+   ```
+   /plugin list
+   ```
+   You should see `pm-vibecode-ops` in the list.
+
+2. **Check available commands**:
+   ```
+   /help
+   ```
+   You should see workflow commands like `/discovery`, `/implementation`, `/testing`, etc.
 
 ### Clean Up Test Directory
 
@@ -600,18 +584,22 @@ export PATH=~/.npm-global/bin:$PATH
 
 ### Slash Commands Not Appearing
 
-**Problem**: Your custom commands don't show in `/help`
+**Problem**: Workflow commands don't show in `/help`
 
 **Solutions**:
-1. Verify files are in the correct location:
-```bash
-ls ~/.claude/commands/
-```
-2. Check file permissions:
-```bash
-chmod 644 ~/.claude/commands/*.md
-```
-3. Restart Claude Code
+1. Verify plugin is installed:
+   ```bash
+   /plugin list
+   ```
+   Should show `pm-vibecode-ops`
+
+2. Reinstall the plugin:
+   ```bash
+   /plugin uninstall pm-vibecode-ops
+   /plugin install github:bdouble/pm-vibecode-ops
+   ```
+
+3. Restart Claude Code (exit and start a new session)
 
 ### MCP Server Won't Connect
 
@@ -645,15 +633,20 @@ npm install -g @anthropic-ai/claude-code --prefix $env:APPDATA\npm
 
 Now that your setup is complete:
 
-1. **Set up MCP integrations** — See [MCP_SETUP.md](MCP_SETUP.md) for Linear, Perplexity, and other required integrations
+1. **Install the plugin** (if you haven't already):
+   ```bash
+   /plugin install github:bdouble/pm-vibecode-ops
+   ```
 
-2. **Read the PM Guide** — See [PM_GUIDE.md](../PM_GUIDE.md) to understand the workflow
+2. **Set up MCP integrations** — See [MCP_SETUP.md](MCP_SETUP.md) for Linear, Perplexity, and other required integrations
 
-3. **Important: Context Window Best Practice** — Run each workflow command in a fresh Claude Code session. After completing a command and reviewing its output, close Claude Code and start a new session for the next command. This prevents context overflow and ensures optimal performance. Each command creates persistent artifacts (tickets, code, PRs), so you won't lose progress.
+3. **Read the PM Guide** — See [PM_GUIDE.md](../PM_GUIDE.md) to understand the workflow
 
-4. **Try your first feature** — Follow the quick start in the PM Guide, remembering to start fresh sessions between commands
+4. **Important: Context Window Best Practice** — Run each workflow command in a fresh Claude Code session. After completing a command and reviewing its output, close Claude Code and start a new session for the next command. This prevents context overflow and ensures optimal performance. Each command creates persistent artifacts (tickets, code, PRs), so you won't lose progress.
 
-5. **Bookmark these resources**:
+5. **Try your first feature** — Follow the quick start in the PM Guide, remembering to start fresh sessions between commands
+
+6. **Bookmark these resources**:
    - [FAQ.md](../FAQ.md) — Common questions
    - [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — When things go wrong
    - [GLOSSARY.md](../GLOSSARY.md) — Technical terms explained

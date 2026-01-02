@@ -1,7 +1,7 @@
 # PM Vibe Code Operations
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
 
 ## What This Is
 
@@ -167,26 +167,32 @@ This workflow is designed for deep reasoning and comprehensive analysis. Opus 4.
 
 ### Installation
 
-**Quick install for Claude Code**:
+**One-command install for Claude Code**:
 ```bash
-git clone https://github.com/your-org/pm-vibecode-ops.git
-cd pm-vibecode-ops
-
-# Global installation (commands, agents, and skills)
-mkdir -p ~/.claude/commands ~/.claude/agents ~/.claude/skills
-cp commands/*.md ~/.claude/commands/
-cp agents/*.md ~/.claude/agents/
-cp -r skills/* ~/.claude/skills/
+/plugin install github:bdouble/pm-vibecode-ops
 ```
+
+That's it! The plugin system automatically installs all commands, agents, skills, and hooks.
 
 **What gets installed:**
 - **Commands** (`/adaptation`, `/implementation`, etc.) - Explicit workflow phases you invoke
 - **Agents** - Specialized AI roles (architect, QA engineer, security engineer)
-- **Skills** - Auto-activated quality enforcement during development ([details](https://code.claude.com/docs/en/skills))
+- **Skills** - Auto-activated quality enforcement during development
+- **Hooks** - Session automation for workflow context
 
-**Complete installation guide**: [docs/INSTALLATION.md](docs/INSTALLATION.md)
+**Alternative: Marketplace installation**:
+```bash
+# Add the marketplace first
+/plugin marketplace add bdouble/pm-vibecode-ops
+
+# Then install from marketplace
+/plugin install pm-vibecode-ops@bdouble/pm-vibecode-ops
+```
+
+**For OpenAI Codex users**: See [Codex Guide](codex/README.md) for platform-agnostic prompts.
+
+**MCP configuration** (Linear, Perplexity, etc.): [docs/MCP_SETUP.md](docs/MCP_SETUP.md)
 **First-time terminal users**: [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md)
-**MCP configuration**: [docs/MCP_SETUP.md](docs/MCP_SETUP.md)
 
 ### Your First Feature (2-4 Hours)
 

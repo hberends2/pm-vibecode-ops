@@ -86,7 +86,12 @@ Before starting, choose your AI platform and workflow mode:
 
 **Model Recommendation**: Use **Claude Opus 4.5** for this workflow. See [Model Recommendations](README.md#model-recommendations) for phase-specific guidance. Haiku 4.5 is not recommended.
 
-Commands and agents are installed from the `commands/` and `agents/` directories. Skills provide auto-activated quality enforcement.
+**One-command installation**:
+```bash
+/plugin install github:bdouble/pm-vibecode-ops
+```
+
+The plugin system automatically installs all commands, agents, skills, and hooks.
 
 ### For OpenAI Codex Users
 
@@ -116,6 +121,7 @@ This workflow enables you to:
 
 You need:
 - [ ] Claude Code installed ([installation guide](https://code.claude.com/docs/en/setup))
+- [ ] PM Workflow plugin installed: `/plugin install github:bdouble/pm-vibecode-ops`
 - [ ] Ticketing system with MCP integration ([Linear](https://linear.app) or [Jira](https://www.atlassian.com/software/jira))
 - [ ] Access to a codebase (or start a new project)
 - [ ] A feature idea to implement
@@ -305,7 +311,7 @@ You'll know you're successful when:
 ### Week 1
 - [ ] Read [PM_GUIDE.md](PM_GUIDE.md) completely
 - [ ] Review at least 2 case studies in [EXAMPLES.md](EXAMPLES.md)
-- [ ] Set up Claude Code and ticketing system MCP
+- [ ] Set up Claude Code, install plugin (`/plugin install github:bdouble/pm-vibecode-ops`), and configure MCP
 - [ ] Write first PRD using templates
 
 ### Month 1

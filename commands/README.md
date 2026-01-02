@@ -53,8 +53,17 @@ All progress is saved in tickets, PRs, and code—starting fresh sessions doesn'
 
 ## Installation
 
-To use these commands in Claude Code:
-1. Copy this `commands/` directory to your Claude Code commands location: `cp commands/*.md ~/.claude/commands/`
-2. Or symlink it: `ln -s /path/to/pm-vibecode-ops/commands ~/.claude/commands`
+**Plugin Installation (Recommended)**:
+```bash
+/plugin install github:bdouble/pm-vibecode-ops
+```
+
+This automatically installs all commands, agents, skills, and hooks.
+
+**Manual Installation (Alternative)**:
+```bash
+mkdir -p ~/.claude/commands
+cp commands/*.md ~/.claude/commands/
+```
 
 Commands will be available as `/command-name` in Claude Code.
