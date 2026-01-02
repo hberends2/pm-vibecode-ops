@@ -5,6 +5,58 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-01-02
+
+### Changed
+
+**Skill Descriptions Improved**
+
+All 9 skills have been updated with improved descriptions following plugin-dev best practices:
+
+- Descriptions now lead with purpose, not activation conditions
+- Use third-person voice consistently ("This skill enforces..." not "Activate when...")
+- Include specific trigger phrases in quotes for better auto-activation
+- Reduced verbosity (under 70 words each)
+- Removed redundant "Activation context" sections that duplicated frontmatter
+
+Skills updated:
+- `production-code-standards` - Enforces production-grade code quality
+- `service-reuse` - Prevents code duplication
+- `testing-philosophy` - Enforces accuracy-first testing
+- `mvd-documentation` - Enforces minimal viable documentation
+- `security-patterns` - Applies OWASP Top 10 patterns
+- `model-aware-behavior` - Optimizes Claude Code behavior
+- `using-pm-workflow` - Guides workflow phase navigation
+- `verification-before-completion` - Requires verification before task completion
+- `divergent-exploration` - Encourages exploring alternatives
+
+**Agent Model Selection**
+
+- `code-reviewer-agent`: Changed from `sonnet` to `opus` model for deeper code quality analysis
+
+### Added
+
+**Enhanced Hooks**
+
+Added two new prompt-based hooks to `hooks/hooks.json`:
+
+- **PreToolUse hook** (Write|Edit matcher): Reminds to follow production code standards before writing code
+- **Stop hook**: Reminds users to update Linear ticket status when session involved implementation work
+
+**Marketplace Metadata**
+
+Enhanced `.claude-plugin/marketplace.json` for better discoverability:
+
+- Added `tags`: pm, workflow, linear, planning, security, code-review, documentation, testing, epic-planning, tdd
+- Added `featuredCommand`: discovery
+- Added `highlights` describing key features:
+  - Complete PM-to-production workflow with 10 structured phases
+  - Linear integration for seamless ticket management
+  - Security review as final quality gate
+  - 9 auto-activating quality enforcement skills
+
+---
+
 ## [2.1.0] - 2026-01-02
 
 ### Added
@@ -573,6 +625,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.2.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.2.0
 [2.1.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.1.0
 [2.0.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.0.0
 [1.1.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v1.1.1
