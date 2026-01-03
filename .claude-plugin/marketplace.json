@@ -49,13 +49,6 @@
         "testing",
         "epic-planning",
         "tdd"
-      ],
-      "featuredCommand": "discovery",
-      "highlights": [
-        "Complete PM-to-production workflow with 10 structured phases",
-        "Linear integration for seamless ticket management and workflow automation",
-        "Security review as final quality gate before deployment",
-        "9 auto-activating quality enforcement skills ensuring production-ready code"
       ]
     }
   ]
