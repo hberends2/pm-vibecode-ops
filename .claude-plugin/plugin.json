@@ -1,5 +1,5 @@
 {
-  "name": "pm-vibecode-ops",
+  "name": "pm-vibecode-tools",
   "version": "2.3.0",
   "description": "Enables Product Managers and non-engineers to produce production-quality code through structured AI collaboration with Linear integration. Complete workflow from discovery through security review.",
   "author": {
@@ -15,7 +15,6 @@
     "workflow",
     "linear",
     "quality-enforcement",
-    "non-technical",
     "production-ready",
     "epics",
     "tickets",

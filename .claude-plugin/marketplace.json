@@ -1,6 +1,5 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "pm-vibecode-ops",
+  "name": "pm-vibecode-marketplace",
   "owner": {
     "name": "Brian Benitez",
     "email": "brian.f.benitez@gmail.com"
@@ -10,7 +9,7 @@
   },
   "plugins": [
     {
-      "name": "pm-vibecode-ops",
+      "name": "pm-vibecode-tools",
       "source": "./",
       "description": "AI-assisted Product Management workflow enabling non-engineers to produce production-quality code through structured AI collaboration with Linear integration",
       "version": "2.3.0",
