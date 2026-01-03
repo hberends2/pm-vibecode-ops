@@ -1,5 +1,5 @@
 {
-  "name": "pm-vibecode-marketplace",
+  "name": "pm-vibecode-ops",
   "owner": {
     "name": "Brian Benitez",
     "email": "brian.f.benitez@gmail.com"
@@ -9,7 +9,7 @@
   },
   "plugins": [
     {
-      "name": "pm-vibecode-tools",
+      "name": "pm-vibecode-ops",
       "source": "./",
       "description": "AI-assisted Product Management workflow enabling non-engineers to produce production-quality code through structured AI collaboration with Linear integration",
       "version": "2.3.0",
