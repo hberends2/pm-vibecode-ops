@@ -5,6 +5,26 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.2] - 2026-01-05
+
+### Fixed
+
+**Security Review Git Reference Bug**
+
+Fixed `origin/HEAD` reference error in `/security_review` command that occurred in repositories where `origin/HEAD` symbolic reference is not configured (e.g., locally initialized repos with manually added remotes).
+
+- **Commands updated**:
+  - `commands/security_review.md`: Dynamic default branch detection with fallback chain
+  - `codex/prompts/security_review.md`: Same fix for platform-agnostic version
+
+- **Fix details**:
+  - Uses `git symbolic-ref` first (fastest when available)
+  - Falls back to `git remote show origin` (works on any repo)
+  - Final fallback to `main` if detection fails
+  - Added graceful error handling with fallback to `HEAD~5` for diff/log commands
+
+---
+
 ## [2.3.1] - 2026-01-05
 
 ### Fixed
@@ -685,6 +705,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.3.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.3.2
 [2.3.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.3.1
 [2.3.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.3.0
 [2.2.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.2.0

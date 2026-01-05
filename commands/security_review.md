@@ -73,22 +73,27 @@ GIT STATUS:
 !`git status`
 ```
 
+DEFAULT BRANCH:
+```
+!`DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || git remote show origin 2>/dev/null | grep 'HEAD branch' | cut -d: -f2 | tr -d ' ' || echo 'main'); echo "Comparing against: origin/$DEFAULT_BRANCH"`
+```
+
 FILES MODIFIED:
 
 ```
-!`git diff --name-only origin/HEAD...`
+!`DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || git remote show origin 2>/dev/null | grep 'HEAD branch' | cut -d: -f2 | tr -d ' ' || echo 'main'); git diff --name-only origin/$DEFAULT_BRANCH...HEAD 2>/dev/null || git diff --name-only HEAD~5 2>/dev/null || echo "Unable to determine modified files - review manually"`
 ```
 
 COMMITS:
 
 ```
-!`git log --no-decorate origin/HEAD...`
+!`DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || git remote show origin 2>/dev/null | grep 'HEAD branch' | cut -d: -f2 | tr -d ' ' || echo 'main'); git log --no-decorate origin/$DEFAULT_BRANCH...HEAD 2>/dev/null || git log --no-decorate -10 2>/dev/null || echo "Unable to determine commits - review manually"`
 ```
 
 DIFF CONTENT:
 
 ```
-!`git diff --merge-base origin/HEAD`
+!`DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || git remote show origin 2>/dev/null | grep 'HEAD branch' | cut -d: -f2 | tr -d ' ' || echo 'main'); git diff origin/$DEFAULT_BRANCH...HEAD 2>/dev/null || git diff HEAD~5 2>/dev/null || echo "Unable to determine diff - review manually"`
 ```
 
 Review the complete diff above. This contains all code changes in the PR.
