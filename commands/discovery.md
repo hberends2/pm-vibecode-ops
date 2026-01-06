@@ -73,17 +73,10 @@ fi
 ```
 
 ### 2. Find Linear Project
-```bash
-# Find the project created by planning phase
-echo "Locating Linear project: $2"
-# Use mcp__linear-server__list_projects to find project by name
 
-# If project not found, check for standalone tickets
-if [ -z "$PROJECT_ID" ]; then
-    echo "No project found - checking for standalone tickets"
-    # Use mcp__linear-server__list_issues to find related tickets
-fi
-```
+**Use MCP tool:** `mcp__linear-server__list_projects` to find project by name.
+
+If project not found, check for standalone tickets using `mcp__linear-server__list_issues` to find related tickets.
 
 ### 3. Create Discovery Ticket
 Create a discovery ticket in the Linear project:

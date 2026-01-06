@@ -632,30 +632,25 @@ Your final reply must contain the detailed vulnerability report, confirmation of
 **Security review is the FINAL GATE of the ticket workflow. After this phase:**
 
 ### If Security Review PASSES (No Critical/High Issues):
-```bash
-# Add security review comment first (using template above)
-# Use mcp__linear-server__create_comment with detailed security report
 
-# THEN close the ticket - this is the END of the workflow
-# Use mcp__linear-server__update_issue to mark ticket as "Done"
-echo "Security review passed - marking ticket as Done"
+1. **Add security review comment** using template above:
+   - **Use MCP tool:** `mcp__linear-server__create_comment` with detailed security report
 
-# Example parameters for closing ticket:
-# issueId: $1 (the ticket ID)
-# state: "Done" or "Completed" (check Linear workspace state names)
-```
+2. **Close the ticket** - this is the END of the workflow:
+   - **Use MCP tool:** `mcp__linear-server__update_issue` to mark ticket as "Done"
+   - **Required parameters:**
+     - `issueId`: The ticket ID (from $1)
+     - `stateId`: "Done" or "Completed" state ID (check Linear workspace state names)
 
 ### If Security Review FAILS (Critical/High Issues Found):
-```bash
-# Add security review comment with issues (using template above)
-# Use mcp__linear-server__create_comment with detailed findings
 
-# KEEP ticket OPEN - do NOT close
-# Ticket should remain in current state until issues are fixed
-echo "Security review found critical issues - keeping ticket open"
+1. **Add security review comment** with issues (using template above):
+   - **Use MCP tool:** `mcp__linear-server__create_comment` with detailed findings
 
-# Add blocking label if available
-# Use mcp__linear-server__update_issue to add "security-blocked" label
-```
+2. **KEEP ticket OPEN** - do NOT close:
+   - Ticket should remain in current state until issues are fixed
+
+3. **Add blocking label** if available:
+   - **Use MCP tool:** `mcp__linear-server__update_issue` to add "security-blocked" label
 
 **IMPORTANT**: Security review is the ONLY phase that closes tickets. When all quality gates pass (code review, security review with no critical/high issues), the ticket is marked as "Done" and the workflow is complete.

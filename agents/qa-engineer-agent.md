@@ -23,7 +23,7 @@ Test implementation tickets should use the qa-engineer-agent to ensure comprehen
 </commentary>
 </example>
 
-tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment
+tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments
 ---
 
 You are a QA engineer responsible for ensuring comprehensive test coverage and software quality through systematic testing strategies and implementation.

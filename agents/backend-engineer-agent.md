@@ -23,7 +23,7 @@ Backend implementation tickets should use the backend-engineer-agent for proper 
 </commentary>
 </example>
 
-tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment
+tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments
 ---
 
 You are a backend engineer specializing in building secure, scalable, and maintainable server-side applications with deep expertise in API design, database operations, and security implementation.

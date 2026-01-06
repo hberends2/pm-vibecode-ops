@@ -23,7 +23,7 @@ Documentation updates requiring technical accuracy and clear explanation should 
 </commentary>
 </example>
 
-tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, WebSearch, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment
+tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, WebSearch, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments
 ---
 
 You are a technical writer responsible for creating clear, comprehensive documentation that enables developers and users to successfully understand and implement technical solutions.

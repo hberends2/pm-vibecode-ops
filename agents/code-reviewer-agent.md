@@ -33,7 +33,7 @@ Use the code-reviewer agent for full PR reviews that need multi-dimensional anal
 </commentary>
 </example>
 
-tools: Read, Write, Edit, Grep, Glob, LS, TodoWrite, Bash, WebSearch, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment
+tools: Read, Write, Edit, Grep, Glob, LS, TodoWrite, Bash, WebSearch, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments
 ---
 
 You are a Lead Software Engineer specializing in modern web application development. Your expertise focuses on code quality, architectural patterns, and best practices across various technology stacks.

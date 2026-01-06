@@ -1,6 +1,6 @@
 ---
 description: Technical decomposition of Linear epics into actionable implementation tickets with proper dependencies and technical specifications, using epic tickets as primary input with optional PRD, discovery report, and additional context.
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__get_project, mcp__linear-server__linear_get_milestones
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__get_project
 argument-hint: <epic-ids> [--prd <prd-file>] [--discovery <ticket-id-or-file>] [--context <additional-context>]
 workflow-phase: planning
 closes-ticket: false
@@ -121,16 +121,16 @@ done
 
 # Load epics from Linear
 if [[ "$EPIC_IDS" == PROJ-* ]]; then
-    echo "📊 Loading all epics from project: $EPIC_IDS"
-    # Use mcp__linear-server__get_project to retrieve project
-    # Use mcp__linear-server__list_issues to get all epics
+    echo "Loading all epics from project: $EPIC_IDS"
+    # MCP: mcp__linear-server__get_project - retrieve project
+    # MCP: mcp__linear-server__list_issues - get all epics in project
 else
-    echo "🎯 Loading specific epics: $EPIC_IDS"
+    echo "Loading specific epics: $EPIC_IDS"
     # Split comma-separated epic IDs and load each
     IFS=',' read -ra EPIC_ARRAY <<< "$EPIC_IDS"
     for epic_id in "${EPIC_ARRAY[@]}"; do
-        echo "  ✓ Loading epic: $epic_id"
-        # Use mcp__linear-server__get_issue to retrieve epic
+        echo "  Loading epic: $epic_id"
+        # MCP: mcp__linear-server__get_issue - retrieve each epic
     done
 fi
 
@@ -341,33 +341,37 @@ Based on all available context:
 
 #### Create Implementation Tickets as Sub-tickets
 **CRITICAL: All implementation tickets must be created as sub-tickets of the epic**
-```javascript
-// Create implementation tickets as children of epic
-const createSubTicket = async (epicId, ticketData) => {
-  return await mcp__linear-server__create_issue({
-    ...ticketData,
-    parentId: epicId,  // Links as sub-ticket to epic
-    projectId: epic.projectId,
-    labels: ['implementation', ticketData.type],
-    estimate: ticketData.hours,
-    stateId: 'backlog'
-  });
-};
 
-// Example: Creating backend sub-ticket
-await createSubTicket(epicId, {
-  title: 'Implement user authentication API endpoints',
-  description: '...',
-  type: 'backend',
-  hours: 4
-});
+**Use MCP tool:** `mcp__linear-server__create_issue` to create each implementation ticket.
+
+**Required parameters for sub-ticket creation:**
+- `title`: Technical implementation task title
+- `description`: Detailed implementation requirements
+- `parentId`: Parent epic ID (links as sub-ticket to epic)
+- `projectId`: Project ID from the parent epic
+- `labels`: Array including 'implementation' and ticket type (e.g., 'backend', 'frontend')
+- `estimate`: Estimated hours for the task
+- `stateId`: Initial state (typically 'backlog' or 'todo')
+
+**Example workflow:**
+1. **Get epic details:** Use `mcp__linear-server__get_issue` with the epic ID
+2. **Extract projectId** from the epic response
+3. **Create sub-ticket:** Use `mcp__linear-server__create_issue` with `parentId` set to epic ID
+
+**Example sub-ticket structure:**
+```markdown
+Title: Implement user authentication API endpoints
+Parent: [EPIC-ID]
+Labels: implementation, backend
+Estimate: 4 hours
+State: backlog
 ```
 
 #### Organize Sub-ticket Dependencies
 - Set blocking relationships between sub-tickets
 - Identify tickets that can proceed in parallel
 - Map critical path through implementation
-- Associate sub-tickets with project milestones
+- Document timeline considerations in ticket descriptions
 - Update epic with implementation summary
 
 ### 6. Service Inventory Check (If Available)

@@ -1,6 +1,6 @@
 ---
 description: Transform PRD and business requirements into capability-focused Linear epics that provide engineering teams with clear functional requirements and business context without prescribing technical implementation.
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__update_project, mcp__linear-server__get_project, mcp__linear-server__linear_get_milestones, mcp__linear-server__linear_create_milestone, mcp__linear-server__linear_update_milestone
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__update_project, mcp__linear-server__get_project
 argument-hint: [prd-file] [discovery-ticket-or-file] [business-context] [focus] (e.g., /epic-planning prd.md DISC-123 "Series A startup" "user engagement")
 workflow-phase: epic-creation
 closes-ticket: false
@@ -18,6 +18,20 @@ Before running:
 - [ ] Discovery phase completed (have discovery ticket ID)
 - [ ] PRD reviewed and ready
 
+## IMPORTANT: Linear MCP Integration
+**ALWAYS use Linear MCP tools for all Linear operations:**
+- **List teams**: Use `mcp__linear-server__list_teams` to identify target team
+- **List projects**: Use `mcp__linear-server__list_projects` to check for existing projects
+- **Create project**: Use `mcp__linear-server__create_project` for new initiatives
+- **Get project**: Use `mcp__linear-server__get_project` to retrieve project details
+- **Update project**: Use `mcp__linear-server__update_project` to update project description
+- **List issues**: Use `mcp__linear-server__list_issues` with `type:epic` filter to check for duplicates
+- **Get issue**: Use `mcp__linear-server__get_issue` to retrieve epic details
+- **Create issue**: Use `mcp__linear-server__create_issue` to create new epics
+- **Update issue**: Use `mcp__linear-server__update_issue` to set dependencies and labels
+- **Create comment**: Use `mcp__linear-server__create_comment` for supplementary details
+- **DO NOT**: Use GitHub CLI or direct Linear API calls - only use MCP tools
+
 Transform the Product Requirements Document at **$1** into comprehensive Linear epics.
 
 **CRITICAL**: This command implements strict duplicate prevention with multiple safeguards:
@@ -30,8 +44,7 @@ Transform the Product Requirements Document at **$1** into comprehensive Linear 
 
 **IMPORTANT**: Track these IDs throughout the process:
 - Existing Epic IDs (from Step 0)
-- Project ID (from Step 5)
-- Milestone IDs (from Step 5)
+- Project ID (from Step 4)
 - New Epic IDs (from Step 6)
 
 Follow these steps to create business-focused epics that provide clarity without prescribing implementation:
@@ -168,42 +181,23 @@ After approval, verify:
 
 If 4+ capabilities identified:
 
-1. **Create project** using `mcp__linear-server__create_project`:
-   ```
-   title: "[Initiative name from PRD]"
-   description: "[Initial business case summary from PRD]"
-   teamId: "[team-id from Step 1]"
-   status: "planned"
-   ```
-   **SAVE THE PROJECT ID** returned for use in next steps.
+**Use MCP tool:** `mcp__linear-server__create_project` to create the project.
 
-2. **Create project milestones** (NOT tickets) using `mcp__linear-server__linear_create_milestone`:
+**Required parameters:**
+- `title`: Initiative name from PRD
+- `description`: Initial business case summary from PRD
+- `teamId`: Team ID from Step 1
+- `status`: "planned"
 
-   **Phase 1 Milestone:**
-   ```
-   projectId: "[project-id from above]"
-   name: "Phase 1: Core Value"
-   description: "Foundational capabilities - basic problem solved"
-   targetDate: "[specific date 4 weeks from today]"
-   ```
+**SAVE THE PROJECT ID** returned for use in next steps.
 
-   **Phase 2 Milestone:**
-   ```
-   projectId: "[same project-id]"
-   name: "Phase 2: Enhanced Experience"
-   description: "Advanced features - delightful user experience"
-   targetDate: "[specific date 8 weeks from today]"
-   ```
+**Phase Organization:**
+Use labels to organize epics by phase instead of milestones:
+- `phase-1` - Core Value: Foundational capabilities (weeks 1-4)
+- `phase-2` - Enhanced Experience: Advanced features (weeks 5-8)
+- `phase-3` - Market Leadership: Differentiated capabilities (weeks 9-12)
 
-   **Phase 3 Milestone:**
-   ```
-   projectId: "[same project-id]"
-   name: "Phase 3: Market Leadership"
-   description: "Differentiated capabilities - competitive advantage"
-   targetDate: "[specific date 12 weeks from today]"
-   ```
-
-   **IMPORTANT**: Milestones are project metadata, not tickets. Save milestone IDs for epic assignment.
+Document target dates in the project description.
 
 ## Step 5: Initialize Creation Tracker
 
@@ -297,7 +291,6 @@ THEN [expected result]
 Set parameters:
 - teamId: "[from Step 1]"
 - projectId: "[from Step 4 - REQUIRED if project created]"
-- milestoneId: "[from Step 4 - assign to appropriate phase milestone]"
 - priority: 0-3 (0=urgent, 1=high, 2=normal, 3=low)
 - estimate: 1-21 (fibonacci: 1,2,3,5,8,13,21)
 - labels: ["epic", "phase-1" or "phase-2" or "phase-3", "capability", "capability-[slug]"]
@@ -357,11 +350,11 @@ After creating all epics successfully:
 
    ### Coverage Analysis
    - ✅ 100% of PRD requirements mapped to epics
-   - ✅ [X] epics created across [Y] milestones
+   - ✅ [X] epics created across [Y] phases
 
    ### Epic Portfolio
-   | Epic ID | Title | Business Value | Milestone |
-   |---------|-------|---------------|----------|
+   | Epic ID | Title | Business Value | Phase |
+   |---------|-------|---------------|-------|
    | [id] | [title] | [value] | Phase [1/2/3] |
 
    ### Risk Analysis
@@ -430,23 +423,16 @@ Run final checks:
    filter: "project:[project-id] AND type:epic"
    ```
 
-2. **Verify milestones exist:**
-   ```
-   mcp__linear-server__linear_get_milestones
-   projectId: "[project-id]"
-   ```
-   Confirm 3 milestones created with correct dates.
-
-3. **Verify project description contains report:**
+2. **Verify project description contains report:**
    ```
    mcp__linear-server__get_project
    projectId: "[project-id]"
    ```
    Confirm description includes BOTH original content AND appended report.
 
-4. **Validate coverage:**
+3. **Validate coverage:**
    - Every PRD requirement has corresponding epic
-   - All epics assigned to milestones
+   - All epics have phase labels assigned
    - No duplicate or overlapping capabilities
 
 ## Success Criteria

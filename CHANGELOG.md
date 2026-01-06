@@ -5,6 +5,27 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2026-01-05
+
+### Fixed
+
+**Linear MCP Tool Integration**
+
+Fixed issues with agents not properly using Linear MCP tools. Agents were looking for shell scripts/commands instead of invoking MCP tools directly.
+
+- **Agent frontmatter updated** (8 agents): Added missing Linear MCP tools to `tools:` field
+  - `architect-agent`: Added `mcp__linear-server__get_issue`, `mcp__linear-server__list_comments`, `mcp__linear-server__list_issues`
+  - All other agents: Added `mcp__linear-server__list_comments`
+  - `design-reviewer-agent`: Added full Linear MCP tool set
+
+- **Command syntax fixes**:
+  - `epic-planning.md`: Removed non-existent milestone MCP functions, switched to label-based phase tracking
+  - `planning.md`: Removed milestone functions, fixed JavaScript pseudocode to proper MCP tool instructions
+  - `discovery.md`, `security_review.md`: Changed shell-like comments to markdown format
+  - `epic-planning.md`: Added explicit "Using Linear MCP" section with proper tool invocation examples
+
+---
+
 ## [2.4.0] - 2026-01-05
 
 ### Changed
