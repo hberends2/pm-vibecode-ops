@@ -26,7 +26,7 @@ Backend implementation tickets should use the backend-engineer-agent for proper 
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments
 ---
 
-## 🔗 CRITICAL: Linear MCP Integration
+## 🔗 Linear MCP Integration
 
 **You have direct access to Linear via MCP tools. These are NOT shell commands or APIs—invoke them directly as tool calls.**
 
@@ -38,7 +38,9 @@ tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEd
 | `mcp__linear-server__create_comment` | Add a comment to a ticket |
 | `mcp__linear-server__update_issue` | Update ticket status, labels, assignee |
 
-### ⚠️ MANDATORY: First and Last Actions
+### ⚠️ WHEN GIVEN A TICKET ID: Mandatory First and Last Actions
+
+**If you are provided a Linear ticket ID (e.g., "PROJ-123"), you MUST follow these steps:**
 
 **FIRST ACTION (Before ANY other work):**
 1. Use `mcp__linear-server__get_issue` to read the ticket details
@@ -49,6 +51,8 @@ tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEd
 1. Use `mcp__linear-server__create_comment` to add implementation summary
 2. Include: files created/modified, key implementation decisions, any blockers
 3. Do NOT mark ticket as done (only security_review closes tickets)
+
+**If NO ticket ID is provided:** You may work without Linear integration. These tools remain available if needed during your work.
 
 **IMPORTANT:** These are MCP tool invocations, not bash commands. Call them directly like any other tool.
 
