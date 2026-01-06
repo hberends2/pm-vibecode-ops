@@ -12,28 +12,78 @@ workflow-sequence: "code-review → **security-review** (FINAL GATE - closes tic
 **You MUST use the Task tool to invoke the `security-engineer-agent` for this phase.**
 
 ### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
-**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
-1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
-2. Use `mcp__linear-server__list_comments` to get complete history (all phases!)
-3. Extract: what was built, security-relevant changes, test results, code review findings
 
-### Step 2: Agent Invocation
-1. Use the Task tool with the `security-engineer-agent`
-2. In your prompt to the agent, include:
-   - The ticket ID
-   - The ticket title and description (from your pre-fetch)
-   - Full implementation history (from comments)
-   - Code review findings (from comments)
-   - Git diff summary (for security-relevant changes)
-3. Let the agent perform the actual security vulnerability assessment
+**As the orchestrator, YOU must gather ALL context before spawning the agent:**
 
-### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
-1. Use `mcp__linear-server__list_comments` to verify agent added security review summary
-2. If no completion comment exists, report this to the user
-3. Verify ticket status: should be "Done" if passed, "In Progress" if failed
-4. Summarize: vulnerabilities found, severity, ticket closure status
+1. **Fetch ticket details**: Use `mcp__linear-server__get_issue` with ticket ID
+2. **Fetch all comments**: Use `mcp__linear-server__list_comments` to get complete history
+3. **Extract and prepare the following for the agent prompt:**
+   - Ticket ID, title, and full description
+   - All phase reports (adaptation, implementation, testing, documentation, code review)
+   - Security concerns logged during code review (CRITICAL - these need verification)
+   - Any security requirements mentioned in ticket
+4. **Get git context**: Run `git diff`, `git log` for changes to assess
+5. **Get security-specific info**: Any authentication, authorization, data handling changes
 
-DO NOT attempt to perform security review directly. The specialized security-engineer-agent handles this phase.
+**IMPORTANT**: The agent does NOT have access to Linear. You must include ALL relevant context in the prompt.
+
+### Step 2: Agent Invocation (Provide Full Context)
+
+Use the Task tool to invoke the `security-engineer-agent` with ALL context embedded:
+
+**Your prompt to the agent MUST include:**
+- The ticket ID for reference
+- The full ticket title and description (copy the text)
+- All phase reports (especially code review security concerns!)
+- Git diff summary (security-relevant code changes)
+- Security requirements from ticket
+
+**Example prompt structure:**
+```
+## Ticket Context
+**ID**: [ticket-id]
+**Title**: [title from get_issue]
+**Description**:
+[full description text from get_issue]
+
+## Phase Reports Summary
+### Implementation Summary
+[key points about what was built]
+
+### Code Review Security Concerns (INVESTIGATE THESE)
+[paste security concerns logged during code review - these are priority items]
+
+## Security-Relevant Changes
+**Files with auth/security implications**:
+[list from git diff --name-only filtered for auth, security, validation, etc.]
+
+**Git Diff Summary**:
+[summary of security-relevant code changes]
+
+## Your Task
+Perform security vulnerability assessment for this ticket following OWASP Top 10. Focus especially on concerns logged during code review. Return a structured security report when complete, including:
+- Vulnerabilities found (with severity)
+- Fixes implemented
+- Approval status (APPROVED if no critical/high issues)
+```
+
+**CRITICAL**: Do NOT tell the agent to "fetch the ticket" - the agent cannot access Linear.
+
+### Step 3: Post-Agent Completion (YOU Write to Linear and Close Ticket)
+
+After the agent returns its report:
+
+1. **Parse the agent's report** - Extract vulnerabilities found, severity levels, fixes made
+2. **Write the completion comment** - Use `mcp__linear-server__create_comment` with the structured security report
+3. **Determine ticket outcome**:
+   - **If APPROVED (no critical/high issues)**: Use `mcp__linear-server__update_issue` to mark ticket as "Done"
+   - **If BLOCKED (critical/high issues remain)**: Keep ticket "In Progress", add security-blocked label
+4. **Verify success** - Confirm the comment was added and status is correct
+5. **Report to user** - Summarize security findings, ticket closure status
+
+**YOU are responsible for the Linear comment AND ticket closure, not the agent.**
+
+DO NOT attempt to perform security review directly. The specialized security-engineer-agent handles the vulnerability assessment.
 
 ---
 
@@ -72,30 +122,32 @@ Before running:
 - [ ] All tests passing
 - [ ] Code committed to feature branch
 
-## IMPORTANT: Linear MCP Integration
-**ALWAYS use Linear MCP tools for ticket operations:**
-- **Fetch ticket**: Use `mcp__linear-server__get_issue` with ticket ID
-- **Update status**: Use `mcp__linear-server__update_issue` to set status
-- **Add comments**: Use `mcp__linear-server__create_comment` for updates
-- **List comments**: Use `mcp__linear-server__list_comments` to read existing comments
-- **DO NOT**: Use GitHub CLI or direct Linear API calls - only use MCP tools
+## IMPORTANT: Linear MCP Integration (Orchestrator Responsibility)
+
+**The orchestrator (YOU) handles ALL Linear MCP operations. The agent does NOT have access to Linear.**
+
+**Tools you will use:**
+- **Fetch ticket**: `mcp__linear-server__get_issue` - YOU fetch before agent invocation
+- **Fetch comments**: `mcp__linear-server__list_comments` - YOU fetch before agent invocation (all phase reports + security concerns!)
+- **Add comments**: `mcp__linear-server__create_comment` - YOU write after agent returns
+- **Update status**: `mcp__linear-server__update_issue` - YOU update after agent returns (CLOSE TICKET if approved!)
 
 You are a senior security engineer conducting a focused security review of the changes on this branch for ticket **$1**.
 
-## CRITICAL: Linear Ticket and Comments Retrieval
+## 🚨 CRITICAL: Orchestrator-Agent Responsibility Split
 
-**BEFORE ANY OTHER WORK**, retrieve the Linear ticket details AND all comments:
-1. Use `mcp__linear-server__get_issue` with ticket ID $1 to get full ticket details  
-2. Use `mcp__linear-server__list_comments` with ticket ID $1 to get ALL comments
-3. Analyze both the ticket body AND comments for:
-   - Security requirements or constraints mentioned
-   - Sensitive data handling requirements
-   - Authentication/authorization specifications
-   - Compliance requirements (GDPR, SOC2, etc.)
-   - Previous security concerns raised
-   - Any security-related decisions or guidelines
+**ORCHESTRATOR (YOU) is responsible for:**
+- Fetching ticket details and ALL comments BEFORE invoking agent
+- Finding and extracting all phase reports (especially code review security concerns!)
+- Embedding ALL context into the agent prompt
+- Writing the security review report to Linear AFTER agent completes
+- **CLOSING THE TICKET** if security review passes (this is the ONLY phase that closes tickets!)
 
-**Wait for the Linear MCP responses before proceeding with security review.**
+**AGENT (security-engineer-agent) is responsible for:**
+- Analyzing code for vulnerabilities (from context you provide)
+- Validating security concerns from code review
+- Running vulnerability assessment
+- Returning a structured security report with approval/rejection
 
 GIT STATUS:
 

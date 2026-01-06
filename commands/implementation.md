@@ -17,28 +17,72 @@ Based on the type of work required:
 - **Full-stack work**: Invoke both agents as needed for their respective domains
 
 ### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
-**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
-1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
-2. Use `mcp__linear-server__list_comments` to get all existing comments (especially the adaptation report!)
-3. Determine if work is backend, frontend, or full-stack
-4. Extract: title, description, adaptation guidance, acceptance criteria
 
-### Step 2: Agent Invocation
-1. Use the Task tool with the appropriate engineer agent(s)
-2. In your prompt to the agent, include:
-   - The ticket ID
-   - The ticket title and description (from your pre-fetch)
-   - The adaptation report content (from comments)
-   - Key acceptance criteria
-   - Any implementation guidance
-3. Let the agent perform the actual code implementation
+**As the orchestrator, YOU must gather ALL context before spawning the agent:**
 
-### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
-1. Use `mcp__linear-server__list_comments` to verify agent added implementation summary
-2. If no completion comment exists, report this to the user
-3. Summarize what the agent accomplished (files created, key changes)
+1. **Fetch ticket details**: Use `mcp__linear-server__get_issue` with ticket ID
+2. **Fetch all comments**: Use `mcp__linear-server__list_comments` to get complete history
+3. **Extract and prepare the following for the agent prompt:**
+   - Ticket ID, title, and full description
+   - The adaptation report (CRITICAL - this is the implementation guide!)
+   - Acceptance criteria and requirements
+   - Any blockers or issues mentioned
+4. **Determine work type**: Backend, frontend, or full-stack based on adaptation report
+5. **Get git context**: Run `git status` and `git branch --show-current`
 
-DO NOT attempt to write implementation code directly. The specialized engineer agents handle this phase.
+**IMPORTANT**: The agent does NOT have access to Linear. You must include ALL relevant context in the prompt.
+
+### Step 2: Agent Invocation (Provide Full Context)
+
+Use the Task tool to invoke the appropriate engineer agent with ALL context embedded:
+
+**Your prompt to the agent MUST include:**
+- The ticket ID for reference
+- The full ticket title and description (copy the text)
+- The complete adaptation report (copy from comments - this is critical!)
+- Git status and current branch information
+- Any service reuse mandates from adaptation
+
+**Example prompt structure:**
+```
+## Ticket Context
+**ID**: [ticket-id]
+**Title**: [title from get_issue]
+**Description**:
+[full description text from get_issue]
+
+## Adaptation Report (Implementation Guide)
+[paste the full adaptation report from list_comments]
+
+## Service Reuse Mandates
+[list any services that MUST be reused from adaptation report]
+
+## Current State
+**Branch**: [current branch name]
+**Git Status**: [clean/uncommitted changes]
+
+## Your Task
+Implement the functionality for this ticket following the adaptation guide. Return a structured implementation report when complete, including:
+- Files created/modified
+- Services reused
+- Implementation decisions made
+```
+
+**CRITICAL**: Do NOT tell the agent to "fetch the ticket" or "read comments" - the agent cannot access Linear.
+
+### Step 3: Post-Agent Completion (YOU Write to Linear)
+
+After the agent returns its report:
+
+1. **Parse the agent's report** - Extract files changed, services used, implementation details
+2. **Write the completion comment** - Use `mcp__linear-server__create_comment` with the structured implementation report
+3. **Update ticket status if needed** - Use `mcp__linear-server__update_issue` (keep as "In Progress")
+4. **Verify success** - Confirm the comment was added
+5. **Report to user** - Summarize what was completed (files, PR if created, next steps)
+
+**YOU are responsible for the Linear comment, not the agent.**
+
+DO NOT attempt to write implementation code directly. The specialized engineer agents handle the coding.
 
 ---
 
@@ -77,39 +121,40 @@ Before running:
 - [ ] Git repository initialized
 - [ ] Working directory is clean (`git status` shows no uncommitted changes)
 
-## IMPORTANT: Linear MCP Integration
-**ALWAYS use Linear MCP tools for ticket operations:**
-- **Fetch ticket**: Use `mcp__linear-server__get_issue` with ticket ID
-- **Update status**: Use `mcp__linear-server__update_issue` to set status
-- **Add comments**: Use `mcp__linear-server__create_comment` for updates
-- **List comments**: Use `mcp__linear-server__list_comments` to read existing comments
-- **DO NOT**: Use GitHub CLI or direct Linear API calls - only use MCP tools
+## IMPORTANT: Linear MCP Integration (Orchestrator Responsibility)
+
+**The orchestrator (YOU) handles ALL Linear MCP operations. The agent does NOT have access to Linear.**
+
+**Tools you will use:**
+- **Fetch ticket**: `mcp__linear-server__get_issue` - YOU fetch before agent invocation
+- **Fetch comments**: `mcp__linear-server__list_comments` - YOU fetch before agent invocation (adaptation report is here!)
+- **Add comments**: `mcp__linear-server__create_comment` - YOU write after agent returns
+- **Update status**: `mcp__linear-server__update_issue` - YOU update after agent returns
 
 Execute the actual code implementation for ticket **$1** based on the adaptation guide from the previous phase.
 
 Adaptation guide: **$2** (implementation instructions)
 
-## CRITICAL: Linear Ticket and Comments Retrieval
+## 🚨 CRITICAL: Orchestrator-Agent Responsibility Split
 
-**BEFORE ANY OTHER WORK**, retrieve the Linear ticket details AND all comments:
-1. Use `mcp__linear-server__get_issue` with ticket ID $1 to get full ticket details
-2. Use `mcp__linear-server__list_comments` with ticket ID $1 to get ALL comments
-3. Analyze both the ticket body AND comments for:
-   - Updated requirements or clarifications
-   - Implementation hints or constraints
-   - Priority changes or scope adjustments
-   - Technical decisions made during planning
-   - Any blocking issues or dependencies mentioned
+**ORCHESTRATOR (YOU) is responsible for:**
+- Fetching ticket details and ALL comments BEFORE invoking agent
+- Finding and extracting the adaptation report from comments
+- Embedding ALL context (ticket + adaptation report) into the agent prompt
+- Writing the implementation report to Linear AFTER agent completes
+- Managing PR creation and Linear status updates
 
-**Wait for the Linear MCP responses before proceeding with implementation.**
+**AGENT (backend/frontend-engineer-agent) is responsible for:**
+- Reading the implementation guide (from context you provide)
+- Writing production-ready code following patterns
+- Verifying service reuse compliance
+- Returning a structured implementation report
 
 **CRITICAL SCOPE BOUNDARIES**:
-- Implement ONLY what is required to fulfill the ticket requirements (including any updates from comments)
+- Implement ONLY what is required to fulfill the ticket requirements
 - Do NOT implement test code (testing phase handles this)
 - Do NOT fix unrelated linting or type errors outside of ticket scope
-- Stay strictly within the boundaries defined by the Linear ticket and its comments
-
-**You MUST invoke the assigned specialist agent via the Task tool** (`backend-engineer-agent` for backend work, `frontend-engineer-agent` for frontend work) to implement code following the established patterns and guidelines.
+- Stay strictly within the boundaries defined by the ticket and adaptation report
 
 ## Branch Management
 

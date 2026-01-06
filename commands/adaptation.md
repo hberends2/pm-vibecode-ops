@@ -12,27 +12,63 @@ workflow-sequence: "**adaptation** → implementation → testing → documentat
 **You MUST use the Task tool to invoke the `architect-agent` for this phase.**
 
 ### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
-**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
-1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
-2. Use `mcp__linear-server__list_comments` to get all existing comments
-3. Extract: title, description, acceptance criteria, any prior context
 
-### Step 2: Agent Invocation
-1. Use the Task tool with the `architect-agent`
-2. In your prompt to the agent, include:
-   - The ticket ID
-   - The ticket title and description (from your pre-fetch)
-   - Key acceptance criteria
-   - Discovery source (if provided)
-   - Any additional context
-3. Let the agent perform the actual adaptation analysis
+**As the orchestrator, YOU must gather ALL context before spawning the agent:**
 
-### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
-1. Use `mcp__linear-server__list_comments` to verify agent added completion comment
-2. If no completion comment exists, report this to the user
-3. Summarize what the agent accomplished
+1. **Fetch ticket details**: Use `mcp__linear-server__get_issue` with ticket ID
+2. **Fetch all comments**: Use `mcp__linear-server__list_comments` to get complete history
+3. **Extract and prepare the following for the agent prompt:**
+   - Ticket ID, title, and full description
+   - All previous phase reports (from comments)
+   - Acceptance criteria and requirements
+   - Any blockers or issues mentioned
+   - Discovery source (if provided as argument)
 
-DO NOT attempt to perform adaptation work directly. The specialized architect-agent handles this phase.
+**IMPORTANT**: The agent does NOT have access to Linear. You must include ALL relevant context in the prompt.
+
+### Step 2: Agent Invocation (Provide Full Context)
+
+Use the Task tool to invoke the `architect-agent` with ALL context embedded:
+
+**Your prompt to the agent MUST include:**
+- The ticket ID for reference
+- The full ticket title and description (copy the text)
+- All relevant comments/reports from previous phases (copy the text)
+- Discovery source information (from arguments)
+
+**Example prompt structure:**
+```
+## Ticket Context
+**ID**: [ticket-id]
+**Title**: [title from get_issue]
+**Description**:
+[full description text from get_issue]
+
+## Discovery Source
+[discovery ticket/file if provided, otherwise "none - perform discovery as needed"]
+
+## Additional Context
+[any additional context from arguments]
+
+## Your Task
+Perform adaptation analysis for this ticket. Create an implementation guide that maps requirements to existing codebase patterns. Return a structured adaptation report when complete.
+```
+
+**CRITICAL**: Do NOT tell the agent to "fetch the ticket" - the agent cannot access Linear.
+
+### Step 3: Post-Agent Completion (YOU Write to Linear)
+
+After the agent returns its report:
+
+1. **Parse the agent's report** - Extract adaptation results, implementation guide, service reuse analysis
+2. **Write the completion comment** - Use `mcp__linear-server__create_comment` with the structured adaptation report
+3. **Update ticket status** - Use `mcp__linear-server__update_issue` to mark as "In Progress" (do NOT mark as Done)
+4. **Verify success** - Confirm the comment was added
+5. **Report to user** - Summarize what was completed, including branch strategy and next steps
+
+**YOU are responsible for the Linear comment, not the agent.**
+
+DO NOT attempt to perform adaptation work directly. The specialized architect-agent handles the analysis.
 
 ---
 
@@ -74,13 +110,15 @@ You are acting as the **Architect** for this ticket. Focus on analysis, planning
 
 ---
 
-## IMPORTANT: Linear MCP Integration
-**ALWAYS use Linear MCP tools for ticket operations:**
-- **Fetch ticket**: Use `mcp__linear-server__get_issue` with ticket ID
-- **Update status**: Use `mcp__linear-server__update_issue` to set status
-- **Add comments**: Use `mcp__linear-server__create_comment` for updates
-- **List comments**: Use `mcp__linear-server__list_comments` to read existing comments
-- **DO NOT**: Use GitHub CLI or direct Linear API calls - only use MCP tools
+## IMPORTANT: Linear MCP Integration (Orchestrator Responsibility)
+
+**The orchestrator (YOU) handles ALL Linear MCP operations. The agent does NOT have access to Linear.**
+
+**Tools you will use:**
+- **Fetch ticket**: `mcp__linear-server__get_issue` - YOU fetch before agent invocation
+- **Fetch comments**: `mcp__linear-server__list_comments` - YOU fetch before agent invocation
+- **Add comments**: `mcp__linear-server__create_comment` - YOU write after agent returns
+- **Update status**: `mcp__linear-server__update_issue` - YOU update after agent returns
 
 Take Linear issue **$1** and adapt all requirements to existing codebase patterns, creating a precise implementation guide.
 
@@ -88,23 +126,30 @@ Discovery source: ${2:-"none - will perform discovery as needed"} (can be a Line
 
 Additional information may be provided to guide the adaptation work in **$3**
 
-**You MUST invoke the `architect-agent` via the Task tool** to perform comprehensive analysis and adaptation, including discovery if no discovery report is provided.
+## 🚨 CRITICAL: Orchestrator-Agent Responsibility Split
 
-## 🚨 CRITICAL: Architect Agent Context
+**ORCHESTRATOR (YOU) is responsible for:**
+- Fetching ticket details and comments BEFORE invoking agent
+- Embedding ALL context into the agent prompt
+- Writing the adaptation report to Linear AFTER agent completes
+- Updating ticket status AFTER agent completes
+- Managing branch creation if needed
 
-When invoking the **architect-agent**, provide this explicit context:
+**AGENT (architect-agent) is responsible for:**
+- Analyzing the ticket requirements (from context you provide)
+- Discovering codebase patterns and services
+- Creating the implementation guide
+- Returning a structured adaptation report
 
 **ADAPTATION MODE - DEFAULT BEHAVIOR:**
-- You are adapting an EXISTING Linear ticket (ID: $1)
-- Your PRIMARY output is a COMMENT on that ticket using `mcp__linear-server__create_comment`
-- DO NOT create new tickets UNLESS explicitly in Large Ticket Decomposition scenario
+- The agent adapts an EXISTING Linear ticket (ID: $1)
+- The agent returns a report; YOU write it to Linear
+- DO NOT instruct the agent to write to Linear
 
-**Large Ticket Decomposition (RARE - See lines 64-84):**
+**Large Ticket Decomposition (RARE):**
 - ONLY if ALL decomposition conditions are met (≥4 areas, >2 days each, >1 sprint total)
-- In this case, create subtickets with proper parent relationships
-- Otherwise, DEFAULT to commenting on the existing ticket
-
-**NEVER:** Create new standalone tickets during adaptation - this duplicates the ticket unnecessarily.
+- In this case, the orchestrator creates subtickets with proper parent relationships
+- Otherwise, DEFAULT to single ticket adaptation
 
 ## 📝 CRITICAL DOCUMENTATION APPROACH
 **PRIMARY OUTPUT**: All adaptation guidance must be documented DIRECTLY in the Linear ticket comment.

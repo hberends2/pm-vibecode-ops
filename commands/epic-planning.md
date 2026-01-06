@@ -1,6 +1,6 @@
 ---
 description: Transform PRD and business requirements into capability-focused Linear epics that provide engineering teams with clear functional requirements and business context without prescribing technical implementation.
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__update_project, mcp__linear-server__get_project
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__update_project, mcp__linear-server__get_project
 argument-hint: [prd-file] [discovery-ticket-or-file] [business-context] [focus] (e.g., /epic-planning prd.md DISC-123 "Series A startup" "user engagement")
 workflow-phase: epic-creation
 closes-ticket: false

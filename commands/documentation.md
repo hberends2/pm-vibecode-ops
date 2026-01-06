@@ -12,25 +12,71 @@ workflow-sequence: "testing → **documentation** → code-review → security-r
 **You MUST use the Task tool to invoke the `technical-writer-agent` for this phase.**
 
 ### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
-**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
-1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
-2. Use `mcp__linear-server__list_comments` to get all existing comments (adaptation, implementation, testing!)
-3. Extract: what was built, API changes, test results, documentation requirements
 
-### Step 2: Agent Invocation
-1. Use the Task tool with the `technical-writer-agent`
-2. In your prompt to the agent, include:
-   - The ticket ID
-   - The ticket title and description (from your pre-fetch)
-   - Implementation summary (from comments)
-   - What was tested (from comments)
-   - Doc types and format (if specified)
-3. Let the agent perform the actual documentation creation
+**As the orchestrator, YOU must gather ALL context before spawning the agent:**
 
-### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
-1. Use `mcp__linear-server__list_comments` to verify agent added documentation summary
-2. If no completion comment exists, report this to the user
-3. Summarize: documentation created, inline docs added, any gaps noted
+1. **Fetch ticket details**: Use `mcp__linear-server__get_issue` with ticket ID
+2. **Fetch all comments**: Use `mcp__linear-server__list_comments` to get complete history
+3. **Extract and prepare the following for the agent prompt:**
+   - Ticket ID, title, and full description
+   - The adaptation report (architecture decisions)
+   - The implementation report (what was built, files changed)
+   - The testing report (test coverage, behaviors validated)
+   - Any documentation requirements mentioned
+4. **Get git context**: List of files changed for documentation scope
+
+**IMPORTANT**: The agent does NOT have access to Linear. You must include ALL relevant context in the prompt.
+
+### Step 2: Agent Invocation (Provide Full Context)
+
+Use the Task tool to invoke the `technical-writer-agent` with ALL context embedded:
+
+**Your prompt to the agent MUST include:**
+- The ticket ID for reference
+- The full ticket title and description (copy the text)
+- Implementation summary (what was built)
+- Testing summary (what was validated)
+- Doc types and format (from arguments)
+
+**Example prompt structure:**
+```
+## Ticket Context
+**ID**: [ticket-id]
+**Title**: [title from get_issue]
+**Description**:
+[full description text from get_issue]
+
+## Implementation Summary
+[paste the implementation report from list_comments]
+
+## Testing Summary
+[paste the testing report from list_comments]
+
+## Documentation Requirements
+**Doc Types**: [from $2 argument or default "essential"]
+**Format**: [from $3 argument or default "markdown"]
+**Update Strategy**: [from $4 argument or default "minimal"]
+
+## Your Task
+Create minimal viable documentation (MVD) for this ticket following the "document why, not what" philosophy. Return a structured documentation report when complete, including:
+- Documentation created/updated
+- JSDoc coverage
+- Any gaps noted
+```
+
+**CRITICAL**: Do NOT tell the agent to "fetch the ticket" - the agent cannot access Linear.
+
+### Step 3: Post-Agent Completion (YOU Write to Linear)
+
+After the agent returns its report:
+
+1. **Parse the agent's report** - Extract documentation created, JSDoc coverage, gaps noted
+2. **Write the completion comment** - Use `mcp__linear-server__create_comment` with the structured documentation report
+3. **Update ticket status if needed** - Use `mcp__linear-server__update_issue` (keep as "In Progress")
+4. **Verify success** - Confirm the comment was added
+5. **Report to user** - Summarize documentation created, next steps (code review)
+
+**YOU are responsible for the Linear comment, not the agent.**
 
 DO NOT attempt to write documentation directly. The specialized technical-writer-agent handles this phase.
 
@@ -66,35 +112,37 @@ You are acting as a **Technical Writer** responsible for creating clear, accurat
 
 ---
 
-## IMPORTANT: Linear MCP Integration
-**ALWAYS use Linear MCP tools for ticket operations:**
-- **Fetch ticket**: Use `mcp__linear-server__get_issue` with ticket ID
-- **Update status**: Use `mcp__linear-server__update_issue` to set status
-- **Add comments**: Use `mcp__linear-server__create_comment` for updates
-- **List comments**: Use `mcp__linear-server__list_comments` to read existing comments
-- **DO NOT**: Use GitHub CLI or direct Linear API calls - only use MCP tools
+## IMPORTANT: Linear MCP Integration (Orchestrator Responsibility)
+
+**The orchestrator (YOU) handles ALL Linear MCP operations. The agent does NOT have access to Linear.**
+
+**Tools you will use:**
+- **Fetch ticket**: `mcp__linear-server__get_issue` - YOU fetch before agent invocation
+- **Fetch comments**: `mcp__linear-server__list_comments` - YOU fetch before agent invocation (all phase reports are here!)
+- **Add comments**: `mcp__linear-server__create_comment` - YOU write after agent returns
+- **Update status**: `mcp__linear-server__update_issue` - YOU update after agent returns
 
 Create **minimal viable documentation (MVD)** for ticket **$1** focusing on **essential information only**, avoiding over-documentation and redundancy.
 
 Doc types: ${2:-"essential"}
-Output format: ${3:-"markdown"}  
+Output format: ${3:-"markdown"}
 Update strategy: ${4:-"minimal"}
 Documentation approach: ${5:-"pragmatic"}
 
-## CRITICAL: Linear Ticket and Comments Retrieval
+## 🚨 CRITICAL: Orchestrator-Agent Responsibility Split
 
-**BEFORE ANY OTHER WORK**, retrieve the Linear ticket details AND all comments:
-1. Use `mcp__linear-server__get_issue` with ticket ID $1 to get full ticket details
-2. Use `mcp__linear-server__list_comments` with ticket ID $1 to get ALL comments
-3. Analyze both the ticket body AND comments for:
-   - Documentation requirements or expectations
-   - User stories that need documentation
-   - API contracts requiring documentation
-   - Architecture decisions needing explanation
-   - Known pain points requiring guides
-   - Previous documentation feedback or requests
+**ORCHESTRATOR (YOU) is responsible for:**
+- Fetching ticket details and ALL comments BEFORE invoking agent
+- Finding and extracting all phase reports (adaptation, implementation, testing)
+- Embedding ALL context into the agent prompt
+- Writing the documentation report to Linear AFTER agent completes
+- Managing PR updates and Linear status
 
-**Wait for the Linear MCP responses before proceeding with documentation.**
+**AGENT (technical-writer-agent) is responsible for:**
+- Analyzing what needs documentation (from context you provide)
+- Creating MVD following "document why, not what" philosophy
+- Adding JSDoc where appropriate
+- Returning a structured documentation report
 
 **You MUST invoke the `technical-writer-agent` via the Task tool** to create **minimal viable documentation (MVD)**: focused, essential docs that provide value without redundancy or over-documentation.
 

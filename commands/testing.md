@@ -12,27 +12,74 @@ workflow-sequence: "implementation → **testing** → documentation → code-re
 **You MUST use the Task tool to invoke the `qa-engineer-agent` for this phase.**
 
 ### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
-**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
-1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
-2. Use `mcp__linear-server__list_comments` to get all existing comments (adaptation + implementation!)
-3. Extract: what was implemented, files changed, test requirements from adaptation
 
-### Step 2: Agent Invocation
-1. Use the Task tool with the `qa-engineer-agent`
-2. In your prompt to the agent, include:
-   - The ticket ID
-   - The ticket title and description (from your pre-fetch)
-   - Implementation summary (from comments)
-   - Test requirements from adaptation
-   - Coverage target (if specified)
-3. Let the agent perform the actual test creation
+**As the orchestrator, YOU must gather ALL context before spawning the agent:**
 
-### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
-1. Use `mcp__linear-server__list_comments` to verify agent added testing summary
-2. If no completion comment exists, report this to the user
-3. Summarize: test files created, coverage achieved, any issues
+1. **Fetch ticket details**: Use `mcp__linear-server__get_issue` with ticket ID
+2. **Fetch all comments**: Use `mcp__linear-server__list_comments` to get complete history
+3. **Extract and prepare the following for the agent prompt:**
+   - Ticket ID, title, and full description
+   - The adaptation report (contains test requirements)
+   - The implementation report (contains files changed)
+   - Any test-specific requirements mentioned
+4. **Get git context**: Run `git status`, `git diff --name-only` for changed files
 
-DO NOT attempt to write tests directly. The specialized qa-engineer-agent handles this phase.
+**IMPORTANT**: The agent does NOT have access to Linear. You must include ALL relevant context in the prompt.
+
+### Step 2: Agent Invocation (Provide Full Context)
+
+Use the Task tool to invoke the `qa-engineer-agent` with ALL context embedded:
+
+**Your prompt to the agent MUST include:**
+- The ticket ID for reference
+- The full ticket title and description (copy the text)
+- The implementation report (which files were changed)
+- Test requirements from adaptation report
+- Coverage target (from arguments or default 70%)
+- Git diff summary showing what was implemented
+
+**Example prompt structure:**
+```
+## Ticket Context
+**ID**: [ticket-id]
+**Title**: [title from get_issue]
+**Description**:
+[full description text from get_issue]
+
+## Implementation Summary
+[paste the implementation report from list_comments]
+
+## Files Changed
+[list from git diff --name-only]
+
+## Test Requirements (from Adaptation)
+[paste test requirements section from adaptation report]
+
+## Coverage Target
+[from $2 argument or default 70%]
+
+## Your Task
+Create comprehensive tests for this ticket following the accuracy-first testing philosophy. Return a structured testing report when complete, including:
+- Test files created
+- Coverage achieved
+- Any issues found during testing
+```
+
+**CRITICAL**: Do NOT tell the agent to "fetch the ticket" - the agent cannot access Linear.
+
+### Step 3: Post-Agent Completion (YOU Write to Linear)
+
+After the agent returns its report:
+
+1. **Parse the agent's report** - Extract test files created, coverage metrics, issues found
+2. **Write the completion comment** - Use `mcp__linear-server__create_comment` with the structured testing report
+3. **Update ticket status if needed** - Use `mcp__linear-server__update_issue` (keep as "In Progress")
+4. **Verify success** - Confirm the comment was added
+5. **Report to user** - Summarize test coverage, any issues, next steps
+
+**YOU are responsible for the Linear comment, not the agent.**
+
+DO NOT attempt to write tests directly. The specialized qa-engineer-agent handles the test creation.
 
 ---
 
@@ -67,13 +114,15 @@ You are acting as a **QA Engineer** responsible for building accurate, high-valu
 
 ---
 
-## IMPORTANT: Linear MCP Integration
-**ALWAYS use Linear MCP tools for ticket operations:**
-- **Fetch ticket**: Use `mcp__linear-server__get_issue` with ticket ID
-- **Update status**: Use `mcp__linear-server__update_issue` to set status
-- **Add comments**: Use `mcp__linear-server__create_comment` for updates
-- **List comments**: Use `mcp__linear-server__list_comments` to read existing comments
-- **DO NOT**: Use GitHub CLI or direct Linear API calls - only use MCP tools
+## IMPORTANT: Linear MCP Integration (Orchestrator Responsibility)
+
+**The orchestrator (YOU) handles ALL Linear MCP operations. The agent does NOT have access to Linear.**
+
+**Tools you will use:**
+- **Fetch ticket**: `mcp__linear-server__get_issue` - YOU fetch before agent invocation
+- **Fetch comments**: `mcp__linear-server__list_comments` - YOU fetch before agent invocation (implementation report is here!)
+- **Add comments**: `mcp__linear-server__create_comment` - YOU write after agent returns
+- **Update status**: `mcp__linear-server__update_issue` - YOU update after agent returns
 
 Generate **accurate, compilable** test suites for ticket **$1** that use the actual API implementation.
 
@@ -85,6 +134,21 @@ Generate **accurate, compilable** test suites for ticket **$1** that use the act
 **Arguments:**
 - $1: ticket-id (REQUIRED)
 - $2: minimum-coverage (OPTIONAL - default: 70%, adjust based on code complexity and risk)
+
+## 🚨 CRITICAL: Orchestrator-Agent Responsibility Split
+
+**ORCHESTRATOR (YOU) is responsible for:**
+- Fetching ticket details and ALL comments BEFORE invoking agent
+- Finding and extracting both adaptation and implementation reports
+- Embedding ALL context into the agent prompt
+- Writing the testing report to Linear AFTER agent completes
+- Managing PR updates and Linear status
+
+**AGENT (qa-engineer-agent) is responsible for:**
+- Discovering actual API from implementation (from context you provide)
+- Creating accurate, compilable tests
+- Verifying tests pass all gates (compilation, execution, coverage)
+- Returning a structured testing report
 
 ## CRITICAL: Accuracy-First Testing Philosophy
 
@@ -114,21 +178,6 @@ Generate **accurate, compilable** test suites for ticket **$1** that use the act
    - Target 90%+ for critical business logic
    - Focus on complex algorithms, skip trivial code
    - Better 50% coverage with correct tests than 90% with broken tests
-
-## CRITICAL: Linear Ticket and Comments Retrieval
-
-**BEFORE ANY OTHER WORK**, retrieve the Linear ticket details AND all comments:
-1. Use `mcp__linear-server__get_issue` with ticket ID $1 to get full ticket details
-2. Use `mcp__linear-server__list_comments` with ticket ID $1 to get ALL comments
-3. Analyze both the ticket body AND comments for:
-   - Test requirements or coverage expectations
-   - Specific edge cases or scenarios mentioned
-   - Performance requirements that need testing
-   - User flows that require validation
-   - Known issues or areas requiring extra test coverage
-   - Previous test failures or concerns
-
-**Wait for the Linear MCP responses before proceeding with test implementation.**
 
 **You MUST invoke the `qa-engineer-agent` via the Task tool** to create **focused, high-value** test coverage ensuring quality and preventing regressions while **avoiding over-testing trivial code**.
 

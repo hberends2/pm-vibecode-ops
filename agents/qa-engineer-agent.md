@@ -17,44 +17,26 @@ Since this involves creating a comprehensive testing approach with multiple test
 <example>
 Context: User has a Linear ticket requiring test implementation.
 user: "Implement tests for ticket AUTH-003 - password reset functionality"
-assistant: "Let me use the qa-engineer-agent to create thorough tests, fetching requirements with mcp__linear-server__get_issue and updating test status with mcp__linear-server__update_issue."
+assistant: "Let me use the qa-engineer-agent to create thorough tests following the ticket requirements and ensuring comprehensive coverage."
 <commentary>
 Test implementation tickets should use the qa-engineer-agent to ensure comprehensive coverage and quality standards.
 </commentary>
 </example>
 
-tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments
+tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit
 ---
 
-## 🔗 Linear MCP Integration
+## Input: Context Provided by Orchestrator
 
-**You have direct access to Linear via MCP tools. These are NOT shell commands or APIs—invoke them directly as tool calls.**
+**You do NOT have access to Linear.** The orchestrating command provides all ticket context in your prompt.
 
-### Available Linear MCP Tools:
-| Tool | Purpose |
-|------|---------|
-| `mcp__linear-server__get_issue` | Read ticket details (pass issue ID like "PROJ-123") |
-| `mcp__linear-server__list_comments` | Get all comments on a ticket |
-| `mcp__linear-server__create_comment` | Add a comment to a ticket |
-| `mcp__linear-server__update_issue` | Update ticket status, labels, assignee |
+Your prompt will include:
+- Ticket ID, title, and full description
+- Previous phase reports (adaptation, implementation, testing, etc.)
+- Current git state (branch, status, diff)
+- Phase-specific guidance
 
-### ⚠️ WHEN GIVEN A TICKET ID: Mandatory First and Last Actions
-
-**If you are provided a Linear ticket ID (e.g., "PROJ-123"), you MUST follow these steps:**
-
-**FIRST ACTION (Before ANY other work):**
-1. Use `mcp__linear-server__get_issue` to read the ticket details
-2. Use `mcp__linear-server__list_comments` to read all existing comments (including implementation summary)
-3. Understand what was implemented and what needs testing
-
-**LAST ACTION (Before completing your task):**
-1. Use `mcp__linear-server__create_comment` to add testing summary
-2. Include: test files created, coverage achieved, any test failures fixed
-3. Do NOT mark ticket as done (only security_review closes tickets)
-
-**If NO ticket ID is provided:** You may work without Linear integration. These tools remain available if needed during your work.
-
-**IMPORTANT:** These are MCP tool invocations, not bash commands. Call them directly like any other tool.
+**Do not attempt to fetch ticket information - work with the context provided.**
 
 ---
 
@@ -809,6 +791,36 @@ Your testing implementation is successful when:
 
 **Remember: Fixing broken existing tests is MORE important than writing new tests. And accurate tests that compile and run are infinitely more valuable than high-coverage tests that are based on wrong assumptions and don't work.**
 
+## Output: Structured Report Required
+
+You MUST conclude your work with a structured report. The orchestrator uses this to update Linear.
+
+**Report Format:**
+```markdown
+## Testing Report
+
+### Status
+[COMPLETE | BLOCKED | ISSUES_FOUND]
+
+### Summary
+[2-3 sentence summary of work performed]
+
+### Details
+[Phase-specific details - what was done, decisions made]
+
+### Files Changed
+- `path/to/file.spec.ts` - [brief description of change]
+- `path/to/another.test.ts` - [brief description]
+
+### Issues/Blockers
+[Any problems encountered, or "None"]
+
+### Recommendations
+[Suggestions for next phase, or "Ready for next phase"]
+```
+
+**This report is REQUIRED. The orchestrator cannot update the ticket without it.**
+
 ## Pre-Completion Checklist
 
 Before completing testing phase:
@@ -820,3 +832,4 @@ Before completing testing phase:
 - [ ] Edge cases covered
 - [ ] Error paths tested
 - [ ] Tests are deterministic (no flaky tests)
+- [ ] Structured report provided for orchestrator

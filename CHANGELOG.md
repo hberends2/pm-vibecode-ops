@@ -5,6 +5,34 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2026-01-06
+
+### Changed
+
+**Orchestrator-Centric Pattern for Linear MCP Integration**
+
+Implemented a major architectural change where commands handle ALL Linear I/O while agents operate as pure workers:
+
+- **6 ticket-level commands updated** (adaptation, implementation, testing, documentation, codereview, security_review):
+  - Fetch ticket details and comments BEFORE spawning agents
+  - Embed ALL context into agent prompts
+  - Write reports to Linear AFTER agents complete
+
+- **8 agents converted to pure worker pattern**:
+  - Removed Linear MCP tools from all agents
+  - Added "Input: Context Provided by Orchestrator" section
+  - Added "Output: Structured Report Required" section with standardized report format
+  - Agents modified: architect, backend-engineer, frontend-engineer, qa-engineer, code-reviewer, technical-writer, security-engineer, design-reviewer
+
+- **CLAUDE.md updated** with orchestrator-agent pattern documentation
+
+### Removed
+
+- Removed Linear MCP tools from all 8 agent definitions
+- Removed unused `list_comments` from planning commands (epic-planning, planning retained tools for ticket CREATION only)
+
+---
+
 ## [2.4.4] - 2026-01-06
 
 ### Fixed
@@ -820,6 +848,12 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.5.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.5.0
+[2.4.4]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.4.4
+[2.4.3]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.4.3
+[2.4.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.4.2
+[2.4.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.4.1
+[2.4.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.4.0
 [2.3.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.3.2
 [2.3.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.3.1
 [2.3.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.3.0

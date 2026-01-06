@@ -12,27 +12,83 @@ workflow-sequence: "documentation → **code-review** → security-review"
 **You MUST use the Task tool to invoke the `code-reviewer-agent` for this phase.**
 
 ### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
-**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
-1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
-2. Use `mcp__linear-server__list_comments` to get full history (adaptation, implementation, testing, docs!)
-3. Extract: what was built, what was tested, what was documented, acceptance criteria
 
-### Step 2: Agent Invocation
-1. Use the Task tool with the `code-reviewer-agent`
-2. In your prompt to the agent, include:
-   - The ticket ID
-   - The ticket title and description (from your pre-fetch)
-   - Full implementation context (from comments)
-   - Implementation branch (if specified)
-   - Review depth (if specified)
-3. Let the agent perform the actual code quality assessment
+**As the orchestrator, YOU must gather ALL context before spawning the agent:**
 
-### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
-1. Use `mcp__linear-server__list_comments` to verify agent added code review summary
-2. If no completion comment exists, report this to the user
-3. Summarize: review findings, issues found, approval status
+1. **Fetch ticket details**: Use `mcp__linear-server__get_issue` with ticket ID
+2. **Fetch all comments**: Use `mcp__linear-server__list_comments` to get complete history
+3. **Extract and prepare the following for the agent prompt:**
+   - Ticket ID, title, and full description
+   - The adaptation report (service reuse mandates, patterns to follow)
+   - The implementation report (what was built, files changed)
+   - The testing report (coverage achieved)
+   - The documentation report (docs created)
+   - Acceptance criteria
+4. **Get git context**: Run `git diff`, `git log` for changes to review
 
-DO NOT attempt to perform code review directly. The specialized code-reviewer-agent handles this phase.
+**IMPORTANT**: The agent does NOT have access to Linear. You must include ALL relevant context in the prompt.
+
+### Step 2: Agent Invocation (Provide Full Context)
+
+Use the Task tool to invoke the `code-reviewer-agent` with ALL context embedded:
+
+**Your prompt to the agent MUST include:**
+- The ticket ID for reference
+- The full ticket title and description (copy the text)
+- All phase reports (adaptation, implementation, testing, documentation)
+- Implementation branch name
+- Git diff summary (for scope of review)
+- Review depth (from arguments)
+
+**Example prompt structure:**
+```
+## Ticket Context
+**ID**: [ticket-id]
+**Title**: [title from get_issue]
+**Description**:
+[full description text from get_issue]
+
+## Phase Reports Summary
+### Adaptation
+[paste key points from adaptation report - service reuse mandates]
+
+### Implementation
+[paste implementation report - files changed, services used]
+
+### Testing
+[paste testing report - coverage, issues found]
+
+### Documentation
+[paste documentation report - docs created]
+
+## Review Scope
+**Branch**: [branch name from $2]
+**Files Changed**: [from git diff --name-only]
+**Review Depth**: [from $3 or default "standard"]
+
+## Your Task
+Perform code quality review for this ticket. Focus on SOLID principles, pattern compliance, and service reuse verification. Return a structured code review report when complete, including:
+- Issues found and fixed
+- Security concerns (logged, not fixed)
+- Duplication analysis
+- Approval status
+```
+
+**CRITICAL**: Do NOT tell the agent to "fetch the ticket" - the agent cannot access Linear.
+
+### Step 3: Post-Agent Completion (YOU Write to Linear)
+
+After the agent returns its report:
+
+1. **Parse the agent's report** - Extract issues found, fixes made, security concerns logged
+2. **Write the completion comment** - Use `mcp__linear-server__create_comment` with the structured code review report
+3. **Update ticket status if needed** - Use `mcp__linear-server__update_issue` (keep as "In Progress")
+4. **Verify success** - Confirm the comment was added
+5. **Report to user** - Summarize review findings, approval status, next steps (security review)
+
+**YOU are responsible for the Linear comment, not the agent.**
+
+DO NOT attempt to perform code review directly. The specialized code-reviewer-agent handles the analysis.
 
 ---
 
@@ -68,32 +124,35 @@ You are acting as a **Senior Code Reviewer** responsible for assessing code qual
 
 ---
 
-## IMPORTANT: Linear MCP Integration
-**ALWAYS use Linear MCP tools for ticket operations:**
-- **Fetch ticket**: Use `mcp__linear-server__get_issue` with ticket ID
-- **Update status**: Use `mcp__linear-server__update_issue` to set status
-- **Add comments**: Use `mcp__linear-server__create_comment` for updates
-- **List comments**: Use `mcp__linear-server__list_comments` to read existing comments
-- **DO NOT**: Use GitHub CLI or direct Linear API calls - only use MCP tools
+## IMPORTANT: Linear MCP Integration (Orchestrator Responsibility)
+
+**The orchestrator (YOU) handles ALL Linear MCP operations. The agent does NOT have access to Linear.**
+
+**Tools you will use:**
+- **Fetch ticket**: `mcp__linear-server__get_issue` - YOU fetch before agent invocation
+- **Fetch comments**: `mcp__linear-server__list_comments` - YOU fetch before agent invocation (all phase reports are here!)
+- **Add comments**: `mcp__linear-server__create_comment` - YOU write after agent returns
+- **Update status**: `mcp__linear-server__update_issue` - YOU update after agent returns
 
 Perform code quality review for ticket **$1** to ensure implementation meets best practices and quality standards.
 
 Implementation branch: **$2**
 Review depth: ${3:-"standard"}
 
-## CRITICAL: Linear Ticket and Comments Retrieval
+## 🚨 CRITICAL: Orchestrator-Agent Responsibility Split
 
-**BEFORE ANY OTHER WORK**, retrieve the Linear ticket details AND all comments:
-1. Use `mcp__linear-server__get_issue` with ticket ID $1 to get full ticket details
-2. Use `mcp__linear-server__list_comments` with ticket ID $1 to get ALL comments
-3. Analyze both the ticket body AND comments for:
-   - Review criteria or quality standards mentioned
-   - Specific patterns or conventions to check
-   - Architecture decisions that affect review
-   - Known issues or areas of concern
-   - Previous review feedback that needs verification
+**ORCHESTRATOR (YOU) is responsible for:**
+- Fetching ticket details and ALL comments BEFORE invoking agent
+- Finding and extracting all phase reports (adaptation, implementation, testing, documentation)
+- Embedding ALL context into the agent prompt
+- Writing the code review report to Linear AFTER agent completes
+- Managing PR updates and Linear status
 
-**Wait for the Linear MCP responses before proceeding with code review.**
+**AGENT (code-reviewer-agent) is responsible for:**
+- Reviewing code quality and patterns (from context you provide)
+- Verifying service reuse compliance
+- Logging security concerns (NOT fixing them)
+- Returning a structured code review report
 
 **You MUST invoke the `code-reviewer-agent` via the Task tool** to review code quality, patterns, and architecture. Security issues found are LOGGED ONLY - not fixed (handled by security review phase).
 

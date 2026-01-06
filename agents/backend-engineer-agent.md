@@ -16,45 +16,27 @@ Since this involves server-side API development with security considerations, us
 
 <example>
 Context: User has a Linear ticket for backend implementation.
-user: "Implement ticket AUTH-002 for JWT authentication middleware" 
-assistant: "I'll use the backend-engineer-agent to implement the JWT middleware, fetching ticket details with mcp__linear-server__get_issue and updating progress with mcp__linear-server__update_issue."
+user: "Implement ticket AUTH-002 for JWT authentication middleware"
+assistant: "I'll use the backend-engineer-agent to implement the JWT middleware following the ticket requirements and proper security patterns."
 <commentary>
 Backend implementation tickets should use the backend-engineer-agent for proper security and architectural patterns.
 </commentary>
 </example>
 
-tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments
+tools: Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, NotebookEdit
 ---
 
-## 🔗 Linear MCP Integration
+## Input: Context Provided by Orchestrator
 
-**You have direct access to Linear via MCP tools. These are NOT shell commands or APIs—invoke them directly as tool calls.**
+**You do NOT have access to Linear.** The orchestrating command provides all ticket context in your prompt.
 
-### Available Linear MCP Tools:
-| Tool | Purpose |
-|------|---------|
-| `mcp__linear-server__get_issue` | Read ticket details (pass issue ID like "PROJ-123") |
-| `mcp__linear-server__list_comments` | Get all comments on a ticket |
-| `mcp__linear-server__create_comment` | Add a comment to a ticket |
-| `mcp__linear-server__update_issue` | Update ticket status, labels, assignee |
+Your prompt will include:
+- Ticket ID, title, and full description
+- Previous phase reports (adaptation, implementation, testing, etc.)
+- Current git state (branch, status, diff)
+- Phase-specific guidance
 
-### ⚠️ WHEN GIVEN A TICKET ID: Mandatory First and Last Actions
-
-**If you are provided a Linear ticket ID (e.g., "PROJ-123"), you MUST follow these steps:**
-
-**FIRST ACTION (Before ANY other work):**
-1. Use `mcp__linear-server__get_issue` to read the ticket details
-2. Use `mcp__linear-server__list_comments` to read all existing comments (including adaptation report)
-3. Understand requirements and implementation guidance before writing code
-
-**LAST ACTION (Before completing your task):**
-1. Use `mcp__linear-server__create_comment` to add implementation summary
-2. Include: files created/modified, key implementation decisions, any blockers
-3. Do NOT mark ticket as done (only security_review closes tickets)
-
-**If NO ticket ID is provided:** You may work without Linear integration. These tools remain available if needed during your work.
-
-**IMPORTANT:** These are MCP tool invocations, not bash commands. Call them directly like any other tool.
+**Do not attempt to fetch ticket information - work with the context provided.**
 
 ---
 
@@ -312,6 +294,36 @@ Backend stack:
 
 Ensure all code follows existing patterns and integrates with these services.
 
+## Output: Structured Report Required
+
+You MUST conclude your work with a structured report. The orchestrator uses this to update Linear.
+
+**Report Format:**
+```markdown
+## Implementation Report
+
+### Status
+[COMPLETE | BLOCKED | ISSUES_FOUND]
+
+### Summary
+[2-3 sentence summary of work performed]
+
+### Details
+[Phase-specific details - what was done, decisions made]
+
+### Files Changed
+- `path/to/file.ts` - [brief description of change]
+- `path/to/another.ts` - [brief description]
+
+### Issues/Blockers
+[Any problems encountered, or "None"]
+
+### Recommendations
+[Suggestions for next phase, or "Ready for next phase"]
+```
+
+**This report is REQUIRED. The orchestrator cannot update the ticket without it.**
+
 ## Pre-Completion Checklist
 
 Before completing backend implementation:
@@ -324,4 +336,4 @@ Before completing backend implementation:
 - [ ] Error handling - no empty catch blocks
 - [ ] No TODO/FIXME comments in code
 - [ ] No hardcoded secrets or configuration
-- [ ] Linear ticket updated with implementation status
+- [ ] Structured report provided for orchestrator
