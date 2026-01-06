@@ -11,11 +11,27 @@ workflow-sequence: "code-review → **security-review** (FINAL GATE - closes tic
 
 **You MUST use the Task tool to invoke the `security-engineer-agent` for this phase.**
 
-Before performing ANY security review work yourself:
+### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
+**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
+1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
+2. Use `mcp__linear-server__list_comments` to get complete history (all phases!)
+3. Extract: what was built, security-relevant changes, test results, code review findings
+
+### Step 2: Agent Invocation
 1. Use the Task tool with the `security-engineer-agent`
-2. Provide the agent with all context from this command (ticket ID, git status, diff content)
+2. In your prompt to the agent, include:
+   - The ticket ID
+   - The ticket title and description (from your pre-fetch)
+   - Full implementation history (from comments)
+   - Code review findings (from comments)
+   - Git diff summary (for security-relevant changes)
 3. Let the agent perform the actual security vulnerability assessment
-4. Only proceed after the agent completes
+
+### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
+1. Use `mcp__linear-server__list_comments` to verify agent added security review summary
+2. If no completion comment exists, report this to the user
+3. Verify ticket status: should be "Done" if passed, "In Progress" if failed
+4. Summarize: vulnerabilities found, severity, ticket closure status
 
 DO NOT attempt to perform security review directly. The specialized security-engineer-agent handles this phase.
 

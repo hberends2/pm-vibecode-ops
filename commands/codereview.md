@@ -11,11 +11,26 @@ workflow-sequence: "documentation → **code-review** → security-review"
 
 **You MUST use the Task tool to invoke the `code-reviewer-agent` for this phase.**
 
-Before performing ANY code review work yourself:
+### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
+**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
+1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
+2. Use `mcp__linear-server__list_comments` to get full history (adaptation, implementation, testing, docs!)
+3. Extract: what was built, what was tested, what was documented, acceptance criteria
+
+### Step 2: Agent Invocation
 1. Use the Task tool with the `code-reviewer-agent`
-2. Provide the agent with all context from this command (ticket ID, implementation branch, review depth)
+2. In your prompt to the agent, include:
+   - The ticket ID
+   - The ticket title and description (from your pre-fetch)
+   - Full implementation context (from comments)
+   - Implementation branch (if specified)
+   - Review depth (if specified)
 3. Let the agent perform the actual code quality assessment
-4. Only proceed after the agent completes
+
+### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
+1. Use `mcp__linear-server__list_comments` to verify agent added code review summary
+2. If no completion comment exists, report this to the user
+3. Summarize: review findings, issues found, approval status
 
 DO NOT attempt to perform code review directly. The specialized code-reviewer-agent handles this phase.
 

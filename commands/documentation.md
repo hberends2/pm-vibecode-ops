@@ -11,11 +11,26 @@ workflow-sequence: "testing → **documentation** → code-review → security-r
 
 **You MUST use the Task tool to invoke the `technical-writer-agent` for this phase.**
 
-Before performing ANY documentation work yourself:
+### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
+**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
+1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
+2. Use `mcp__linear-server__list_comments` to get all existing comments (adaptation, implementation, testing!)
+3. Extract: what was built, API changes, test results, documentation requirements
+
+### Step 2: Agent Invocation
 1. Use the Task tool with the `technical-writer-agent`
-2. Provide the agent with all context from this command (ticket ID, doc types, format, update strategy)
+2. In your prompt to the agent, include:
+   - The ticket ID
+   - The ticket title and description (from your pre-fetch)
+   - Implementation summary (from comments)
+   - What was tested (from comments)
+   - Doc types and format (if specified)
 3. Let the agent perform the actual documentation creation
-4. Only proceed after the agent completes
+
+### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
+1. Use `mcp__linear-server__list_comments` to verify agent added documentation summary
+2. If no completion comment exists, report this to the user
+3. Summarize: documentation created, inline docs added, any gaps noted
 
 DO NOT attempt to write documentation directly. The specialized technical-writer-agent handles this phase.
 

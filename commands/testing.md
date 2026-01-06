@@ -11,11 +11,26 @@ workflow-sequence: "implementation → **testing** → documentation → code-re
 
 **You MUST use the Task tool to invoke the `qa-engineer-agent` for this phase.**
 
-Before performing ANY testing work yourself:
+### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
+**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
+1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
+2. Use `mcp__linear-server__list_comments` to get all existing comments (adaptation + implementation!)
+3. Extract: what was implemented, files changed, test requirements from adaptation
+
+### Step 2: Agent Invocation
 1. Use the Task tool with the `qa-engineer-agent`
-2. Provide the agent with all context from this command (ticket ID, test types, coverage target)
-3. Let the agent perform the actual test creation and validation
-4. Only proceed after the agent completes
+2. In your prompt to the agent, include:
+   - The ticket ID
+   - The ticket title and description (from your pre-fetch)
+   - Implementation summary (from comments)
+   - Test requirements from adaptation
+   - Coverage target (if specified)
+3. Let the agent perform the actual test creation
+
+### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
+1. Use `mcp__linear-server__list_comments` to verify agent added testing summary
+2. If no completion comment exists, report this to the user
+3. Summarize: test files created, coverage achieved, any issues
 
 DO NOT attempt to write tests directly. The specialized qa-engineer-agent handles this phase.
 

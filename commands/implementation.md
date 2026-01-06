@@ -16,12 +16,27 @@ Based on the type of work required:
 - **Frontend work**: Use the Task tool with the `frontend-engineer-agent`
 - **Full-stack work**: Invoke both agents as needed for their respective domains
 
-Before performing ANY implementation work yourself:
-1. Determine if the work is backend, frontend, or full-stack based on the ticket requirements
-2. Use the Task tool with the appropriate engineer agent(s)
-3. Provide the agent with all context from this command (ticket ID, adaptation guide)
-4. Let the agent perform the actual code implementation
-5. Only proceed after the agent completes
+### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
+**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
+1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
+2. Use `mcp__linear-server__list_comments` to get all existing comments (especially the adaptation report!)
+3. Determine if work is backend, frontend, or full-stack
+4. Extract: title, description, adaptation guidance, acceptance criteria
+
+### Step 2: Agent Invocation
+1. Use the Task tool with the appropriate engineer agent(s)
+2. In your prompt to the agent, include:
+   - The ticket ID
+   - The ticket title and description (from your pre-fetch)
+   - The adaptation report content (from comments)
+   - Key acceptance criteria
+   - Any implementation guidance
+3. Let the agent perform the actual code implementation
+
+### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
+1. Use `mcp__linear-server__list_comments` to verify agent added implementation summary
+2. If no completion comment exists, report this to the user
+3. Summarize what the agent accomplished (files created, key changes)
 
 DO NOT attempt to write implementation code directly. The specialized engineer agents handle this phase.
 

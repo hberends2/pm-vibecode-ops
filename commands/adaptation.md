@@ -11,11 +11,26 @@ workflow-sequence: "**adaptation** → implementation → testing → documentat
 
 **You MUST use the Task tool to invoke the `architect-agent` for this phase.**
 
-Before performing ANY adaptation work yourself:
+### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
+**As the orchestrator, YOU must first read the ticket to construct a good prompt:**
+1. Use `mcp__linear-server__get_issue` with ticket ID to get full ticket details
+2. Use `mcp__linear-server__list_comments` to get all existing comments
+3. Extract: title, description, acceptance criteria, any prior context
+
+### Step 2: Agent Invocation
 1. Use the Task tool with the `architect-agent`
-2. Provide the agent with all context from this command (ticket ID, discovery source, additional context)
-3. Let the agent perform the actual adaptation analysis and implementation planning
-4. Only proceed after the agent completes
+2. In your prompt to the agent, include:
+   - The ticket ID
+   - The ticket title and description (from your pre-fetch)
+   - Key acceptance criteria
+   - Discovery source (if provided)
+   - Any additional context
+3. Let the agent perform the actual adaptation analysis
+
+### Step 3: Post-Agent Verification (YOU do this AFTER agent completes)
+1. Use `mcp__linear-server__list_comments` to verify agent added completion comment
+2. If no completion comment exists, report this to the user
+3. Summarize what the agent accomplished
 
 DO NOT attempt to perform adaptation work directly. The specialized architect-agent handles this phase.
 

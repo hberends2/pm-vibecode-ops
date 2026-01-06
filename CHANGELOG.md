@@ -5,6 +5,30 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.2] - 2026-01-06
+
+### Added
+
+**Comprehensive Linear MCP Integration for Agents and Commands**
+
+Fixed critical issue where agents were not using Linear MCP tools to read tickets before work or update tickets after completion. Agents were looking for shell scripts/APIs instead of understanding MCP tool invocation.
+
+- **All 8 agents** now have standardized "🔗 CRITICAL: Linear MCP Integration" section including:
+  - Clear explanation that these are MCP tools, NOT shell commands or APIs
+  - Table of available Linear MCP tools with descriptions
+  - **MANDATORY First Action**: Read ticket and comments before any work
+  - **MANDATORY Last Action**: Add completion summary comment before finishing
+  - Explicit reminder to invoke tools directly
+
+- **All 6 ticket-level commands** now have three-step orchestration:
+  - **Step 1: Pre-Agent Context Gathering** - Orchestrator reads ticket/comments BEFORE invoking agent
+  - **Step 2: Agent Invocation** - Pass ticket context to agent in prompt
+  - **Step 3: Post-Agent Verification** - Verify agent added completion comment
+
+- **Commands updated**: adaptation, implementation, testing, documentation, codereview, security_review
+
+---
+
 ## [2.4.1] - 2026-01-05
 
 ### Fixed
