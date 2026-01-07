@@ -139,6 +139,18 @@ Skills shift enforcement LEFT - catching issues during creation rather than at r
 
 **Example trigger**: "Design the notification system architecture"
 
+### 10. epic-closure-validation
+
+**Activates when**: Closing epics, marking epics complete, finishing epic-level work
+
+**Enforces**:
+- ALL sub-tickets must be Done or Cancelled before epic closure
+- No workarounds or temporary solutions shipped in any ticket
+- Business value was delivered against original success criteria
+- Block closure if any sub-ticket is incomplete
+
+**Example trigger**: "Close EPIC-123" or "Mark epic as done"
+
 ## Skills vs Commands vs Agents
 
 | Aspect | Skills | Commands | Agents |
@@ -150,7 +162,7 @@ Skills shift enforcement LEFT - catching issues during creation rather than at r
 
 ## How Skills Complement the Workflow
 
-The pm-vibecode-ops workflow has 10 phases. Skills add a proactive enforcement layer:
+The pm-vibecode-ops workflow has 11 phases (10 ticket-level + 1 epic-level). Skills add a proactive enforcement layer:
 
 ```
 Traditional:
@@ -190,7 +202,7 @@ Skills are automatically installed when you install the PM workflow plugin:
 /plugin install pm-vibecode-ops@pm-vibecode-ops
 ```
 
-This installs all 9 skills automatically along with commands, agents, and hooks.
+This installs all 10 skills automatically along with commands, agents, and hooks.
 
 ### Manual Installation (Not Recommended)
 
@@ -239,8 +251,10 @@ skills/
 │   └── SKILL.md
 ├── using-pm-workflow/
 │   └── SKILL.md
-└── verify-implementation/
-    └── SKILL.md
+├── verify-implementation/
+│   └── SKILL.md
+└── epic-closure-validation/
+    └── skill.md
 ```
 
 ## Creating Custom Skills

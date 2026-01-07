@@ -5,6 +5,44 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2026-01-06
+
+### Added
+
+**Epic Closure Command and Agent**
+
+Introduced `/close-epic` command for formally closing completed epics with comprehensive analysis:
+
+- **New Command**: `/close-epic <epic-id> [--skip-retrofit] [--skip-downstream]`
+  - Six-phase closure workflow: Completion verification, retrofit analysis, downstream impact, documentation audit, CLAUDE.md updates, closure summary
+  - Validates ALL sub-tickets are Done/Cancelled before allowing closure (blocking gate)
+  - Extracts patterns worth propagating backward to existing code (retrofit analysis)
+  - Propagates guidance to dependent epics (downstream impact)
+  - Audits documentation coverage and proposes CLAUDE.md updates
+  - Generates comprehensive closure report with lessons learned
+
+- **New Agent**: `epic-closure-agent` (model: opus, color: gold)
+  - Specialized for analyzing completed work and extracting actionable learnings
+  - Follows orchestrator-agent pattern (no direct Linear access)
+  - Skills: production-code-standards, verify-implementation, epic-closure-validation
+
+- **New Skill**: `epic-closure-validation` (skill #10)
+  - Auto-activates when closing epics
+  - Blocks closure if any sub-ticket is incomplete
+  - Validates no workarounds shipped and business value delivered
+
+- **New Hook**: PostToolUse hook for `mcp__linear-server__update_issue`
+  - Validates epic closure prerequisites when marking epics as Done
+  - Prevents premature epic closure
+
+**Workflow Enhancement**
+
+- Added epic-level completion phase to workflow (phase 11)
+- `/security_review` closes tickets, `/close-epic` closes epics
+- Clear separation: ticket closure vs. epic closure
+
+---
+
 ## [2.5.2] - 2026-01-06
 
 ### Changed
@@ -882,6 +920,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.6.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.6.0
 [2.5.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.5.2
 [2.5.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.5.1
 [2.5.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.5.0

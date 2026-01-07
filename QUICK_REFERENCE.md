@@ -26,6 +26,12 @@
 | 9 | `/codereview [ticket-id]` | Quality check | Review findings |
 | 10 | `/security_review [ticket-id]` | **Final gate** | **Fix criticals** |
 
+### Epic-Level (Run After All Tickets Done)
+
+| # | Command | Purpose | Your Action |
+|---|---------|---------|-------------|
+| 11 | `/close-epic [epic-id]` | **Final epic gate** | Review report |
+
 ---
 
 ## Quality Gates Checklist
@@ -38,6 +44,7 @@ Before merging, verify:
 - [ ] Code review passed
 - [ ] Documentation complete
 - [ ] Ticket marked "Done" (by security review)
+- [ ] Epic marked "Done" (by close-epic, after all tickets)
 
 ---
 
@@ -82,6 +89,9 @@ Your PRD must include:
 /documentation TICKET-201
 /codereview TICKET-201
 /security_review TICKET-201
+
+# Epic closure (after all tickets in epic are Done)
+/close-epic EPIC-123
 ```
 
 ---
@@ -120,4 +130,4 @@ Your PRD must include:
 
 ---
 
-**Version 2.5.2** | [Full Documentation](README.md) | [PM Guide](PM_GUIDE.md)
+**Version 2.6.0** | [Full Documentation](README.md) | [PM Guide](PM_GUIDE.md)

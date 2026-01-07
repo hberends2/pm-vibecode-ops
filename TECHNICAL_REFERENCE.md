@@ -350,6 +350,53 @@ These commands run for each individual ticket through the development lifecycle.
 
 ---
 
+### Epic-Level Commands
+
+These commands run once per epic, after all sub-tickets have completed the ticket-level workflow.
+
+#### `/close-epic`
+
+**Purpose**: Formally closes completed epics with comprehensive closure analysis including retrofit recommendations, downstream impact propagation, and CLAUDE.md updates.
+
+**Usage**: `/close-epic <epic-id> [--skip-retrofit] [--skip-downstream]`
+
+**Examples**:
+```bash
+# Basic epic closure
+/close-epic EPIC-123
+
+# Skip retrofit analysis (faster closure)
+/close-epic EPIC-123 --skip-retrofit
+
+# Skip downstream impact propagation
+/close-epic EPIC-123 --skip-downstream
+
+# Minimal closure (skip both optional phases)
+/close-epic EPIC-123 --skip-retrofit --skip-downstream
+```
+
+**Key Features**:
+- **Completion Verification (BLOCKING)**: Validates ALL sub-tickets are Done or Cancelled
+- **Retrofit Analysis**: Identifies patterns worth propagating backward to existing code
+- **Downstream Impact**: Propagates guidance to dependent/related epics
+- **Documentation Audit**: Maps implemented features against CLAUDE.md coverage
+- **CLAUDE.md Updates**: Proposes and applies documentation updates
+- **Closure Summary**: Generates comprehensive closure report with lessons learned
+
+**Six-Phase Workflow**:
+1. Completion Verification - Validate all sub-tickets complete (blocking)
+2. Retrofit Analysis - Find patterns to propagate backward (skippable)
+3. Downstream Impact - Add guidance to dependent epics (skippable)
+4. Documentation Audit - Check CLAUDE.md coverage
+5. CLAUDE.md Updates - Apply documentation changes
+6. Closure Summary - Create final epic closure report
+
+**Output**: Epic marked as Done, closure report added as comment, CLAUDE.md updated.
+
+**Time**: 10-20 minutes depending on epic size and options selected
+
+---
+
 ## Specialized Agents
 
 ### Architect Agent
@@ -514,6 +561,27 @@ These commands run for each individual ticket through the development lifecycle.
 
 ---
 
+### Epic Closure Agent
+
+**Role**: Analyzing completed epics, extracting lessons learned, and ensuring knowledge transfer
+
+**Expertise**:
+- Retrofit analysis and pattern identification
+- Downstream impact assessment
+- Documentation gap analysis
+- Lessons learned extraction
+
+**Key Responsibilities**:
+- Identifies patterns worth propagating to existing code
+- Analyzes impact on dependent/related epics
+- Audits CLAUDE.md coverage for new services/patterns
+- Generates comprehensive closure reports
+- Extracts actionable lessons for future work
+
+**Used By**: `/close-epic`
+
+---
+
 ## Workflow Integration
 
 ### Ticketing System Integration
@@ -555,11 +623,12 @@ pm-vibecode-ops/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin manifest configuration
 │
-├── agents/                      # Specialized AI agent configurations
+├── agents/                      # Specialized AI agent configurations (9 agents)
 │   ├── architect-agent.md
 │   ├── backend-engineer-agent.md
 │   ├── code-reviewer-agent.md
 │   ├── design-reviewer-agent.md
+│   ├── epic-closure-agent.md
 │   ├── frontend-engineer-agent.md
 │   ├── qa-engineer-agent.md
 │   ├── security-engineer-agent.md
@@ -576,10 +645,12 @@ pm-vibecode-ops/
 │   ├── implementation.md
 │   ├── planning.md
 │   ├── security_review.md
-│   └── testing.md
+│   ├── testing.md
+│   └── close-epic.md
 │
-├── skills/                      # Auto-activated quality enforcement (9 skills)
+├── skills/                      # Auto-activated quality enforcement (10 skills)
 │   ├── divergent-exploration/   # Explore alternative approaches before converging
+│   ├── epic-closure-validation/ # Validate all tickets complete before epic closure
 │   ├── model-aware-behavior/    # Read all files before proposing changes
 │   ├── mvd-documentation/       # Document why, not what
 │   ├── production-code-standards/  # Block workarounds, temporary code

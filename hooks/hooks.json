@@ -10,6 +10,16 @@
             "prompt": "Review the code just written. Check for violations of production-code-standards: TODO/FIXME comments, empty catch blocks, console.log statements, hardcoded values, or fallback patterns hiding errors. If violations exist, flag them for immediate correction before continuing."
           }
         ]
+      },
+      {
+        "matcher": "mcp__linear-server__update_issue",
+        "description": "Validate epic closure prerequisites before marking epic as Done",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "If this update is marking an EPIC as Done (not a regular ticket), verify: 1) All sub-tickets are Done or Cancelled, 2) No workarounds or temporary solutions were shipped, 3) Business value was delivered. Epic closure requires all sub-tickets complete. If any sub-ticket is incomplete, BLOCK the epic closure and report which tickets need attention."
+          }
+        ]
       }
     ],
     "Stop": [
