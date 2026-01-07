@@ -1,6 +1,6 @@
 ---
 description: Transform PRD and business requirements into capability-focused Linear epics that provide engineering teams with clear functional requirements and business context without prescribing technical implementation.
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__update_project, mcp__linear-server__get_project
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__update_project, mcp__linear-server__get_project
 argument-hint: [prd-file] [discovery-ticket-or-file] [business-context] [focus] (e.g., /epic-planning prd.md DISC-123 "Series A startup" "user engagement")
 workflow-phase: epic-creation
 closes-ticket: false
@@ -27,6 +27,7 @@ Before running:
 - **Update project**: Use `mcp__linear-server__update_project` to update project description
 - **List issues**: Use `mcp__linear-server__list_issues` with `type:epic` filter to check for duplicates
 - **Get issue**: Use `mcp__linear-server__get_issue` to retrieve epic details
+- **List comments**: Use `mcp__linear-server__list_comments` to retrieve all comments on an issue (CRITICAL: always fetch comments alongside issue details)
 - **Create issue**: Use `mcp__linear-server__create_issue` to create new epics
 - **Update issue**: Use `mcp__linear-server__update_issue` to set dependencies and labels
 - **Create comment**: Use `mcp__linear-server__create_comment` for supplementary details
@@ -117,6 +118,11 @@ Read the PRD at **$1** and extract:
 - **Revenue Impact**: Direct/indirect revenue or cost savings
 
 If discovery provided at **${2:-"none"}** (Linear ticket ID like `DISC-123` or `LIN-456`, OR a markdown file path), incorporate technical landscape context.
+
+**CRITICAL: When loading a Linear ticket as discovery source:**
+1. Use `mcp__linear-server__get_issue` to fetch the ticket body/description
+2. Use `mcp__linear-server__list_comments` to fetch ALL comments on the ticket
+3. Review BOTH the description AND comments for complete context (discovery findings, technical analysis, patterns, etc. are often documented in comments)
 
 ## Step 3: Decompose into MECE Capabilities with Duplicate Prevention
 

@@ -5,6 +5,19 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.2] - 2026-01-07
+
+### Fixed
+- **epic-planning.md**: Added `mcp__linear-server__list_comments` to allowed-tools and explicit instructions to fetch both ticket body AND comments when loading discovery tickets
+- **planning.md**: Added `mcp__linear-server__list_comments` to allowed-tools and comprehensive instructions to fetch both epic description AND comments throughout the workflow
+
+### Changed
+- All Linear-interacting commands now explicitly require fetching both issue body/description AND comments
+- Comments often contain critical context like phase reports, discovery findings, and previous analysis
+- Audit confirmed: 9/11 commands fully compliant, 2/11 not applicable (discovery creates tickets, generate-service-inventory scans codebase)
+
+---
+
 ## [2.7.1] - 2026-01-06
 
 ### Fixed
@@ -954,6 +967,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.7.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.2
 [2.7.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.1
 [2.7.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.0
 [2.6.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.6.0

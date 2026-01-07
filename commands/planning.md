@@ -1,6 +1,6 @@
 ---
 description: Technical decomposition of Linear epics into actionable implementation tickets with proper dependencies and technical specifications, using epic tickets as primary input with optional PRD, discovery report, and additional context.
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__get_project
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Grep, Glob, LS, TodoWrite, Bash, Bash(git branch:*), Bash(git status:*), WebSearch, mcp__linear-server__create_project, mcp__linear-server__create_issue, mcp__linear-server__list_teams, mcp__linear-server__list_projects, mcp__linear-server__update_issue, mcp__linear-server__list_issues, mcp__linear-server__get_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__get_project
 argument-hint: <epic-ids> [--prd <prd-file>] [--discovery <ticket-id-or-file>] [--context <additional-context>]
 workflow-phase: planning
 closes-ticket: false
@@ -51,6 +51,8 @@ You are acting as a **Technical Planning Architect** responsible for decomposing
 - **Check projects**: Use `mcp__linear-server__list_projects` to prevent duplicates
 - **Create project**: Use `mcp__linear-server__create_project` for 4+ tickets
 - **List issues**: Use `mcp__linear-server__list_issues` before creating new tickets
+- **Get issue**: Use `mcp__linear-server__get_issue` to retrieve epic details (body/description)
+- **List comments**: Use `mcp__linear-server__list_comments` to retrieve all comments on an epic (CRITICAL: always fetch comments alongside issue details)
 - **Create issues**: Use `mcp__linear-server__create_issue` with unique scope
 - **Update issues**: Use `mcp__linear-server__update_issue` for dependencies
 - **Add comments**: Use `mcp__linear-server__create_comment` for updates
@@ -124,13 +126,16 @@ if [[ "$EPIC_IDS" == PROJ-* ]]; then
     echo "Loading all epics from project: $EPIC_IDS"
     # MCP: mcp__linear-server__get_project - retrieve project
     # MCP: mcp__linear-server__list_issues - get all epics in project
+    # For each epic: mcp__linear-server__list_comments - get all comments
 else
     echo "Loading specific epics: $EPIC_IDS"
     # Split comma-separated epic IDs and load each
     IFS=',' read -ra EPIC_ARRAY <<< "$EPIC_IDS"
     for epic_id in "${EPIC_ARRAY[@]}"; do
         echo "  Loading epic: $epic_id"
-        # MCP: mcp__linear-server__get_issue - retrieve each epic
+        # MCP: mcp__linear-server__get_issue - retrieve epic body/description
+        # MCP: mcp__linear-server__list_comments - retrieve ALL comments on epic
+        # CRITICAL: Review BOTH description AND comments for complete context
     done
 fi
 
@@ -150,8 +155,12 @@ fi
 
 ### 2. Context Integration and Analysis
 
-#### Primary Source: Epic Tickets
-Extract from each epic (created by epic-planning):
+#### Primary Source: Epic Tickets (Description AND Comments)
+**CRITICAL: For each epic, fetch BOTH the issue body AND all comments:**
+1. Use `mcp__linear-server__get_issue` to get the epic description
+2. Use `mcp__linear-server__list_comments` to get all comments
+
+Extract from each epic (description and comments combined):
 - **User Capability**: What can the user accomplish?
 - **Business Value**: Quantified impact and metrics
 - **Acceptance Criteria**: Success scenarios from epic
@@ -159,6 +168,7 @@ Extract from each epic (created by epic-planning):
 - **Architectural Context**: System integration points
 - **Non-Functional Requirements**: Scale, performance, security
 - **Dependencies**: Other epics this depends on or enables
+- **Previous Phase Outputs**: Planning reports, discovery findings, etc. (often in comments)
 
 #### Optional Enhancement: PRD Document
 If PRD provided, extract additional context:
@@ -169,12 +179,17 @@ If PRD provided, extract additional context:
 - **Constraints**: Budget, resource, or technical limits
 
 #### Optional Enhancement: Discovery Report
-If discovery provided, leverage:
+If discovery provided (as Linear ticket ID or file), leverage:
 - **Existing Patterns**: Code patterns to follow
 - **Service Inventory**: Services available for reuse
 - **Technical Stack**: Current technology choices
 - **Integration Points**: How to connect with existing systems
 - **Performance Baselines**: Current system metrics
+
+**When discovery is a Linear ticket ID:**
+1. Use `mcp__linear-server__get_issue` to fetch the ticket description
+2. Use `mcp__linear-server__list_comments` to fetch ALL comments
+3. Discovery findings, patterns, and analysis are often documented in comments
 
 #### Optional Enhancement: Additional Context
 User-provided context may include:
