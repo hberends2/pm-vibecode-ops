@@ -343,8 +343,8 @@ That's it! The plugin system automatically installs:
 
 # You should see workflow commands listed:
 # /adaptation, /codereview, /discovery, /documentation,
-# /epic-planning, /generate_service_inventory, /implementation,
-# /planning, /security_review, /testing
+# /epic-planning, /generate-service-inventory, /implementation,
+# /planning, /security-review, /testing
 ```
 
 **Note**: Skills don't appear in `/help`. They activate automatically based on what you're doing.

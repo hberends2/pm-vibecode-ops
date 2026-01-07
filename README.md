@@ -1,7 +1,7 @@
 # PM Vibe Code Operations
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-![Version](https://img.shields.io/badge/version-2.6.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.7.0-blue.svg)
 
 ## What This Is
 
@@ -89,7 +89,7 @@ The honest truth: AI-assisted development with proper quality gates produces rel
 The workflow consists of two phases:
 
 ### Project-Level Commands (Recurring)
-1. `/generate_service_inventory` - Catalog existing code *(run after major codebase updates)*
+1. `/generate-service-inventory` - Catalog existing code *(run after major codebase updates)*
 2. `/discovery` - Analyze patterns and architecture *(run before each epic planning phase)*
 3. `/epic-planning` - Create business-focused epics *(run for each new feature, PRD, or major initiative)*
 4. `/planning` - Decompose epics into engineering tickets *(run for each new epic)*
@@ -100,7 +100,7 @@ The workflow consists of two phases:
 7. `/testing` - Build and fix comprehensive test suite until passing
 8. `/documentation` - Generate API docs, user guides, inline documentation
 9. `/codereview` - Automated quality checks and pattern compliance
-10. `/security_review` - OWASP vulnerability scan → **closes ticket when passing**
+10. `/security-review` - OWASP vulnerability scan → **closes ticket when passing**
 
 ### Epic-Level Completion
 11. `/close-epic` - Close completed epic with retrofit analysis → **closes epic when all tickets done**

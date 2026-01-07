@@ -298,7 +298,7 @@ Cursor and VS Code offer automated setup through direct integration. Search for 
 Sequential Thinking MCP enhances Claude's reasoning for complex, multi-step problems by providing structured, iterative problem-solving capabilities. It's particularly useful during:
 - Architecture planning in `/discovery`
 - Complex bug analysis in `/implementation`
-- Security reasoning in `/security_review`
+- Security reasoning in `/security-review`
 - Multi-step technical decomposition in `/planning`
 
 **No API key required** — this runs locally.

@@ -10,7 +10,7 @@
 
 | # | Command | Purpose | When to Run |
 |---|---------|---------|-------------|
-| 1 | `/generate_service_inventory [path]` | Catalog existing code | After major codebase updates |
+| 1 | `/generate-service-inventory [path]` | Catalog existing code | After major codebase updates |
 | 2 | `/discovery [ticket] [path] [areas]` | Analyze patterns | Before each epic planning phase |
 | 3 | `/epic-planning [prd] [discovery] [context]` | Create business epics | For each new feature/PRD/initiative |
 | 4 | `/planning [epic-ids]` | Break into tickets | For each new epic |
@@ -24,7 +24,7 @@
 | 7 | `/testing [ticket-id]` | Build & run tests | Review coverage |
 | 8 | `/documentation [ticket-id]` | Generate docs | Review docs |
 | 9 | `/codereview [ticket-id]` | Quality check | Review findings |
-| 10 | `/security_review [ticket-id]` | **Final gate** | **Fix criticals** |
+| 10 | `/security-review [ticket-id]` | **Final gate** | **Fix criticals** |
 
 ### Epic-Level (Run After All Tickets Done)
 
@@ -77,7 +77,7 @@ Your PRD must include:
 
 ```bash
 # Full workflow for new feature
-/generate_service_inventory . inventory.md
+/generate-service-inventory . inventory.md
 /discovery my-prd.md MyProject ./src "area1, area2"
 /epic-planning my-prd.md DISC-001 "market context" "user value"
 /planning EPIC-123,EPIC-124 --discovery DISC-001
@@ -88,7 +88,7 @@ Your PRD must include:
 /testing TICKET-201
 /documentation TICKET-201
 /codereview TICKET-201
-/security_review TICKET-201
+/security-review TICKET-201
 
 # Epic closure (after all tickets in epic are Done)
 /close-epic EPIC-123
@@ -130,4 +130,4 @@ Your PRD must include:
 
 ---
 
-**Version 2.6.0** | [Full Documentation](README.md) | [PM Guide](PM_GUIDE.md)
+**Version 2.7.0** | [Full Documentation](README.md) | [PM Guide](PM_GUIDE.md)

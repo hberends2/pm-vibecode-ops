@@ -1,7 +1,7 @@
 ---
 allowed-tools: Bash(find:*), Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git show:*), Bash(git remote show:*), Bash(gh pr comment:*), Read, Glob, Grep, LS, Task, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__create_issue, mcp__linear-server__list_issues, mcp__linear-server__create_project, mcp__linear-server__list_projects, mcp__linear-server__list_teams
 description: Complete a security review of the pending changes on the current branch and update Linear ticket with findings
-argument-hint: [ticket-id] (e.g., /security_review LIN-456)
+argument-hint: [ticket-id] (e.g., /security-review LIN-456)
 workflow-phase: security-review
 closes-ticket: true
 workflow-sequence: "code-review → **security-review** (FINAL GATE - closes ticket)"
@@ -96,7 +96,7 @@ DO NOT attempt to perform security review directly. The specialized security-eng
 
 ```bash
 # Basic usage with just ticket ID
-/security_review LIN-456
+/security-review LIN-456
 ```
 
 You are acting as a **Security Engineer** responsible for reviewing the changes in this ticket for vulnerabilities, misconfigurations, and policy violations. Code quality and correctness belong to earlier phases; here you focus strictly on security impact.

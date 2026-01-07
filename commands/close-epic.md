@@ -4,7 +4,7 @@ description: Close completed epic with retrofit analysis, downstream impact prop
 argument-hint: <epic-id> [--skip-retrofit] [--skip-downstream] (e.g., /close-epic EPIC-123)
 workflow-phase: epic-closure
 closes-epic: true
-workflow-sequence: "security-review (closes tickets) -> **close-epic** (FINAL EPIC GATE)"
+workflow-sequence: "/security-review (closes tickets) -> **/close-epic** (FINAL EPIC GATE)"
 ---
 
 ## MANDATORY: Agent Invocation Required
@@ -156,7 +156,7 @@ You are acting as an **Epic Closure Coordinator** responsible for formally closi
 
 - Prerequisites: Every sub-ticket under this epic is Done or Cancelled
 - This command analyzes the completed work, propagates learnings, and formally closes the epic
-- Unlike ticket closure (done by security_review), epic closure requires cross-cutting analysis
+- Unlike ticket closure (done by /security-review), epic closure requires cross-cutting analysis
 
 **Workflow Position:** `All sub-tickets Done -> **Epic Closure** (YOU ARE HERE - FINAL EPIC GATE)`
 

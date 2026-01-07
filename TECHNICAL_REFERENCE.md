@@ -22,19 +22,19 @@ Complete command documentation, agent specifications, and architecture details f
 
 These commands run at recurring intervals throughout the project lifecycle—not just once at setup. Service inventory runs after major codebase changes, discovery runs before each epic planning phase, epic planning runs for each new feature or PRD, and planning runs for each new epic.
 
-#### `/generate_service_inventory`
+#### `/generate-service-inventory`
 
 **Purpose**: Creates comprehensive inventory of all existing services, utilities, and infrastructure components to prevent duplication.
 
-**Usage**: `/generate_service_inventory [root-path] [output-file]`
+**Usage**: `/generate-service-inventory [root-path] [output-file]`
 
 **Examples**:
 ```bash
 # Scan src directory, output to inventory.md
-/generate_service_inventory ./src inventory.md
+/generate-service-inventory ./src inventory.md
 
 # Scan entire project
-/generate_service_inventory . services-inventory.md
+/generate-service-inventory . services-inventory.md
 ```
 
 **Key Features**:
@@ -316,15 +316,15 @@ These commands run for each individual ticket through the development lifecycle.
 
 ---
 
-#### `/security_review`
+#### `/security-review`
 
 **Purpose**: Conducts comprehensive security assessment against OWASP Top 10 and CVE databases. This is the final gate that closes Linear tickets.
 
-**Usage**: `/security_review [ticket-id]`
+**Usage**: `/security-review [ticket-id]`
 
 **Examples**:
 ```bash
-/security_review TICKET-201
+/security-review TICKET-201
 ```
 
 **Key Features**:
@@ -517,7 +517,7 @@ These commands run once per epic, after all sub-tickets have completed the ticke
 - Reviews authentication/authorization
 - Ensures compliance requirements
 
-**Used By**: `/security_review`
+**Used By**: `/security-review`
 
 ---
 
@@ -641,10 +641,10 @@ pm-vibecode-ops/
 │   ├── discovery.md
 │   ├── documentation.md
 │   ├── epic-planning.md
-│   ├── generate_service_inventory.md
+│   ├── generate-service-inventory.md
 │   ├── implementation.md
 │   ├── planning.md
-│   ├── security_review.md
+│   ├── security-review.md
 │   ├── testing.md
 │   └── close-epic.md
 │

@@ -1,7 +1,7 @@
 ---
 name: epic-closure-agent
 model: opus
-color: gold
+color: magenta
 skills: production-code-standards, verify-implementation, epic-closure-validation
 description: Use this agent for closing completed epics with retrofit analysis, downstream impact propagation, and documentation updates. This agent excels at extracting lessons learned, identifying patterns to propagate, and ensuring knowledge transfer across the project. Examples:
 

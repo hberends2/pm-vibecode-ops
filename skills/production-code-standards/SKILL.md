@@ -53,3 +53,5 @@ If proper implementation is blocked:
 **If you cannot implement without a workaround, do not implement. Communicate the blocker clearly.**
 
 See `references/anti-patterns.md` for detailed code examples of prohibited and required patterns.
+
+See `examples/error-handling-patterns.md` for practical before/after transformations.

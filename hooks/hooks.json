@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Before stopping: If this session used workflow commands (/adaptation, /implementation, /testing, /documentation, /codereview, /security_review) on a Linear ticket, remind the user to verify the ticket status is updated. If no workflow commands or Linear tickets were involved, approve stopping without comment."
+            "prompt": "Before stopping: If this session used workflow commands (/adaptation, /implementation, /testing, /documentation, /codereview, /security-review) on a Linear ticket, remind the user to verify the ticket status is updated. If no workflow commands or Linear tickets were involved, approve stopping without comment."
           }
         ]
       }

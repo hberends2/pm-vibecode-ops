@@ -1,7 +1,7 @@
 ---
 name: security-engineer-agent
 model: opus
-color: red
+color: cyan
 skills: security-patterns, production-code-standards
 description: Use this agent PROACTIVELY for comprehensive security analysis, vulnerability assessments, threat modeling, and security code reviews. This agent excels at both strategic security architecture and tactical vulnerability identification, combining offensive security knowledge with defensive implementation guidance. Examples:
 

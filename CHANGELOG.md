@@ -5,6 +5,25 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] - 2026-01-06
+
+### Added
+- New `references/` directories for skills: verify-implementation, service-reuse, mvd-documentation
+- New `examples/` directories for skills: production-code-standards, testing-philosophy, divergent-exploration
+- Enhanced skill descriptions with specific user trigger phrases for better activation
+- Distinct agent colors by category (green=implementation, cyan=review, blue=planning, yellow=quality, magenta=closure)
+
+### Changed
+- Renamed `security_review` to `security-review` for kebab-case consistency
+- Renamed `generate_service_inventory` to `generate-service-inventory` for kebab-case consistency
+- Updated 21+ documentation files with new command names
+- Renamed `skills/epic-closure-validation/skill.md` to `SKILL.md` for consistency
+
+### Fixed
+- Plugin validation now passes with no naming inconsistencies
+
+---
+
 ## [2.6.0] - 2026-01-06
 
 ### Added
@@ -38,7 +57,7 @@ Introduced `/close-epic` command for formally closing completed epics with compr
 **Workflow Enhancement**
 
 - Added epic-level completion phase to workflow (phase 11)
-- `/security_review` closes tickets, `/close-epic` closes epics
+- `/security-review` closes tickets, `/close-epic` closes epics
 - Clear separation: ticket closure vs. epic closure
 
 ---
@@ -85,7 +104,7 @@ Code review requires PRs to be ready for review, so this conversion is automatic
 
 Implemented a major architectural change where commands handle ALL Linear I/O while agents operate as pure workers:
 
-- **6 ticket-level commands updated** (adaptation, implementation, testing, documentation, codereview, security_review):
+- **6 ticket-level commands updated** (adaptation, implementation, testing, documentation, codereview, security-review):
   - Fetch ticket details and comments BEFORE spawning agents
   - Embed ALL context into agent prompts
   - Write reports to Linear AFTER agents complete
@@ -111,7 +130,7 @@ Implemented a major architectural change where commands handle ALL Linear I/O wh
 
 **Security Review Command Shell Substitution Error**
 
-Fixed error where `/security_review` command failed with "Command contains $() command substitution" due to Claude Code's security model blocking shell substitution patterns.
+Fixed error where `/security-review` command failed with "Command contains $() command substitution" due to Claude Code's security model blocking shell substitution patterns.
 
 - Removed complex `$()` command substitution patterns from shell commands
 - Replaced dynamic default branch detection with simple `origin/HEAD` reference
@@ -158,7 +177,7 @@ Fixed critical issue where agents were not using Linear MCP tools to read ticket
   - **Step 2: Agent Invocation** - Pass ticket context to agent in prompt
   - **Step 3: Post-Agent Verification** - Verify agent added completion comment
 
-- **Commands updated**: adaptation, implementation, testing, documentation, codereview, security_review
+- **Commands updated**: adaptation, implementation, testing, documentation, codereview, security-review
 
 ---
 
@@ -178,7 +197,7 @@ Fixed issues with agents not properly using Linear MCP tools. Agents were lookin
 - **Command syntax fixes**:
   - `epic-planning.md`: Removed non-existent milestone MCP functions, switched to label-based phase tracking
   - `planning.md`: Removed milestone functions, fixed JavaScript pseudocode to proper MCP tool instructions
-  - `discovery.md`, `security_review.md`: Changed shell-like comments to markdown format
+  - `discovery.md`, `security-review.md`: Changed shell-like comments to markdown format
   - `epic-planning.md`: Added explicit "Using Linear MCP" section with proper tool invocation examples
 
 ---
@@ -203,7 +222,7 @@ Updated all 9 skill descriptions with more explicit activation triggers based on
 
 Added explicit mandatory language to all 8 workflow commands requiring agent invocation via Task tool:
 
-- **Commands updated**: `discovery`, `planning`, `adaptation`, `implementation`, `testing`, `documentation`, `codereview`, `security_review`
+- **Commands updated**: `discovery`, `planning`, `adaptation`, `implementation`, `testing`, `documentation`, `codereview`, `security-review`
 
 - **New section added** (after frontmatter): "MANDATORY: Agent Invocation Required"
   - Bold statement: "You MUST use the Task tool to invoke the [agent-name]"
@@ -216,7 +235,7 @@ Added explicit mandatory language to all 8 workflow commands requiring agent inv
   - `testing` → `qa-engineer-agent`
   - `documentation` → `technical-writer-agent`
   - `codereview` → `code-reviewer-agent`
-  - `security_review` → `security-engineer-agent`
+  - `security-review` → `security-engineer-agent`
 
 ---
 
@@ -226,11 +245,11 @@ Added explicit mandatory language to all 8 workflow commands requiring agent inv
 
 **Security Review Git Reference Bug**
 
-Fixed `origin/HEAD` reference error in `/security_review` command that occurred in repositories where `origin/HEAD` symbolic reference is not configured (e.g., locally initialized repos with manually added remotes).
+Fixed `origin/HEAD` reference error in `/security-review` command that occurred in repositories where `origin/HEAD` symbolic reference is not configured (e.g., locally initialized repos with manually added remotes).
 
 - **Commands updated**:
-  - `commands/security_review.md`: Dynamic default branch detection with fallback chain
-  - `codex/prompts/security_review.md`: Same fix for platform-agnostic version
+  - `commands/security-review.md`: Dynamic default branch detection with fallback chain
+  - `codex/prompts/security-review.md`: Same fix for platform-agnostic version
 
 - **Fix details**:
   - Uses `git symbolic-ref` first (fastest when available)
@@ -495,7 +514,7 @@ If upgrading from 1.x:
 - Corrected project-level command timing guidance across README.md, QUICK_REFERENCE.md, and TECHNICAL_REFERENCE.md
 - Previously stated these commands run "once per project" which was incorrect
 - Now accurately documents recurring usage:
-  - `/generate_service_inventory` - Run after major codebase updates
+  - `/generate-service-inventory` - Run after major codebase updates
   - `/discovery` - Run before each epic planning phase
   - `/epic-planning` - Run for each new feature, PRD, or major initiative
   - `/planning` - Run for each new epic
@@ -778,8 +797,8 @@ With Skills:
 **Files affected:**
 - `codex/prompts/adaptation.md` - Removed 162 lines of worktree management code
 - `codex/prompts/implementation.md` - Removed 132 lines
-- `codex/prompts/generate_service_inventory.md` - Removed 116 lines
-- `codex/prompts/security_review.md` - Removed 112 lines
+- `codex/prompts/generate-service-inventory.md` - Removed 116 lines
+- `codex/prompts/security-review.md` - Removed 112 lines
 - `codex/prompts/testing.md` - Removed 86 lines
 - `codex/prompts/codereview.md` - Removed 75 lines
 - `codex/prompts/documentation.md` - Removed 52 lines
@@ -822,7 +841,7 @@ PM Vibe Code Operations is a complete workflow system enabling Product Managers 
 ### Core Workflow Commands
 
 **Project-Level Commands:**
-- `/generate_service_inventory` - Catalog existing services to prevent duplication
+- `/generate-service-inventory` - Catalog existing services to prevent duplication
 - `/discovery` - Analyze codebase patterns and architecture
 - `/epic-planning` - Transform PRDs into business-focused epics with duplicate prevention
 - `/planning` - Technical decomposition of epics into actionable tickets
@@ -833,7 +852,7 @@ PM Vibe Code Operations is a complete workflow system enabling Product Managers 
 - `/testing` - QA agent builds comprehensive test suites (90%+ coverage target)
 - `/documentation` - Technical writer agent generates API docs and guides
 - `/codereview` - Automated code quality and pattern compliance review
-- `/security_review` - OWASP Top 10 vulnerability assessment (final gate, closes tickets)
+- `/security-review` - OWASP Top 10 vulnerability assessment (final gate, closes tickets)
 
 ### Workflow Mode
 
@@ -920,6 +939,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.7.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.0
 [2.6.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.6.0
 [2.5.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.5.2
 [2.5.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.5.1

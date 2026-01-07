@@ -9,7 +9,7 @@ description: |
   - Session start or context switch between project-level and ticket-level work
 
   PROVIDES: Workflow sequence guidance (discovery → epic-planning → planning → adaptation →
-  implementation → testing → documentation → codereview → security_review). Ensures skills load.
+  implementation → testing → documentation → codereview → security-review). Ensures skills load.
 ---
 
 # PM Workflow Bootstrap
@@ -27,7 +27,7 @@ BEFORE responding to ANY request—including asking clarifying questions—you M
 ## Workflow Overview
 
 **Project-Level (run once):**
-1. `/generate_service_inventory` - Catalog existing code
+1. `/generate-service-inventory` - Catalog existing code
 2. `/discovery` - Analyze patterns and architecture
 3. `/epic-planning` - Create business-focused epics
 4. `/planning` - Decompose into sub-tickets
@@ -38,7 +38,7 @@ BEFORE responding to ANY request—including asking clarifying questions—you M
 7. `/testing` - Build test suite
 8. `/documentation` - Generate docs
 9. `/codereview` - Quality review
-10. `/security_review` - OWASP assessment (closes tickets)
+10. `/security-review` - OWASP assessment (closes tickets)
 
 ## Session Start Checklist
 
@@ -54,11 +54,11 @@ Starting new project?
 
 Working on a ticket?
   → /adaptation → /implementation → /testing
-  → /documentation → /codereview → /security_review
+  → /documentation → /codereview → /security-review
 
 "Where do I start?"
   → Check if service inventory exists
-  → No: /generate_service_inventory first
+  → No: /generate-service-inventory first
   → Yes: /discovery
 ```
 

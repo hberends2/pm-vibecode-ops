@@ -1,7 +1,7 @@
 ---
 name: technical-writer-agent
 model: sonnet
-color: teal
+color: yellow
 skills: mvd-documentation, production-code-standards
 description: Use this agent PROACTIVELY for creating comprehensive technical documentation, API references, and user guides. This agent excels at transforming complex technical concepts into clear, actionable documentation that developers and users can easily understand and follow. Examples:
 

@@ -38,7 +38,7 @@ All progress is saved in tickets, PRs, and code—starting fresh sessions doesn'
 
 | Command | Description |
 |---------|-------------|
-| `/generate_service_inventory` | Catalog existing codebase services |
+| `/generate-service-inventory` | Catalog existing codebase services |
 | `/discovery` | Analyze patterns and architecture |
 | `/epic-planning` | Create business-focused epics |
 | `/planning` | Decompose epics into tickets |
@@ -47,7 +47,7 @@ All progress is saved in tickets, PRs, and code—starting fresh sessions doesn'
 | `/testing` | Build and run test suite |
 | `/documentation` | Generate docs |
 | `/codereview` | Quality assessment |
-| `/security_review` | Final gate - closes ticket |
+| `/security-review` | Final gate - closes ticket |
 
 **Remember:** Run each command in its own fresh session for best results.
 

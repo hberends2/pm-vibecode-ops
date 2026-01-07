@@ -141,8 +141,8 @@ claude
 
 # You should see workflow commands listed:
 # /adaptation, /codereview, /discovery, /documentation,
-# /epic-planning, /generate_service_inventory, /implementation,
-# /planning, /security_review, /testing
+# /epic-planning, /generate-service-inventory, /implementation,
+# /planning, /security-review, /testing
 ```
 
 **Note**: Skills don't appear in `/help`. They activate automatically based on what you're doing (e.g., security patterns apply when writing auth code).
@@ -283,8 +283,8 @@ claude
 
 # You should see your installed commands listed:
 # /adaptation, /codereview, /discovery, /documentation,
-# /epic-planning, /generate_service_inventory, /implementation,
-# /planning, /security_review, /testing
+# /epic-planning, /generate-service-inventory, /implementation,
+# /planning, /security-review, /testing
 
 # Test a command
 /discovery --help

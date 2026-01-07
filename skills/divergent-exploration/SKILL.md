@@ -4,6 +4,7 @@ description: |
   Enforces exploring 3-5 distinct approaches before committing to one. ACTIVATE when:
   - User says: "design", "architect", "plan", "how should we", "what's the best way"
   - User says: "options", "alternatives", "trade-offs", "pros and cons", "compare approaches"
+  - User says: "help me decide", "how should I implement", "what approach should I take"
   - User asks: "which approach", "what are my options", "how would you solve this"
   - Planning: epic creation, feature design, architecture decisions, complex problem solving
   - About to recommend a single approach for a non-trivial decision
@@ -43,3 +44,5 @@ By forcing yourself to generate genuine alternatives, you either:
 Both outcomes improve decision quality.
 
 See `references/exploration-patterns.md` for self-check questions, evaluation dimensions, output templates, and anti-patterns.
+
+See `examples/exploration-session.md` for a complete divergent exploration session walkthrough.

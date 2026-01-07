@@ -1,7 +1,7 @@
 ---
 name: frontend-engineer-agent
 model: sonnet
-color: purple
+color: green
 skills: production-code-standards, service-reuse
 description: Use this agent PROACTIVELY for frontend development tasks including React components, UI implementations, client-side logic, and user interface optimization. This agent excels at building world-class, S-tier SaaS interfaces following design system principles inspired by Stripe, Airbnb, and Linear. Examples:
 

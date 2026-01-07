@@ -137,3 +137,5 @@ await expect(service.failingOp()).rejects.toThrow(ValidationError);
 | *.test.*, __tests__/ | YES | YES | N/A |
 
 **Remember: 50% coverage with correct tests > 90% with broken tests.**
+
+See `examples/test-templates.md` for well-structured test file templates and examples.

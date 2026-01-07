@@ -4,6 +4,7 @@ description: |
   Prevents code duplication by requiring inventory check before creation. ACTIVATE when:
   - User says: "create new", "add a service", "build a helper", "write a utility", "new class"
   - User says: "implement middleware", "add validator", "create repository", "new module"
+  - User says: "implement a shared component", "add shared function", "create common utility"
   - About to create: *Service.ts, *Helper.ts, *Util.ts, *Middleware.ts, *Repository.ts
   - Writing new: export class, export function in services/, utils/, common/
 

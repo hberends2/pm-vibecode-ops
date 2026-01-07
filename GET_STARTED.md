@@ -160,7 +160,7 @@ You need:
 3. Review [EXAMPLES.md](EXAMPLES.md) for similar features
 
 ### Phase 2: Discovery (10 minutes)
-1. Run `/generate_service_inventory` to catalog existing code
+1. Run `/generate-service-inventory` to catalog existing code
 2. Run `/discovery` to analyze patterns
 3. Review findings in your ticketing system
 
@@ -179,7 +179,7 @@ You need:
 3. **New session** → Run `/testing` → Review output → Close session
 4. **New session** → Run `/documentation` → Review output → Close session
 5. **New session** → Run `/codereview` → Review output → Close session
-6. **New session** → Run `/security_review` → Review output → Close session
+6. **New session** → Run `/security-review` → Review output → Close session
 
 Each command builds on artifacts created by previous commands (tickets, PRs, code), so starting fresh doesn't lose progress—it just gives each phase clean context to work with.
 

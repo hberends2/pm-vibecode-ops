@@ -31,7 +31,7 @@ For complete installation instructions, see:
 
 Each prompt corresponds to a workflow phase:
 
-- `generate_service_inventory.md` – Project-level service inventory
+- `generate-service-inventory.md` – Project-level service inventory
 - `discovery.md` – Technical discovery and architecture mapping
 - `epic-planning.md` – Epic creation from PRDs
 - `planning.md` – Ticket decomposition and planning
@@ -40,7 +40,7 @@ Each prompt corresponds to a workflow phase:
 - `testing.md` – Test design and execution
 - `documentation.md` – Documentation phase
 - `codereview.md` – Code review
-- `security_review.md` – Security review (final gate)
+- `security-review.md` – Security review (final gate)
 
 Prompts are designed to be copied into Codex sessions or referenced from your own CLI wrappers.
 
@@ -83,7 +83,7 @@ Each prompt starts with a short **persona paragraph** describing the role:
 - QA Engineer (`testing.md`)
 - Technical Writer (`documentation.md`)
 - Senior Code Reviewer (`codereview.md`)
-- Security Engineer (`security_review.md`)
+- Security Engineer (`security-review.md`)
 
 These personas mirror the **Claude agents** but stay within a single prompt so Codex can use them without extra configuration.
 
@@ -195,7 +195,7 @@ Scenario: You have a Linear ticket `APP-123` and you want to run the ticket-leve
 After these three phases, you can continue with:
 - `codex/prompts/documentation.md`
 - `codex/prompts/codereview.md`
-- `codex/prompts/security_review.md`
+- `codex/prompts/security-review.md`
 
 ## Example 2: Project-Level Flow (Discovery → Planning from a PRD)
 

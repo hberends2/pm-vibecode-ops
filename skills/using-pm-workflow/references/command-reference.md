@@ -8,7 +8,7 @@ Run these in order when starting a new project or major initiative:
 
 | Phase | Command | Purpose |
 |-------|---------|---------|
-| 1 | `/generate_service_inventory` | Catalog existing code to prevent duplication |
+| 1 | `/generate-service-inventory` | Catalog existing code to prevent duplication |
 | 2 | `/discovery` | Analyze patterns, architecture, and integration points |
 | 3 | `/epic-planning` | Create business-focused epics with duplicate detection |
 | 4 | `/planning` | Decompose epics into actionable sub-tickets |
@@ -24,9 +24,9 @@ Run these for EACH ticket, in order:
 | 7 | `/testing` | Build comprehensive test suite |
 | 8 | `/documentation` | Generate API docs and user guides |
 | 9 | `/codereview` | Quality assurance review |
-| 10 | `/security_review` | OWASP vulnerability assessment |
+| 10 | `/security-review` | OWASP vulnerability assessment |
 
-**Critical**: Only `/security_review` closes tickets and merges code to main.
+**Critical**: Only `/security-review` closes tickets and merges code to main.
 
 ## Available Skills Reference
 

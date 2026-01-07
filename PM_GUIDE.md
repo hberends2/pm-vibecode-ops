@@ -158,7 +158,7 @@ This section walks you through your first feature. Setup time is approximately 4
 #### Step 1: Inventory Existing Services (5 minutes)
 
 ```bash
-/generate_service_inventory ./src inventory.md
+/generate-service-inventory ./src inventory.md
 ```
 
 **What this does**: AI scans your codebase and creates a list of all existing functionality.
@@ -335,7 +335,7 @@ Before running epic-planning, ensure your PRD has:
 
 #### 1️⃣ **Service Inventory** (Before every new feature)
 ```bash
-/generate_service_inventory [codebase-path] [output-file]
+/generate-service-inventory [codebase-path] [output-file]
 ```
 
 **Your Job**: Review the inventory to understand what already exists.
@@ -561,7 +561,7 @@ Look at test names—they should read like user scenarios:
 
 #### 🔟 **Security Review** (OWASP Compliance - Final Gate)
 ```bash
-/security_review [ticket-id]
+/security-review [ticket-id]
 ```
 
 **Your Job**: Ensure critical issues are addressed

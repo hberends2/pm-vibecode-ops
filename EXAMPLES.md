@@ -149,7 +149,7 @@ so that I know what went wrong and how to fix it.
 claude
 
 # Run service inventory
-/generate_service_inventory ./src services-inventory.md
+/generate-service-inventory ./src services-inventory.md
 
 # Review output, then close Claude Code
 ```
@@ -326,7 +326,7 @@ For each ticket, run these commands in sequence (fresh session for each):
 /codereview TICKET-101
 
 # Session 10: Security Review (final gate)
-/security_review TICKET-101
+/security-review TICKET-101
 ```
 
 **What Happens at Each Phase**:

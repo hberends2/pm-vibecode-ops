@@ -2,7 +2,8 @@
 name: verify-implementation
 description: |
   Requires evidence before any completion claim. ACTIVATE when:
-  - User says: "is it done", "are we finished", "ready for review", "create PR", "commit"
+  - User says: "is it done", "is this done", "are we finished", "ready for review", "create PR", "commit"
+  - User says: "ready to close", "mark as complete", "verify my work", "did I miss anything"
   - About to say: "tests pass", "build succeeds", "bug fixed", "feature complete", "done"
   - About to say: "should work", "probably works", "I think it's fixed", "that should do it"
   - Marking Linear tickets as complete or creating pull requests
