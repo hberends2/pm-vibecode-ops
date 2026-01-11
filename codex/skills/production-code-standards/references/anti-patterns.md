@@ -1,0 +1,110 @@
+# Anti-Patterns Reference
+
+Detailed examples of prohibited patterns in production code.
+
+## Fallback Logic (Silent Failure)
+
+```javascript
+// BLOCK - Hides errors
+const config = getConfig() || defaultConfig;
+const user = await findUser(id) ?? guestUser;
+
+// REQUIRE - Fail fast
+const config = getConfig();
+if (!config) throw new ConfigurationError('Config not found');
+```
+
+## Temporary/Incomplete Code
+
+```javascript
+// BLOCK
+// TODO: implement proper validation later
+// FIXME: this is a hack, refactor
+// HACK: workaround for bug in library
+```
+
+## Error Suppression
+
+```javascript
+// BLOCK
+try { riskyOperation(); } catch (e) { /* ignore */ }
+try { riskyOperation(); } catch (e) { return null; }
+
+// REQUIRE - Log and propagate
+try {
+  riskyOperation();
+} catch (error) {
+  logger.error('Operation failed', { error });
+  throw new OperationError('Failed', { cause: error });
+}
+```
+
+## Mocked Services in Production
+
+```javascript
+// BLOCK in src/, lib/, app/
+const mockService = { send: () => Promise.resolve('ok') };
+
+// ALLOWED only in *.test.*, *.spec.*, __tests__/
+```
+
+## Workaround Patterns
+
+```javascript
+// BLOCK
+if (buggyLibraryBehavior) { applyWorkaround(); }
+setTimeout(() => retryBecauseOfRaceCondition(), 100);
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+```
+
+## Required Patterns
+
+### Fail-Fast Validation
+
+```javascript
+function processPayment(amount, currency) {
+  if (!Number.isFinite(amount) || amount <= 0) {
+    throw new ValidationError('Amount must be positive');
+  }
+  // Continue with valid inputs only
+}
+```
+
+### Typed Errors
+
+```javascript
+class PaymentError extends Error {
+  constructor(message, code, details) {
+    super(message);
+    this.name = 'PaymentError';
+    this.code = code;
+  }
+}
+throw new PaymentError('Declined', 'CARD_DECLINED', { reason });
+```
+
+### Error Propagation (Let Errors Bubble)
+
+```javascript
+async function createOrder(data) {
+  const user = await userService.findById(data.userId); // May throw
+  const payment = await paymentService.charge(data.amount); // May throw
+  return orderRepository.create({ user, payment }); // May throw
+}
+// Global error handler catches - don't suppress here
+```
+
+### Repository Pattern
+
+```javascript
+// REQUIRE - Data access through repositories
+class UserService {
+  constructor(private userRepository: UserRepository) {}
+  async findUser(id: string) {
+    return this.userRepository.findById(id);
+  }
+}
+
+// BLOCK - Direct ORM access in services
+return prisma.user.findUnique({ where: { id } }); // VIOLATION
+```

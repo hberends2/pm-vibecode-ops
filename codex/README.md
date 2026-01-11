@@ -29,6 +29,19 @@ For complete installation instructions, see:
 
 ## Files and Phases
 
+Directory structure:
+
+```
+codex/
+├── README.md                    # This file
+├── AGENTS.md                    # Agent usage guide
+├── SKILLS_REFERENCE.md          # Skills by workflow phase
+├── HOOKS_GUIDE.md               # Manual hook alternatives
+├── prompts/                     # 10 workflow prompts
+├── skills/                      # Quality enforcement skills
+└── agents/                      # Agent persona templates
+```
+
 Each prompt corresponds to a workflow phase:
 
 - `generate-service-inventory.md` – Project-level service inventory
@@ -43,6 +56,8 @@ Each prompt corresponds to a workflow phase:
 - `security-review.md` – Security review (final gate)
 
 Prompts are designed to be copied into Codex sessions or referenced from your own CLI wrappers.
+
+Skills and agents provide additional quality enforcement and specialized expertise (see sections below).
 
 ## Simple-Mode Assumptions
 
@@ -104,6 +119,85 @@ These personas mirror the **Claude agents** but stay within a single prompt so C
 
 Each prompt creates persistent artifacts (Linear tickets, code commits, PRs), so you won't lose progress when starting fresh sessions.
 
+## Codex Skills
+
+Skills are **quality enforcement guidelines** that help maintain production standards during development. In Claude Code, skills auto-activate based on context. In Codex, you manually include relevant skill content in your prompts.
+
+### Available Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `production-code-standards` | Blocks workarounds, temporary code, and fallback patterns |
+| `service-reuse` | Enforces checking service inventory before creating new services |
+| `testing-philosophy` | Requires fixing existing broken tests before writing new ones |
+| `mvd-documentation` | Enforces "document why, not what" (Minimal Viable Documentation) |
+| `security-patterns` | Enforces OWASP patterns during code writing |
+| `model-aware-behavior` | Read all files before proposing changes |
+| `using-pm-workflow` | Guide through workflow phases correctly |
+| `verify-implementation` | Verify work before marking complete |
+| `divergent-exploration` | Explore alternatives before converging on solutions |
+| `epic-closure-validation` | Validates all tickets complete before epic closure |
+
+### How to Use Skills
+
+Include the relevant skill content at the beginning of your Codex prompt:
+
+```bash
+# View a skill
+cat codex/skills/production-code-standards.md
+
+# Combine skill with workflow prompt
+cat codex/skills/production-code-standards.md codex/prompts/implementation.md
+```
+
+**When to use which skills:**
+
+- **Implementation phase**: `production-code-standards`, `service-reuse`, `security-patterns`
+- **Testing phase**: `testing-philosophy`, `verify-implementation`
+- **Documentation phase**: `mvd-documentation`
+- **Discovery/Planning**: `divergent-exploration`, `model-aware-behavior`
+- **Epic closure**: `epic-closure-validation`
+
+See **[SKILLS_REFERENCE.md](SKILLS_REFERENCE.md)** for detailed skill-to-phase mapping, usage examples, and reference file listings.
+
+## Codex Agents
+
+Agents are **persona templates** that provide specialized expertise for specific tasks. Unlike inline personas in prompts (which are brief), full agent templates include detailed instructions, quality gates, and output formats.
+
+See **[AGENTS.md](AGENTS.md)** for complete documentation.
+
+### Available Agents
+
+| Agent | Expertise |
+|-------|-----------|
+| `architect-agent` | Discovery, planning, technical decomposition |
+| `backend-engineer-agent` | Server-side implementation |
+| `frontend-engineer-agent` | UI/UX implementation |
+| `qa-engineer-agent` | Test suite creation |
+| `code-reviewer-agent` | Code quality assessment |
+| `technical-writer-agent` | Documentation generation |
+| `security-engineer-agent` | Security reviews |
+| `design-reviewer-agent` | UI/UX validation |
+| `epic-closure-agent` | Epic closure analysis and lessons learned |
+| `ticket-context-agent` | Parallel ticket context gathering for large epics |
+
+### How to Use Agents
+
+1. Copy the agent template from `codex/agents/`
+2. Paste at the beginning of your Codex session
+3. Provide the context the agent needs (ticket details, code paths, etc.)
+
+```bash
+# View an agent template
+cat codex/agents/backend-engineer-agent.md
+
+# Example: Use backend engineer for implementation
+cat codex/agents/backend-engineer-agent.md
+# Then paste into Codex and provide: ticket ID, implementation requirements
+```
+
+**Key difference from Claude Code:** In Claude Code, agents are invoked via the Task tool by orchestrating commands. In Codex, you directly use the agent template as your session persona.
+
 ## Recommended Usage Patterns
 
 ### Direct Copy-Paste
@@ -154,6 +248,20 @@ Compared to the `claude/` commands:
 - Linear integration is **recommended but optional**; if you don’t use MCP, adapt the steps.
 
 The **quality gates and philosophy (no workarounds, service reuse, security-first)** are kept aligned with the Claude workflow wherever possible.
+
+## Hooks (Manual Alternatives)
+
+Claude Code uses hooks to automate quality enforcement at key moments (session start, tool use, session end). Codex doesn't have a hook system, but you can replicate these behaviors manually.
+
+**Key hooks and their Codex alternatives:**
+
+| Hook | Claude Code Behavior | Codex Alternative |
+|------|---------------------|-------------------|
+| SessionStart | Auto-injects workflow context and skill reminders | Review session checklist before starting |
+| PostToolUse (Epic) | Blocks epic closure if sub-tickets incomplete | Complete epic closure checklist manually |
+| Stop | Reviews code changes for TODO/FIXME/console.log | Run end-of-session review script |
+
+See **[HOOKS_GUIDE.md](HOOKS_GUIDE.md)** for detailed checklists and automation scripts to replicate hook behaviors.
 
 ## Example 1: Ticket-Level Flow (Adaptation → Implementation → Testing)
 

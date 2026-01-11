@@ -5,6 +5,28 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.11.0] - 2026-01-11
+
+### Added
+- Codex agents directory with 10 agent persona templates for OpenAI Codex CLI:
+  - architect-agent, backend-engineer-agent, frontend-engineer-agent
+  - qa-engineer-agent, code-reviewer-agent, technical-writer-agent
+  - security-engineer-agent, design-reviewer-agent, epic-closure-agent
+  - ticket-context-agent
+- Codex skills directory with 10 quality enforcement skills adapted for Codex:
+  - production-code-standards, service-reuse, testing-philosophy
+  - mvd-documentation, security-patterns, model-aware-behavior
+  - using-pm-workflow, verify-implementation, divergent-exploration
+  - epic-closure-validation
+- `codex/AGENTS.md` - comprehensive agent usage guide for Codex
+- `codex/SKILLS_REFERENCE.md` - skills by workflow phase mapping
+- `codex/HOOKS_GUIDE.md` - manual alternatives to Claude Code hooks
+
+### Changed
+- Updated `codex/README.md` with new Codex Skills and Codex Agents sections
+
+---
+
 ## [2.10.0] - 2025-01-11
 
 ### Added
@@ -1044,6 +1066,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.11.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.11.0
 [2.10.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.10.0
 [2.9.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.9.0
 [2.8.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.8.0
