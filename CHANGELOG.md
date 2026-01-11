@@ -5,6 +5,23 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - 2025-01-11
+
+### Changed
+- Improved all 10 skills based on plugin-dev:skill-reviewer methodology review
+- Removed tangential "Word Substitutions" section from model-aware-behavior skill
+- Removed duplicate "When Blocked" section from production-code-standards references
+- Fixed second-person language violations in epic-closure-validation and service-reuse skills
+- Converted first-person verification checklist to imperative form in model-aware-behavior
+
+### Added
+- Added `/close-epic` (Phase 11) to using-pm-workflow workflow overview and decision tree
+- Added ADR template reference pointer to mvd-documentation skill
+- Added verification checklist reference pointer to verify-implementation skill
+- Created `references/scope-creep-patterns.md` for model-aware-behavior skill with anti-patterns and examples
+
+---
+
 ## [2.8.0] - 2026-01-11
 
 ### Added
@@ -998,6 +1015,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.9.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.9.0
 [2.8.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.8.0
 [2.7.3]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.3
 [2.7.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.2
