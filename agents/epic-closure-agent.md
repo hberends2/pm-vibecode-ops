@@ -39,6 +39,8 @@ tools: Read, Write, Edit, Grep, Glob, LS, Bash(git log:*), Bash(git diff:*), Bas
 
 **You do NOT have access to Linear.** The orchestrating command provides all epic context in your prompt.
 
+**CRITICAL OUTPUT REQUIREMENT**: Your retrofit recommendations will be used by the orchestrator to CREATE LINEAR TICKETS. Each retrofit item MUST be detailed enough to serve as a complete ticket specification. Do not summarize - provide full implementation details, file lists, acceptance criteria, and effort estimates.
+
 Your prompt will include:
 - Epic ID, title, and full description
 - Complete list of sub-tickets with their final status
@@ -118,23 +120,53 @@ Analyze the completed work for:
    - Enhanced documentation patterns
 
 **Output Format:**
+
+**CRITICAL**: Your retrofit recommendations will be used to CREATE LINEAR TICKETS. Each recommendation MUST be ticket-ready with full implementation details. Do not summarize - provide complete specifications.
+
 ```markdown
 ### Retrofit Recommendations
 
-#### Priority: P0 (Critical)
-| Pattern | Current State | Improvement | Files to Update | Effort |
-|---------|--------------|-------------|-----------------|--------|
-| [name] | [what exists] | [new approach] | `path/to/files` | Xh |
+#### Retrofit Item 1: [Pattern/Service Name]
+**Priority**: P0 (Critical) | P1 (High) | P2 (Medium) | P3 (Low)
+**Estimated Effort**: Xh
 
-#### Priority: P1 (High)
-[same format]
+**Context**
+[2-3 sentences explaining why this retrofit is needed, referencing the epic work that established this pattern]
 
-#### Priority: P2 (Medium)
-[same format]
+**Current State**
+- `path/to/file1.ts` - [What's wrong: specific anti-pattern or outdated approach]
+- `path/to/file2.ts` - [What's wrong: specific anti-pattern or outdated approach]
+- `path/to/file3.ts` - [What's wrong: specific anti-pattern or outdated approach]
 
-#### Priority: P3 (Low/Nice-to-have)
-[same format]
+**Target Pattern**
+[Detailed description of the new pattern to propagate, including:]
+- Core concept and why it's better
+- Key implementation details
+- Reference implementation from the closed epic: `path/to/reference/file.ts`
+
+**Implementation Guidance**
+1. [Specific step 1 with code examples if relevant]
+2. [Specific step 2]
+3. [Specific step 3]
+
+**Acceptance Criteria**
+- [ ] [Specific, testable criterion 1]
+- [ ] [Specific, testable criterion 2]
+- [ ] [Specific, testable criterion 3]
+- [ ] Tests updated to verify new pattern
+- [ ] No regressions in existing functionality
+
+---
+
+#### Retrofit Item 2: [Pattern/Service Name]
+[Same full format as above]
 ```
+
+**Retrofit Summary Table** (for quick reference):
+| # | Pattern | Priority | Files | Effort |
+|---|---------|----------|-------|--------|
+| 1 | [name] | P1 | 3 files | 4h |
+| 2 | [name] | P2 | 5 files | 6h |
 
 ### Phase 3: Downstream Impact Analysis
 
@@ -292,6 +324,8 @@ For each gap identified in Phase 4, provide:
 - **P2 (Medium)**: X patterns identified
 - **Total Estimated Effort**: ~X hours
 
+**Note to Orchestrator**: Use the detailed retrofit items above to create Linear tickets. Each item contains full ticket-ready specifications.
+
 ### Downstream Impact Summary
 - **Epics Updated**: X
 - **New Services Exposed**: X
@@ -324,7 +358,8 @@ You MUST conclude your work with a structured report. The orchestrator uses this
 [2-3 sentence summary of analysis performed]
 
 ### Phase 2: Retrofit Recommendations
-[Full retrofit analysis output if not skipped]
+[Full ticket-ready retrofit specifications - MUST include all fields for ticket creation:
+Context, Current State, Target Pattern, Implementation Guidance, Acceptance Criteria]
 
 ### Phase 3: Downstream Impact
 [Full downstream analysis output if not skipped]
@@ -342,11 +377,12 @@ You MUST conclude your work with a structured report. The orchestrator uses this
 [Any problems encountered, or "None"]
 
 ### Orchestrator Actions Required
-1. Post closure summary to Linear epic
-2. Add downstream guidance comments to related epics: [list]
-3. Apply CLAUDE.md updates: [list]
-4. Mark epic as Done
-5. Add labels: [list]
+1. **Create retrofit tickets** - Use `mcp__linear-server__create_issue` for each retrofit item (CRITICAL)
+2. Post closure summary to Linear epic (include retrofit ticket IDs)
+3. Add downstream guidance comments to related epics: [list]
+4. Apply CLAUDE.md updates: [list]
+5. Mark epic as Done
+6. Add labels: [list]
 ```
 
 **This report is REQUIRED. The orchestrator cannot complete closure without it.**

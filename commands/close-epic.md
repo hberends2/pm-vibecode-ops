@@ -1,6 +1,6 @@
 ---
-allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git show:*), Read, Glob, Grep, LS, Task, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__list_issues, mcp__linear-server__list_projects
-description: Close completed epic with retrofit analysis, downstream impact propagation, and CLAUDE.md updates
+allowed-tools: Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git show:*), Read, Glob, Grep, LS, Task, mcp__linear-server__get_issue, mcp__linear-server__update_issue, mcp__linear-server__create_issue, mcp__linear-server__create_comment, mcp__linear-server__list_comments, mcp__linear-server__list_issues, mcp__linear-server__list_projects
+description: Close completed epic with retrofit analysis, downstream impact propagation, retrofit ticket creation, and CLAUDE.md updates
 argument-hint: <epic-id> [--skip-retrofit] [--skip-downstream] (e.g., /close-epic EPIC-123)
 workflow-phase: epic-closure
 closes-epic: true
@@ -13,18 +13,70 @@ workflow-sequence: "/security-review (closes tickets) -> **/close-epic** (FINAL 
 
 ### Step 1: Pre-Agent Context Gathering (YOU do this BEFORE invoking agent)
 
-**As the orchestrator, YOU must gather ALL context before spawning the agent:**
+**As the orchestrator, YOU must gather ALL context before spawning the agent.**
+
+#### 1.1 Initial Assessment
 
 1. **Fetch epic details**: Use `mcp__linear-server__get_issue` with epic ID
 2. **Fetch all sub-tickets**: Use `mcp__linear-server__list_issues` with parent filter to get all child tickets
-3. **Verify completion status**: Check that ALL sub-tickets are Done or Cancelled
-4. **Fetch all comments**: Use `mcp__linear-server__list_comments` to get epic history
-5. **Extract context for agent prompt:**
+3. **Count tickets**: Determine the number of sub-tickets to select gathering strategy
+
+#### 1.2 Scalable Context Gathering (Based on Ticket Count)
+
+**THRESHOLD: 6 tickets**
+
+**If 6 or fewer tickets (Small Epic):**
+- Gather context directly using Linear MCP tools
+- Fetch each ticket's details and comments sequentially
+- Proceed directly to agent invocation
+
+**If more than 6 tickets (Large Epic):**
+- **MUST use subagents to prevent context exhaustion**
+- Split tickets into batches of 5-6 tickets each
+- Spawn parallel `ticket-context-agent` instances using Task tool
+- Each subagent fetches and SUMMARIZES ticket context
+- Aggregate summaries before invoking epic-closure-agent
+
+**Parallel Context Gathering Pattern:**
+```
+# For an epic with 15 tickets:
+# - Batch 1 (tickets 1-5): Spawn ticket-context-agent
+# - Batch 2 (tickets 6-10): Spawn ticket-context-agent
+# - Batch 3 (tickets 11-15): Spawn ticket-context-agent
+#
+# All three agents run IN PARALLEL using a single message with multiple Task tool calls
+# Wait for all to complete, then aggregate summaries
+```
+
+**Example Task tool invocation for context gathering:**
+```
+Task tool call:
+- subagent_type: ticket-context-agent
+- description: "Gather context for batch 1"
+- prompt: |
+    Epic: EPIC-123
+    Tickets to process: PROJ-101, PROJ-102, PROJ-103, PROJ-104, PROJ-105
+
+    Fetch and summarize each ticket's:
+    - Description and status
+    - All comments (focus on phase reports: implementation, testing, security)
+    - Key decisions and patterns introduced
+
+    Return structured summaries for aggregation.
+```
+
+#### 1.3 Complete Context Gathering Checklist
+
+After gathering (directly or via subagents):
+
+1. **Verify completion status**: Check that ALL sub-tickets are Done or Cancelled
+2. **Aggregate context for agent prompt:**
    - Epic ID, title, and full description
    - List of all sub-tickets with their final status
    - Phase reports from sub-tickets (implementation summaries, testing results, security findings)
    - Original business goals and success criteria from epic description
-6. **Identify related epics**: Use `mcp__linear-server__list_issues` to find dependent/related epics
+3. **Identify related epics**: Use `mcp__linear-server__list_issues` to find dependent/related epics
+4. **Fetch epic comments**: Use `mcp__linear-server__list_comments` to get epic-level history
 
 **IMPORTANT**: The agent does NOT have access to Linear. You must include ALL relevant context in the prompt.
 
@@ -111,17 +163,77 @@ Return a structured epic closure report when complete.
 After the agent returns its report:
 
 1. **Parse the agent's report** - Extract retrofit actions, downstream updates, CLAUDE.md changes
-2. **Write the closure comment** - Use `mcp__linear-server__create_comment` with the structured closure report
-3. **Update related epics** (if downstream analysis was performed):
+
+2. **CREATE RETROFIT TICKETS** (CRITICAL - Do not skip):
+   - For EACH retrofit recommendation in the agent's report, create a new Linear ticket
+   - Use `mcp__linear-server__create_issue` with the full retrofit details
+   - Retrofit tickets MUST include:
+     - **Title**: `[Retrofit] [Pattern/Service Name] - [Brief Description]`
+     - **Description**: Full details from the agent's retrofit recommendation:
+       - What pattern/approach to propagate
+       - Why this retrofit is needed (context from the closed epic)
+       - Which existing files/components should adopt it
+       - Specific implementation guidance
+       - Acceptance criteria
+     - **Labels**: `retrofit`, priority label (P0-P3 from agent)
+     - **Parent**: Link to a "Retrofit Work" epic if one exists, or create standalone
+   - Collect all created ticket IDs for the closure report
+
+   **Example retrofit ticket creation:**
+   ```
+   mcp__linear-server__create_issue:
+     title: "[Retrofit] Error Handling Pattern - Propagate to Legacy Services"
+     description: |
+       ## Context
+       During EPIC-123 (User Authentication Overhaul), we established a new error handling
+       pattern that provides better observability and user feedback.
+
+       ## Retrofit Requirement
+       Propagate this pattern to existing legacy services that still use the old approach.
+
+       ## Pattern Details
+       [Full pattern description from agent report]
+
+       ## Files to Update
+       - `src/services/legacy-payment.ts` - Current: try/catch with console.log
+       - `src/services/legacy-notification.ts` - Current: silent failures
+       - `src/services/legacy-reporting.ts` - Current: generic error messages
+
+       ## Implementation Guidance
+       [Specific steps from agent report]
+
+       ## Acceptance Criteria
+       - [ ] All listed files use new error handling pattern
+       - [ ] Error logs include correlation IDs
+       - [ ] User-facing errors follow new message format
+       - [ ] Tests updated to verify error handling
+
+       ## Source
+       Originated from: EPIC-123 closure analysis
+       Priority: P1 (High)
+       Estimated Effort: 4 hours
+
+     labels: ["retrofit", "P1", "tech-debt"]
+   ```
+
+3. **Write the closure comment** - Use `mcp__linear-server__create_comment` with the structured closure report
+   - Include the list of created retrofit ticket IDs
+   - Reference the retrofit tickets so work is traceable
+
+4. **Update related epics** (if downstream analysis was performed):
    - Use `mcp__linear-server__create_comment` to add guidance to dependent epics
-4. **Close the epic**:
+
+5. **Close the epic**:
    - Use `mcp__linear-server__update_issue` to mark epic as "Done"
    - Add appropriate labels (e.g., "epic-completed", "retrofit-complete")
-5. **Apply CLAUDE.md updates** - Use Edit tool to update project CLAUDE.md
-6. **Verify success** - Confirm the comment was added and epic is closed
-7. **Report to user** - Summarize closure actions, retrofit findings, downstream propagation
 
-**YOU are responsible for the Linear comment, epic closure, and CLAUDE.md updates, not the agent.**
+6. **Apply CLAUDE.md updates** - Use Edit tool to update project CLAUDE.md
+
+7. **Verify success** - Confirm the comment was added, retrofit tickets created, and epic is closed
+
+8. **Report to user** - Summarize closure actions, retrofit tickets created, downstream propagation
+
+**YOU are responsible for the Linear comment, retrofit ticket creation, epic closure, and CLAUDE.md updates, not the agent.**
 
 DO NOT attempt to perform epic closure analysis directly. The specialized epic-closure-agent handles the analysis.
 
@@ -296,6 +408,15 @@ After completing the analysis, the orchestrator adds the following comment to th
    - Files to update: `path/to/existing/code`
    - Priority: P[0-3]
    - Estimated effort: [hours]
+
+### Retrofit Tickets Created
+| Ticket ID | Title | Priority | Est. Effort |
+|-----------|-------|----------|-------------|
+| PROJ-XXX | [Retrofit] Pattern Name - Description | P1 | 4h |
+| PROJ-YYY | [Retrofit] Other Pattern - Description | P2 | 2h |
+
+**Total Retrofit Tickets**: X
+**Total Estimated Effort**: ~Y hours
 
 ### Downstream Impact
 **Guidance Added to Dependent Epics:**

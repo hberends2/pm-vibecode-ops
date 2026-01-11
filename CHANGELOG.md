@@ -5,6 +5,22 @@ All notable changes to PM Vibe Code Operations will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] - 2026-01-11
+
+### Added
+- **ticket-context-agent**: New agent for gathering and summarizing ticket context from Linear when processing large epics
+- **Scalable Context Gathering**: `/close-epic` now spawns parallel `ticket-context-agent` instances for epics with 7+ tickets, preventing context exhaustion
+- **Retrofit Ticket Creation**: `/close-epic` now automatically creates detailed Linear tickets for each retrofit recommendation with full specifications (context, implementation guidance, acceptance criteria)
+
+### Changed
+- **close-epic.md**: Added `mcp__linear-server__create_issue` to allowed-tools for retrofit ticket creation
+- **close-epic.md**: Added threshold-based context gathering strategy (≤6 tickets: direct, 7+: parallel agents)
+- **epic-closure-agent.md**: Retrofit recommendations now output ticket-ready specifications with full detail
+- Updated agent count from 9 to 10 across documentation (AGENTS.md, CLAUDE.md)
+- Updated TECHNICAL_REFERENCE.md with new `/close-epic` features and Ticket Context Agent section
+
+---
+
 ## [2.7.3] - 2026-01-09
 
 ### Changed
@@ -982,6 +998,7 @@ This changelog will be updated with each new release. See [CONTRIBUTING.md](CONT
 
 ---
 
+[2.8.0]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.8.0
 [2.7.3]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.3
 [2.7.2]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.2
 [2.7.1]: https://github.com/bdouble/pm-vibecode-ops/releases/tag/v2.7.1

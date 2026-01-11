@@ -376,12 +376,18 @@ These commands run once per epic, after all sub-tickets have completed the ticke
 ```
 
 **Key Features**:
+- **Scalable Context Gathering**: For epics with 7+ tickets, spawns parallel `ticket-context-agent` instances to gather and summarize ticket context, preventing context exhaustion
 - **Completion Verification (BLOCKING)**: Validates ALL sub-tickets are Done or Cancelled
 - **Retrofit Analysis**: Identifies patterns worth propagating backward to existing code
+- **Retrofit Ticket Creation**: Automatically creates detailed Linear tickets for each retrofit recommendation with full specifications (context, implementation guidance, acceptance criteria)
 - **Downstream Impact**: Propagates guidance to dependent/related epics
 - **Documentation Audit**: Maps implemented features against CLAUDE.md coverage
 - **CLAUDE.md Updates**: Proposes and applies documentation updates
 - **Closure Summary**: Generates comprehensive closure report with lessons learned
+
+**Context Gathering Strategy**:
+- **Small Epics (≤6 tickets)**: Direct context gathering via Linear MCP
+- **Large Epics (7+ tickets)**: Parallel `ticket-context-agent` instances process batches of 5-6 tickets each, returning summarized context to prevent context overflow
 
 **Six-Phase Workflow**:
 1. Completion Verification - Validate all sub-tickets complete (blocking)
@@ -391,7 +397,7 @@ These commands run once per epic, after all sub-tickets have completed the ticke
 5. CLAUDE.md Updates - Apply documentation changes
 6. Closure Summary - Create final epic closure report
 
-**Output**: Epic marked as Done, closure report added as comment, CLAUDE.md updated.
+**Output**: Epic marked as Done, closure report added as comment, retrofit tickets created in Linear, CLAUDE.md updated.
 
 **Time**: 10-20 minutes depending on epic size and options selected
 
@@ -582,6 +588,33 @@ These commands run once per epic, after all sub-tickets have completed the ticke
 
 ---
 
+### Ticket Context Agent
+
+**Role**: Gathering and summarizing ticket context from Linear for large epics
+
+**Expertise**:
+- Efficient batch ticket processing via Linear MCP
+- Context summarization and aggregation
+- Key information extraction (decisions, patterns, findings)
+- Parallel processing coordination
+
+**Key Responsibilities**:
+- Fetches ticket details and comments in batches of 5-6
+- Summarizes implementation reports, testing results, security findings
+- Aggregates cross-cutting concerns across multiple tickets
+- Returns condensed context to prevent conversation context exhaustion
+
+**When Used**:
+- Automatically spawned by `/close-epic` when epic has 7+ sub-tickets
+- Multiple instances run in parallel for different ticket batches
+- Results aggregated before invoking epic-closure-agent
+
+**Output**: Structured ticket summaries with work summary, key decisions, patterns introduced, issues resolved, and key files changed.
+
+**Used By**: `/close-epic` (for large epics only)
+
+---
+
 ## Workflow Integration
 
 ### Ticketing System Integration
@@ -623,7 +656,7 @@ pm-vibecode-ops/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin manifest configuration
 │
-├── agents/                      # Specialized AI agent configurations (9 agents)
+├── agents/                      # Specialized AI agent configurations (10 agents)
 │   ├── architect-agent.md
 │   ├── backend-engineer-agent.md
 │   ├── code-reviewer-agent.md
@@ -632,7 +665,8 @@ pm-vibecode-ops/
 │   ├── frontend-engineer-agent.md
 │   ├── qa-engineer-agent.md
 │   ├── security-engineer-agent.md
-│   └── technical-writer-agent.md
+│   ├── technical-writer-agent.md
+│   └── ticket-context-agent.md
 │
 ├── commands/                    # Workflow slash commands
 │   ├── README.md                # Commands documentation
