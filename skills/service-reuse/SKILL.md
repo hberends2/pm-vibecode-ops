@@ -1,14 +1,14 @@
 ---
 name: service-reuse
 description: |
-  Prevents code duplication by requiring inventory check before creation. ACTIVATE when:
+  This skill should be used when preventing code duplication by requiring inventory check before creation. Activate when:
   - User says: "create new", "add a service", "build a helper", "write a utility", "new class"
   - User says: "implement middleware", "add validator", "create repository", "new module"
   - User says: "implement a shared component", "add shared function", "create common utility"
   - About to create: *Service.ts, *Helper.ts, *Util.ts, *Middleware.ts, *Repository.ts
   - Writing new: export class, export function in services/, utils/, common/
 
-  REQUIRES: Search service-inventory.yaml AND grep codebase for existing implementations BEFORE
+  Requires searching service-inventory.yaml AND grepping codebase for existing implementations BEFORE
   writing any new service, utility, helper, or shared code. Document "found X" or "searched, not found".
 ---
 
@@ -138,4 +138,4 @@ Even then:
 - Add to service inventory when complete
 - Emit events, don't couple directly
 
-**If you cannot find the service inventory, ASK the user. Do not assume creation is needed.**
+**When the service inventory cannot be found, ask the user for its location. Never assume creation is needed.**

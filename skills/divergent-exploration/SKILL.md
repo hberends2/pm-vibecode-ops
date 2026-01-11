@@ -1,7 +1,7 @@
 ---
 name: divergent-exploration
 description: |
-  Enforces exploring 3-5 distinct approaches before committing to one. ACTIVATE when:
+  This skill should be used when exploring 3-5 distinct approaches before committing to one. Activate when:
   - User says: "design", "architect", "plan", "how should we", "what's the best way"
   - User says: "options", "alternatives", "trade-offs", "pros and cons", "compare approaches"
   - User says: "help me decide", "how should I implement", "what approach should I take"
@@ -9,7 +9,7 @@ description: |
   - Planning: epic creation, feature design, architecture decisions, complex problem solving
   - About to recommend a single approach for a non-trivial decision
 
-  ENFORCES: Generate 3-5 GENUINELY DISTINCT alternatives (not variations). Evaluate each on:
+  Enforces generating 3-5 GENUINELY DISTINCT alternatives (not variations). Evaluate each on:
   user impact, complexity, time to value, dependencies, reversibility, risk. Present options, don't decide.
 ---
 
@@ -22,7 +22,7 @@ Creative work demands divergent thinking before convergent decisions. This skill
 ### Phase 1: Diverge
 Generate 3-5 **genuinely distinct** approaches. Not variations on a theme—fundamentally different solutions.
 
-**Red flag**: If options are "Option A", "Option A but faster", and "Option A with better UI"—you haven't diverged.
+**Red flag**: If options are "Option A", "Option A but faster", and "Option A with better UI"—divergence has not occurred.
 
 ### Phase 2: Evaluate
 Assess each option on: User Impact, Technical Complexity, Time to Value, Dependencies, Reversibility, Risk Profile.
@@ -37,9 +37,9 @@ The first idea that comes to mind is often:
 2. Anchored on recent experience (may not fit this context)
 3. Missing creative solutions that require more thought
 
-By forcing yourself to generate genuine alternatives, you either:
-- **Discover a better approach** you would have missed
-- **Validate your instinct** with confidence it survived comparison
+By forcing generation of genuine alternatives, the outcome is either:
+- **Discovering a better approach** that would have been missed
+- **Validating the initial instinct** with confidence it survived comparison
 
 Both outcomes improve decision quality.
 

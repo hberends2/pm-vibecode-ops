@@ -1,14 +1,14 @@
 ---
 name: security-patterns
 description: |
-  Enforces OWASP Top 10 security patterns during code writing. ACTIVATE when:
+  This skill should be used when enforcing OWASP Top 10 security patterns during code writing. Activate when:
   - User says: "authentication", "login", "password", "JWT", "OAuth", "session", "token"
   - User says: "validate input", "sanitize", "authorize", "access control", "permissions"
   - User says: "database query", "SQL", "user data", "PII", "encrypt", "hash", "webhook"
   - User mentions: "XSS", "CSRF", "injection", "rate limit", "secure cookie", "credentials"
   - Writing: auth/, login, password, token, session, query, .where(, .raw(
 
-  ENFORCES: Auth on every protected endpoint, parameterized queries only, secrets from env only,
+  Enforces auth on every protected endpoint, parameterized queries only, secrets from env only,
   input validation, no sensitive data in error responses, security event logging (no PII).
 ---
 

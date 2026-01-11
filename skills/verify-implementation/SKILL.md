@@ -1,14 +1,14 @@
 ---
 name: verify-implementation
 description: |
-  Requires evidence before any completion claim. ACTIVATE when:
+  This skill should be used when requiring evidence before any completion claim. Activate when:
   - User says: "is it done", "is this done", "are we finished", "ready for review", "create PR", "commit"
   - User says: "ready to close", "mark as complete", "verify my work", "did I miss anything"
   - About to say: "tests pass", "build succeeds", "bug fixed", "feature complete", "done"
   - About to say: "should work", "probably works", "I think it's fixed", "that should do it"
   - Marking Linear tickets as complete or creating pull requests
 
-  BLOCKS: Unverified completion claims. Every "done/fixed/passing" requires executed command output.
+  Blocks unverified completion claims. Every "done/fixed/passing" requires executed command output.
   Run tests and show output. Run build and show output. Demonstrate features working. No speculation.
 ---
 
@@ -18,24 +18,24 @@ description: |
 
 **Every status claim requires proof. No exceptions.**
 
-When you say "done," "fixed," "passing," or "complete," you're making a factual assertion. Facts require evidence. If you haven't executed the verification command and observed the output yourself, you're speculating—not reporting.
+Saying "done," "fixed," "passing," or "complete" constitutes a factual assertion. Facts require evidence. Without executing the verification command and observing the output, the claim is speculation—not reporting.
 
 This matters because non-engineers depend on these claims to make real decisions. When an AI says "tests pass," that might trigger a deployment. When it says "bug is fixed," someone might close a customer support ticket. Unverified assertions cause real-world harm.
 
 ## The Evidence Requirement
 
-Before making any completion claim, you must:
+Before making any completion claim:
 
 1. **Execute** the relevant verification command
 2. **Observe** the complete output
-3. **Confirm** the output supports your claim
-4. **Include** the evidence with your claim
+3. **Confirm** the output supports the claim
+4. **Include** the evidence with the claim
 
-Skip any step and you're guessing, not verifying.
+Skipping any step means guessing, not verifying.
 
 ## Required Evidence by Claim Type
 
-| When You Want to Say... | You Must First... | Evidence Format |
+| Claim | Required First | Evidence Format |
 |-------------------------|-------------------|-----------------|
 | "Tests pass" | Run the actual test suite | Show test output with pass/fail counts |
 | "Build succeeds" | Execute the build command | Show build output with success message |
@@ -50,7 +50,7 @@ Skip any step and you're guessing, not verifying.
 
 ## Speculation Red Flags
 
-If you catch yourself using any of these phrases, STOP. You're about to make an unverified claim.
+Using any of these phrases signals an unverified claim. STOP before proceeding.
 
 **Hedging Language:**
 - "should work"
@@ -148,14 +148,14 @@ After fix:
 
 ## Why PMs Need Verified Claims
 
-Product managers using AI tools typically cannot independently verify technical claims. This skill ensures you receive reliable, actionable information:
+Product managers using AI tools typically cannot independently verify technical claims. This skill ensures reliable, actionable information:
 
 1. **Deployment Decisions**: "Tests pass" determines whether code ships to production
 2. **Timeline Accuracy**: "Feature complete" affects sprint planning and stakeholder updates
 3. **Quality Assurance**: "Bug fixed" determines whether customer issues get closed
 4. **Risk Visibility**: Unverified claims mask technical risk from decision-makers
 
-With this skill active, every completion claim includes proof. You can forward test output to engineers. You can share build logs with stakeholders. You have evidence you can act on, not assertions you have to trust.
+With this skill active, every completion claim includes proof. Test output can be forwarded to engineers. Build logs can be shared with stakeholders. Evidence is available to act on, not assertions to trust.
 
 ## When Verification Fails
 
@@ -178,3 +178,7 @@ This skill creates a chain of accountability:
 - **Trustworthy**: Claims match observable reality
 
 Trust is earned through consistent, verifiable reporting—not confident-sounding assertions.
+
+## Extended Resources
+
+For detailed verification command templates, environment-specific checks, and edge case coverage, see `references/verification-checklist.md`.

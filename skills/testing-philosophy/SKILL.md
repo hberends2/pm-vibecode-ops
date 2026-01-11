@@ -1,13 +1,13 @@
 ---
 name: testing-philosophy
 description: |
-  Enforces test accuracy over coverage quantity. ACTIVATE when:
+  This skill should be used when enforcing test accuracy over coverage quantity. Activate when:
   - User says: "write tests", "add tests", "test this", "improve coverage", "testing phase"
   - User says: "tests failing", "fix tests", "debug test", "test suite broken", "run tests"
   - User asks: "why is this test failing", "how do I test this", "what should I test"
   - Creating/editing: *.spec.ts, *.test.ts, *.spec.js, *.test.js, __tests__/*
 
-  ENFORCES: Fix ALL existing broken tests BEFORE writing new tests. Read actual API before mocking.
+  Enforces fixing ALL existing broken tests BEFORE writing new tests. Read actual API before mocking.
   Gate sequence: Fix existing → Discover API → Compile → Execute → Coverage (secondary).
 ---
 

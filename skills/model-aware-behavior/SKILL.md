@@ -1,13 +1,13 @@
 ---
 name: model-aware-behavior
 description: |
-  Enforces read-before-write discipline and prevents scope creep. ACTIVATE when:
+  This skill should be used when enforcing read-before-write discipline and preventing scope creep. Activate when:
   - User says: "modify", "change", "update", "edit", "refactor", "fix", "implement"
   - User says: "explore codebase", "understand this code", "how does this work"
   - About to use: Edit, Write, MultiEdit tools on any code file
   - Proposing changes to files not yet read in this session
 
-  ENFORCES: Read ALL files before proposing changes. Never speculate about unread code.
+  Enforces reading ALL files before proposing changes. Never speculate about unread code.
   Do ONLY what is requested - no "while I'm here" improvements, no gold-plating, no scope creep.
   Parallelize independent tool calls; serialize dependent ones.
 ---
@@ -27,9 +27,9 @@ This skill enforces disciplined development practices that ensure code quality a
 5. Understand existing patterns before implementing features
 
 **Verification checklist:**
-- Have I read the files I'm about to modify?
-- Do I understand the existing patterns in this codebase?
-- Have I checked for similar existing implementations?
+- Verify all files to be modified have been read
+- Confirm understanding of existing codebase patterns
+- Check for similar existing implementations before creating new ones
 
 **Example - Correct approach:**
 ```
@@ -74,17 +74,6 @@ RIGHT:
 - Fix typo ✓
 - Done
 ```
-
-## Word Substitutions
-
-When extended thinking is not enabled, replace "think":
-
-| Replace | With |
-|---------|------|
-| think about | consider |
-| think through | evaluate |
-| I think | I believe |
-| thinking | reasoning |
 
 ## Tool Efficiency
 

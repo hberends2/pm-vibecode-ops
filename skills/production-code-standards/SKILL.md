@@ -1,13 +1,13 @@
 ---
 name: production-code-standards
 description: |
-  Enforces production-grade code quality. ACTIVATE when:
+  This skill should be used when enforcing production-grade code quality. Activate when:
   - User says: "implement", "write code", "add feature", "fix bug", "create service", "build"
   - User says: "review PR", "check this code", "is this production ready"
   - Editing files in: src/, lib/, app/, services/, modules/, controllers/
   - Using tools: Write, Edit on .ts, .js, .tsx, .jsx files
 
-  BLOCKS: TODO/FIXME/HACK comments, empty catch blocks, fallback logic, || default patterns,
+  Blocks TODO/FIXME/HACK comments, empty catch blocks, fallback logic, || default patterns,
   setTimeout for race conditions, mocked services outside tests. Enforces fail-fast error handling.
 ---
 
@@ -50,7 +50,7 @@ If proper implementation is blocked:
 3. **CREATE TICKET** - File ticket for the blocker
 4. **WAIT** - Blocker must be fixed first
 
-**If you cannot implement without a workaround, do not implement. Communicate the blocker clearly.**
+**If implementation requires a workaround, do not implement. Communicate the blocker clearly.**
 
 See `references/anti-patterns.md` for detailed code examples of prohibited and required patterns.
 

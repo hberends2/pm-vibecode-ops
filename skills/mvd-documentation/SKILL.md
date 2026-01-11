@@ -1,13 +1,13 @@
 ---
 name: mvd-documentation
 description: |
-  Enforces minimal, decision-focused documentation (WHY not WHAT). ACTIVATE when:
+  This skill should be used when enforcing minimal, decision-focused documentation (WHY not WHAT). Activate when:
   - User says: "add comments", "document this", "write JSDoc", "create README", "add docs"
   - User says: "explain this code", "what does this do", "documentation phase"
   - User asks: "should I document this", "how should I comment this"
   - Adding: /**, //, README.md, CHANGELOG.md, API documentation
 
-  BLOCKS: Type duplication in JSDoc (@param {string}), over-documenting trivial code, TODO/TBD
+  Blocks type duplication in JSDoc (@param {string}), over-documenting trivial code, TODO/TBD
   placeholders. TypeScript types ARE documentation. Document business logic rationale, not syntax.
 ---
 
@@ -137,3 +137,8 @@ async createUser(@Body() data: CreateUserDto)
 5. **COMPLETE**: No placeholders (TODO, TBD)
 
 **Best documentation = code that doesn't need documentation.**
+
+## Architecture Decisions
+
+For significant architectural decisions affecting multiple files, use an ADR.
+See `references/adr-template.md` for template and examples.

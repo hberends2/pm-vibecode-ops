@@ -108,21 +108,3 @@ class UserService {
 // BLOCK - Direct ORM access in services
 return prisma.user.findUnique({ where: { id } }); // VIOLATION
 ```
-
-## When Blocked
-
-If proper implementation is blocked by external issues:
-
-1. **STOP** - Do not create a workaround
-2. **DOCUMENT** - State what's blocking
-3. **CREATE TICKET** - File ticket for the blocker
-4. **WAIT** - Blocker must be fixed first
-
-```javascript
-// WRONG
-const auth = useBasicAuth(); // "temporary" workaround
-
-// RIGHT
-throw new Error('Cannot proceed: Auth library bug #123 must be fixed first');
-// Create ticket: "Fix auth library - blocks FEATURE-456"
-```
